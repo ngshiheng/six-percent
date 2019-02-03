@@ -1,10 +1,17 @@
 # six-percent
 
+Description:
+
 This is a bot which automatically helps to purchase ASNB fund units. 
 
-You are required to placce <six-percent-tesseract.traineddata> file in your Tesseract-OCR installation path.
+#########################################################################################################################
+File Required:
 
-library requirement:
+You are required to place <six-percent-tesseract.traineddata> file in your Tesseract-OCR installation path. 
+Example: <C:\Program Files (x86)\Tesseract-OCR\tessdata\six-percent-tesseract.traineddata>
+
+#########################################################################################################################
+Libraries Required:
 - sys
 - time
 - selenium
@@ -12,3 +19,4 @@ library requirement:
 - cv2
 - win32com.client
 - PIL
+#########################################################################################################################
