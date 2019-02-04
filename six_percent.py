@@ -1,18 +1,14 @@
-'''
-library requirement:
-
-- sys
-- time
-- selenium
-- pytesseract
-- cv2
-- win32com.client
-- PIL
-- io
-'''
+#!/usr/bin/python3
+"""
+Title: Six Percent
+Author: Ng, Jerry Shi Heng
+Last modified: 04 Feb 2019
+Website: https://github.com/ngshiheng/six-percent/
+"""
 
 # --- Modules --- #
 import sys, time, pytesseract, cv2, win32com.client
+from tkinter import *
 from PIL import Image
 from io import BytesIO
 from selenium import webdriver
@@ -23,8 +19,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
 
+# --- Functions --- #
 def printInvalidInput():
-    print("> Error, please try again.")
+    print("> Invalid input, please try again!")
     under_score = "-"
     print(under_score * 70)
 
@@ -32,81 +29,40 @@ def printSuccessRate(t_success, t_attempt):
     success_rate = (t_success/t_attempt)*100
     print("SUCCESS RATE: " + "{:.2f}".format(success_rate) + ("%\n"))
     
-
 def printDatalog(t_success, t_failure):
     t_attempts = t_failure + t_success
-    print("Total attempts: " + str(t_attempts) + "\n")
-    print("Total SUCCESSFUL attempts: " + str(t_success) + "\n")
-    print("Total FAILED attempts: " + str(t_failure) + "\n") 
+    print("Total attempts: " + str(t_attempts))
+    print("Total SUCCESSFUL attempts: " + str(t_success))
+    print("Total FAILED attempts: " + str(t_failure)) 
 
-
-# --- Accounts --- #
-userAccount = {'alan' : {'asnb_username': 'useralan', 'asnb_password': 'alanspassword'},
-               'bob' : {'asnb_username': 'userbob', 'asnb_password': 'bobspassword'},
-               'charles' : {'asnb_username': 'usercharles', 'asnb_password': 'charlespassword'}}
-
-# --- List of fixed price fund --- #
-asnbFund = {1: {'fund_name':'Amanah Saham Malaysia (ASM)', 'element_name':'submit2_ASM'},
-            2: {'fund_name':'Amanah Saham Malaysia 2 - Wawasan (ASW)', 'element_name':'submit_ASW'},
-            3: {'fund_name':'Amanah Saham Malaysia 3 (AS1M)', 'element_name':'submit_AS1M'}}
-
-# --- Start of program --- #
-
-if __name__ == "__main__":
+def start():
+    print("Welcome to Six Precent - ASNB auto investment bot!\n")
+    
+    asnbFund = {0: {'fund_name':'Amanah Saham Malaysia (ASM)', 'element_name':'submit2_ASM'},
+                1: {'fund_name':'Amanah Saham Malaysia 2 - Wawasan (ASW)', 'element_name':'submit_ASW'},
+                2: {'fund_name':'Amanah Saham Malaysia 3 (AS1M)', 'element_name':'submit_AS1M'}}
     delay = 10 # seconds
-    print("Welcome to ASNB Auto Investment Bot!\n")
 
-    # select user
-    while True:
-        myUser = input("Please identify yourself:\n")
-        if myUser in userAccount:
-            print("Greetings, " + myUser.title() + "!\n")
-            myUsername = userAccount[myUser].get('asnb_username')
-            myPassword = userAccount[myUser].get('asnb_password')
-            break
-        else:
-            printInvalidInput()
-            continue
+    myUsername = username.get()
+    myPassword = password.get()
+    myAmount = int(amount.get())
+    myFund = fund.get()
 
-    # enter investment amount
-    while True:
-        try:
-            myAmount = int(input("Enter your investment amount in RM (minimum RM100):\n"))
-            if myAmount >= 100:
-                break
-            else:
-                raise ValueError
-        except:
-            printInvalidInput()
-            continue
-
-    # select fund to invest
-    print("\nEnter your fixed price fund to invest in:")
+    print("List of available funds:")
     for k,v in asnbFund.items():
-        print("> " + str(k) + " " + str(v['fund_name']))
+        print("> " + str(v['fund_name']))
 
-    while True:
-        try:            
-            myFund = int(input())
-            if myFund in (1,2,3):
-                selectedFund = asnbFund[myFund].get('element_name')
-                print("Fund selected: " + asnbFund[myFund].get('fund_name') + "\n")
-                break
-            
-            else:
-                raise ValueError
-        except:
-            printInvalidInput()
-            continue
+
+    if myFund in (0,1,2):
+        selectedFund = asnbFund[myFund].get('element_name')
+        print("\nFund selected: " + asnbFund[myFund].get('fund_name') + "\n")
+
 
     # start Google Chrome browser
     print("Launching ASNB web page in Google Chrome...\n")
     browser = webdriver.Chrome()
     browser.get('https://www.myasnb.com.my/uh/uhlogin/auth')
-
     browser.find_element_by_class_name('btn-login').click()
-
-
 
     # input username
     print("Logging in...\n")
@@ -144,7 +100,7 @@ if __name__ == "__main__":
         print('Operation Status:\tOPEN\n')
         print('Continue to select investment funds..\n')
         browser.find_element_by_id(selectedFund).click()
-        print("Fund selected: " + asnbFund[myFund].get('fund_name') + "\n")
+        print("Selecting " + asnbFund[myFund].get('fund_name') + "\n")
         
     except NoSuchElementException:
         print('Operation Status:\tCLOSED\n')
@@ -264,14 +220,57 @@ if __name__ == "__main__":
             speak.Speak("Stopped purchasing loop, please take a look.")
             printDatalog(success, failure)
             printSuccessRate(success, attempt)
+            break
+                
+def main():
+    # title of the GUI
+    asnb.title("Six Percent")
 
-            print("Please remember to logout.\n")
-            input("Press any key to exit program...\n")
+    # labels for username, password and amount
+    Label(asnb,text = 'Username:', font = 'Consolas 11 bold').grid(row=0,sticky=W)
+    Label(asnb,text ='Password:', font = 'Consolas 11 bold').grid(row=1,sticky=W)
+    Label(asnb,text ='Investment Amount (RM):', font = 'Consolas 11 bold').grid(row=2,sticky=W)
 
-            try:
-                browser.close()
-                sys.exit()
+    # username and password entries
+    us = Entry(asnb)
+    pw = Entry(asnb, show = "*")
+    amt = Entry(asnb)
+    us.grid(row = 0, column = 1,sticky = W)
+    pw.grid(row = 1, column = 1,sticky = W)
+    amt.grid(row = 2, column = 1, sticky = W)
+    
+    # funds selection
+    selection = IntVar()
+    def fundChoice():
+        print("Fund Selected: %s" %funds[selection.get()])
+        
+    funds = [
+        ("Amanah Saham Malaysia (ASM)"),
+        ("Amanah Saham Malaysia 2 - Wawasan (ASW)"),
+        ("Amanah Saham Malaysia 3 (AS1M)")
+        ]
 
-            except:
-                print("Adios, " + myUser.title() + "! Have a great day!")
-                sys.exit()
+    Label(asnb,text="Select a fund:", font = 'Consolas 10 bold underline').grid(sticky = W, pady = 5, row = 3,column = 0)
+    for index,fund in enumerate(funds):
+        Radiobutton(asnb,
+                    text = fund,
+                    pady = 0,
+                    font = 'Consolas 8',
+                    indicatoron = 1,
+                    #command = fundChoice,
+                    value = index,
+                    variable = selection).grid(sticky = W, pady = 0, row =index+4)
+
+    # start & stop buttons
+    frame = Frame(asnb).grid()
+    Button(frame,text = 'START', fg = 'green', font = 'Consolas 20 bold ', command = start).grid(sticky = W, row = 7, column = 0)
+    Button(frame,text = 'QUIT', fg = 'red', font = 'Consolas 20 bold', command = asnb.quit).grid(sticky = E, row = 7, column = 1)
+
+    return us,pw,amt,selection
+
+
+if __name__ == '__main__':
+    asnb = Tk()
+    username,password,amount,fund = main()
+    asnb.mainloop()
+    print('Program ended.')
