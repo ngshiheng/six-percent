@@ -8,6 +8,7 @@ You are required to place <six-percent-tesseract.traineddata> file in your Tesse
 Example: <C:\Program Files (x86)\Tesseract-OCR\tessdata\six-percent-tesseract.traineddata>
 
 Libraries Required:
+- tkinter
 - sys
 - time
 - selenium
@@ -15,3 +16,5 @@ Libraries Required:
 - cv2
 - win32com.client
 - PIL
+
+
