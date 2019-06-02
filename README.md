@@ -18,7 +18,7 @@ pip install -r requirements.txt
 ```
 
 ## Usage - How to run?
-After you install the Tesseract-OCR using pip install above, put the tesseract.traineddata file inside your /tessdata folder in your installation path. (E.g.: C:\Program Files (x86)\Tesseract-OCR\tessdata\six-percent-tesseract.traineddata)
+After you install the Tesseract-OCR using pip install above, put the six-percent-tesseract.traineddata file inside your /tessdata folder in your installation path. (E.g.: C:\Program Files (x86)\Tesseract-OCR\tessdata\six-percent-tesseract.traineddata)
 
 Inside the cloned project folder, run the six_percent.py from your Windows directly OR run the command line as below in your terminal:
 ```bash
