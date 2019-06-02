@@ -1,12 +1,14 @@
 # Six Percent
-This is a bot which helps to automatically purchase ASNB Fixed Price UT units by solving the given CAPTCHA using Tesseract OCR. Currently this bot supports up to 3 fixed price unit trust at the moment:
+This is a bot which helps to automatically purchase ASNB Fixed Price UT units by solving the given CAPTCHA using Tesseract OCR. 
+
+Currently this bot supports up to 3 fixed price unit trust at the moment:
 - ASM (Malaysia)
 - ASM2 (Wawasan)
 - ASM3 (1Malaysia)
 
 ## Problem statement: Why do we need this bot?
 - If there is no units available, you will never ever able to purchase new units or opening up a new account.
-- You need to be able to solve the CAPTCHA automatically for every purchase attempt
+- You need to be able to solve the CAPTCHA automatically for every purchase attempt.
 
 ## Installation
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install all the required modules for this project.
