@@ -1,7 +1,7 @@
 # Six Percent
 This is a bot which helps to automatically purchase ASNB Fixed Price UT units by solving the given CAPTCHA using Tesseract OCR. 
 
-Currently this bot supports up to 3 fixed price unit trust at the moment:
+Currently this bot supports up to 3 fixed price unit trust:
 - ASM (Malaysia)
 - ASM2 (Wawasan)
 - ASM3 (1Malaysia)
