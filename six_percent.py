@@ -1,3 +1,11 @@
+#!/usr/bin/python3
+"""
+Title: Six Percent
+Author: Ng, Jerry Shi Heng
+Last modified: 19 Aug 2019
+Website: https://github.com/ngshiheng/six-percent/
+"""
+
 import time, pytesseract, cv2, win32com.client, sys
 from PIL import Image
 from io import BytesIO
@@ -29,7 +37,7 @@ if __name__ == "__main__":
     investment_amount = 0
     while True:
         try:
-            investment_amount = int(input("\nEnter your investment amount in RM (minimum RM 100):\n> "))
+            investment_amount = int(input("\nEnter your investment amount in RM (minimum RM100):\n> "))
             if investment_amount >= 100:
                 break
             else:
