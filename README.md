@@ -1,12 +1,12 @@
 # Six Percent
 This is a bot which helps to automatically purchase ASNB Fixed Price UT units by solving the given CAPTCHA using Tesseract OCR. 
 
+This project is developed and tested on Windows.
+
 Currently this bot supports up to 3 fixed price unit trust:
 - ASM (Malaysia)
 - ASM2 (Wawasan)
 - ASM3 (1Malaysia)
-
-This project is developed and tested on Windows.
 
 ## About myASNB Fixed Price Mutual Fund
 ![alt text](https://i.imgur.com/LCB8Soo.jpg)
@@ -26,9 +26,11 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install all the
 pip install -r requirements.txt
 ```
 
-After installing all the requirements, place the `six-percent-tesseract.traineddata`* file inside the installation path `Tesseract-OCR/tessdata` `(E.g.: C:\Program Files (x86)\Tesseract-OCR\tessdata\six-percent-tesseract.traineddata)`
+After installing all the requirements, place `six-percent-tesseract.traineddata` inside the installation path `Tesseract-OCR/tessdata` (E.g.: `C:\Program Files (x86)\Tesseract-OCR\tessdata\six-percent-tesseract.traineddata`).
 
-Add your Tesseract-OCR installation path `(E.g. C:\Program Files (x86)\Tesseract-OCR\tessdata)` to your **Path** & **TESSDATA_PREFIX** environment variable. *Note: create a new environment variable called TESSDATA_PREFIX if it doesn't exist*
+Add your Tesseract-OCR installation path (E.g. `C:\Program Files (x86)\Tesseract-OCR\tessdata`) to your **Path** & **TESSDATA_PREFIX** environment variable. 
+
+*Note: create a new environment variable called TESSDATA_PREFIX if it doesn't exist*
 
 ## Usage
 
@@ -46,4 +48,4 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
 
 ## License
-N/A
+[MIT](https://choosealicense.com/licenses/mit/)
