@@ -6,7 +6,11 @@ Last modified: 19 Aug 2019
 Website: https://github.com/ngshiheng/six-percent/
 """
 
-import time, pytesseract, cv2, win32com.client, sys
+import time
+import pytesseract
+import cv2
+import win32com.client
+import sys
 from PIL import Image
 from io import BytesIO
 from getpass import getpass
@@ -37,7 +41,8 @@ if __name__ == "__main__":
     investment_amount = 0
     while True:
         try:
-            investment_amount = int(input("\nEnter your investment amount in RM (minimum RM100):\n> "))
+            investment_amount = int(
+                input("\nEnter your investment amount in RM (minimum RM100):\n> "))
             if investment_amount >= 100:
                 break
             else:
@@ -138,7 +143,8 @@ if __name__ == "__main__":
 
     # Starting to loop purchase attempt
     print("Starting purchase loop...\n")
-    tesseract_lang = "six-percent-tesseract"  # @ <C:\Program Files (x86)\Tesseract-OCR\tessdata\six-percent-tesseract.traineddata>
+    # @ <C:\Program Files (x86)\Tesseract-OCR\tessdata\six-percent-tesseract.traineddata>
+    tesseract_lang = "six-percent-tesseract"
     attempt = 0
 
     while True:
