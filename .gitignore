@@ -1,5 +1,7 @@
 debug.log
 .idea/
 __pycache__/
-*.png
 *venv*
+*vscode*
+.env
+users.json
