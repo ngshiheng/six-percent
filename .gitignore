@@ -1,7 +1,17 @@
-debug.log
+# Editors
+.vscode/
 .idea/
+
+# Source for the following rules: https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*venv*
-*vscode*
+*.py[cod]
+*$py.class
+
+# Environments
 .env
+env/
+venv*/
+ENV*/
+
 users.json
