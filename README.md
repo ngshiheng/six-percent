@@ -1,51 +1,101 @@
-# Six Percent
-This is a bot which helps to automatically purchase ASNB Fixed Price UT units by solving the given CAPTCHA using Tesseract OCR. 
+# Six Percent :money_with_wings:
 
-This project is developed and tested on Windows.
+This bot helps user to automatically purchase ASNB Fixed Price UT units. The bot will trigger the user to proceed to make payment if the purchase attempt is successful.
 
 Currently this bot supports up to 3 fixed price unit trust:
+
 - ASM (Malaysia)
 - ASM2 (Wawasan)
 - ASM3 (1Malaysia)
 
-## About myASNB Fixed Price Mutual Fund
+_Note: As of Q3 2019, ASNB removed the need of solving CAPTCHA in order to purchase any ASNB Fixed Price UT_
+
+## About myASNB Fixed Price Fund :moneybag:
+
+ASNB is a subsidiary of “Permodalan Nasional Berhad” (PNB). It is a government-supported unit trust management company.
+
+Amanah Saham are funds that are managed by Amanah Saham National Berhad (ASNB)
+
 ![alt text](https://i.imgur.com/LCB8Soo.jpg)
-- If there is no units available, you will never ever able to purchase new units or opening up a new account.
-- You need to be able to solve the CAPTCHA automatically for every purchase attempt.
-- For more details, visit the [myASNB Official Website](https://www.myasnb.com.my/)
 
-## Installation & Setup
-Create a virtual environment using Python **venv**
-```
-python -m venv venv-six-percent
-```
+### Facts :newspaper:
 
+- If there is no units available, you will never be able to purchase new units or opening up a new account.
+- Fixed price (RM 1/unit) means there will be no price fluctuation. These funds can thus be regarded as saving accounts.
+- The dividend earned is not taxable
+- No sales charge.
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install all the required modules for this project.
-```
-pip install -r requirements.txt
-```
+For more details, visit the [myASNB Official Website](https://www.myasnb.com.my/)
 
-After installing all the requirements, place `six-percent-tesseract.traineddata` inside the installation path `Tesseract-OCR/tessdata` (E.g.: `C:\Program Files (x86)\Tesseract-OCR\tessdata\six-percent-tesseract.traineddata`).
+## Requirements
 
-Add your Tesseract-OCR installation path (E.g. `C:\Program Files (x86)\Tesseract-OCR\tessdata`) to your **Path** & **TESSDATA_PREFIX** environment variable. 
+### Software :computer:
 
-*Note: create a new environment variable called TESSDATA_PREFIX if it doesn't exist*
+- Python 3.6+
+- [pip](https://pip.pypa.io/en/stable/) package installer
+- Python [virtual environment](https://virtualenv.pypa.io/en/latest/)
+- [chromedriver](https://chromedriver.chromium.org/downloads) based off your OS & Chrome version
+- Rename `users.json.example` to `users.json` and update the file accordingly
 
-## Usage
+### Account :closed_lock_with_key:
 
-Inside the cloned project folder, execute the `six_percent.py` from your Windows directly OR run the command line as below in your terminal:
+- You need a ASNB account in order to start investing
+- You can perform all the transactions (including opening an account) at any ASNB branches or agents
+
+## Quick installation for Ubuntu user :wrench:
+
 ```bash
-python six_percent.py
+apt-get update && apt-get install -y --no-install-recommends python3 python3-virtualenv python3-pip chromium-chromedriver locales
+
+locale-gen en_US.UTF-8
 ```
-Enter your username, password, fund choice and the amount of units (in RM) that you would like to purchase, then the bot will automatically do what it does best. :)
 
-Proceed to make payment if purchase attempt is successful.
+## Project Setup for Ubuntu :nut_and_bolt:
 
-## Contributing
+This project is tested and develop on Ubuntu 18.04 LTS.
+
+Setup with the provided bash script
+
+```bash
+./setup.sh
+```
+
+Starting the bot
+
+```bash
+./run.sh
+```
+
+### Docker :whale:
+
+_Coming soon_
+
+## Contributing :family:
+
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
 
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
+## License :copyright:
+
+MIT License
+
+Copyright (c) [2019][ngshiheng]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
