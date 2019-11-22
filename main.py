@@ -10,6 +10,7 @@ DELAY = 1
 
 
 def launch_browser():
+    # Start Chrome browser
     PATH_TO_CHROME_DRIVER = "/home/jerryng/chromedriver"
     ASNB_URL = "https://www.myasnb.com.my/uhsessionexpired"
     browser = webdriver.Chrome(PATH_TO_CHROME_DRIVER)
@@ -30,6 +31,20 @@ def log_in(browser, asnb_username, asnb_password):
     browser.find_element_by_id("j_password_user").send_keys(Keys.ENTER)
     logging.info('🔓 Successfully logged in')
 
+    # Maximize browser window
+    browser.maximize_window()
+
+    # Navigate to portfolio page
+    try:
+        browser.find_element_by_link_text('Portfolio').click()
+
+    except:
+        logging.info('⛔️ User has uncleared session')
+        if browser.current_url == "https://www.myasnb.com.my/uh/uhlogin/authfail":
+            return True
+
+    time.sleep(DELAY)
+
 
 def log_out(browser):
     time.sleep(DELAY)
@@ -40,55 +55,70 @@ def log_out(browser):
     browser.close()
 
 
-def main_page(browser):
-    browser.maximize_window()
-    try:
-        browser.find_element_by_link_text('Portfolio').click()
+def main_page(browser, investment_amount):
 
-    except:
-        if browser.current_url == "https://www.myasnb.com.my/uh/uhlogin/authfail":
-            session_uncleared = True
-            return session_uncleared
+    with open('funds.json', 'r') as f:
+        fund_data = json.load(f)
 
-    time.sleep(DELAY)
+    for fund in fund_data:
+        if not fund['is_active']:
+            continue
 
-    try:
-        # Click on drop down
-        browser.find_element_by_xpath(
-            '/html/body/div[3]/div/div[3]/div[9]/form/div/button').click()
-    except:
+        logging.info(
+            f"💲 Attempting to buy {fund['name']} ({fund['alternate_name']})")
+
+        fund_xpath = fund['elements']['drop_down_xpath']
+        fund_id = fund['elements']['id']
+
         try:
-            browser.find_element_by_xpath(
-                "//*[contains(text(), 'MASA PELABURAN TAMAT')]")
-            logging.info('⛔️ Investment time closed')
-            log_out(browser)
-        except NoSuchElementException:
-            logging.error(f"❗️ {NoSuchElementException}")
+            # Click on drop down
+            time.sleep(DELAY)
+            browser.find_element_by_xpath(fund_xpath).click()
+            browser.find_element_by_id(fund_id).click()
+        except:
+            try:
+                browser.find_element_by_xpath(
+                    "//*[contains(text(), 'MASA PELABURAN TAMAT')]")
+                logging.info('⛔️ Investment time closed')
+                log_out(browser)
+            except NoSuchElementException:
+                logging.warning(
+                    '⛔️ Unexpected error')
+            continue
 
-    time.sleep(DELAY)
-
-    browser.find_element_by_class_name('asnb-modal-agree').click()
-    time.sleep(DELAY)
-    browser.find_element_by_link_text('Portfolio').click()
-
-    logging.info('💲 Buying Amanah Saham Wawasan ')
-    browser.find_element_by_id('submit_buy_ASW').click()
-    time.sleep(DELAY)
-
-    try:
-        browser.find_element_by_id('NEXT').click()
-
-    except NoSuchElementException:
-        logging.warning(
-            '⛔️ Exceeded maximum attempt, please retry for 5 minutes')
         time.sleep(DELAY)
-        browser.find_element_by_xpath(
-            "//*[contains(text(), 'Tutup')]").click()
-        log_out(browser)
+
+        try:
+            # PEP declaration
+            logging.info(
+                '📜 PEP declaration')
+            browser.find_element_by_id('NEXT').click()
+
+        except NoSuchElementException:
+
+            # time.sleep(DELAY)
+            try:
+                browser.find_element_by_xpath(
+                    "//*[contains(text(), 'Tutup')]").click()
+                logging.warning(
+                    '⛔️ Exceeded maximum attempt, please retry for 5 minutes')
+                continue
+            except:
+                logging.warning(
+                    '💬 You do not need to declare PEP again')
+                pass
+
+        # Start purchasing loop
+        logging.info(
+            f"💸 Start purchasing loop for {fund['alternate_name']}...")
+        purchase_unit(browser, investment_amount)
+
+    # End of loop
+    logging.info(f"💸 End of loop...")
+    log_out(browser)
 
 
 def purchase_unit(browser, investment_amount):
-
     browser.find_element_by_xpath(
         '/html/body/div[3]/form/div/div[1]/div[4]/label/p').click()
     browser.find_element_by_id('btn-unit-fund').click()
@@ -96,7 +126,6 @@ def purchase_unit(browser, investment_amount):
     browser.find_element_by_xpath(
         '/html/body/div[3]/form/div/div[1]/div[2]/div/div/input').send_keys(investment_amount)
 
-    logging.info(f"💸 Starting purchasing loop...")
     for attempt in range(10):
 
         try:
@@ -106,13 +135,16 @@ def purchase_unit(browser, investment_amount):
             time.sleep(DELAY)
         except NoSuchElementException:
             browser.maximize_window()
-            logging.error(f"❗️ {NoSuchElementException}")
-            continue
+            logging.error(
+                f"🥳 Success! Please make your payment within the next 5 minutes")
+            time.sleep(300)
 
         try:
             browser.find_element_by_xpath(
                 "//*[contains(text(), 'Transaksi tidak berjaya. Sila hubungi Pusat Khidmat Pelanggan ASNB di talian 03-7730 8899. Kod Rujukan Gagal: 1001')]")
-            log_out(browser)
+            browser.find_element_by_xpath(
+                '/html/body/div[3]/form/div/div[1]/div[2]/div/div/input').send_keys(Keys.ENTER)
+            return
 
         except NoSuchElementException:
             continue
@@ -121,28 +153,29 @@ def purchase_unit(browser, investment_amount):
 if __name__ == "__main__":
 
     logging.getLogger().setLevel(logging.INFO)
-    with open('users.json', 'r') as f:
-        user_data = json.load(f)
+
+    # Loads user info
+    with open('users.json', 'r') as u:
+        user_data = json.load(u)
 
     # Loop through all active user in users.json
     for user in user_data:
-        logging.info(f"{user['photo']} Current user: {user['uid']}")
         if not user['is_active']:
             continue
-
+        logging.info(f"{user['photo']} {user['uid']}")
         asnb_username = user['credentials']['username']
         asnb_password = user['credentials']['password']
         investment_amount = user['investment_amount']
 
         # Main
         browser = launch_browser()
-        log_in(browser, asnb_username, asnb_password)
-        session_uncleared = main_page(browser)
-        if session_uncleared:
+        if log_in(browser, asnb_username, asnb_password):
             browser.close()
-            logging.info('💡 Please remember to logout')
+            logging.info('💡 Did you forget to logout somewhere else?')
+            logging.info(
+                '💡 Please always remember to logout to prevent uncleared session')
             continue
 
-        purchase_unit(browser, investment_amount)
+        main_page(browser, investment_amount)
 
     sys.exit()

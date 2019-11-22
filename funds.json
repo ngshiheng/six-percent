@@ -1,0 +1,29 @@
+[
+  {
+    "name": "Amanah Saham Malaysia",
+    "alternate_name": "ASM",
+    "is_active": true,
+    "elements": {
+      "id": "submit_buy_ASM",
+      "drop_down_xpath": "/html/body/div[3]/div/div[3]/div[9]/form/div/button"
+    }
+  },
+  {
+    "name": "Amanah Saham Malaysia 2 - Wawasan",
+    "alternate_name": "ASW",
+    "is_active": true,
+    "elements": {
+      "id": "submit_buy_ASW",
+      "drop_down_xpath": "/html/body/div[3]/div/div[4]/div[9]/form/div/button"
+    }
+  },
+  {
+    "name": "Amanah Saham Malaysia 3",
+    "alternate_name": "AS1M",
+    "is_active": true,
+    "elements": {
+      "id": "submit_buy_AS1M",
+      "drop_down_xpath": "/html/body/div[3]/div/div[5]/div[9]/form/div/button"
+    }
+  }
+]
