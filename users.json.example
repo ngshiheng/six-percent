@@ -1,0 +1,32 @@
+[
+  {
+    "uid": "Aladdin",
+    "photo": "👳‍",
+    "is_active": false,
+    "investment_amount": 800,
+    "credentials": {
+      "username": "lorem",
+      "password": "ipsum"
+    }
+  },
+  {
+    "uid": "Bob",
+    "photo": "👷‍♂️‍",
+    "is_active": false,
+    "investment_amount": 1200,
+    "credentials": {
+      "username": "lorem",
+      "password": "ipsum"
+    }
+  },
+  {
+    "uid": "Santa",
+    "photo": "🎅",
+    "is_active": true,
+    "investment_amount": 950,
+    "credentials": {
+      "username": "lorem",
+      "password": "ipsum"
+    }
+  },
+]

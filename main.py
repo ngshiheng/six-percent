@@ -11,7 +11,7 @@ DELAY = 1
 
 def launch_browser():
     # Start Chrome browser
-    PATH_TO_CHROME_DRIVER = "/home/jerryng/chromedriver"
+    PATH_TO_CHROME_DRIVER = "/usr/lib/chromium-browser/chromedriver"
     ASNB_URL = "https://www.myasnb.com.my/uhsessionexpired"
     browser = webdriver.Chrome(PATH_TO_CHROME_DRIVER)
     browser.get(ASNB_URL)
@@ -31,15 +31,14 @@ def log_in(browser, asnb_username, asnb_password):
     browser.find_element_by_id("j_password_user").send_keys(Keys.ENTER)
     logging.info('🔓 Successfully logged in')
 
-    # Maximize browser window
-    browser.maximize_window()
+    browser.set_window_size(1600, 900)
 
     # Navigate to portfolio page
     try:
         browser.find_element_by_link_text('Portfolio').click()
 
     except:
-        logging.info('⛔️ User has uncleared session')
+        logging.warning('⛔️ User has uncleared session')
         if browser.current_url == "https://www.myasnb.com.my/uh/uhlogin/authfail":
             return True
 
@@ -50,8 +49,8 @@ def log_out(browser):
     time.sleep(DELAY)
     browser.find_element_by_link_text('LOG KELUAR').click()
     logging.info('🔒 Logged out gracefully')
-    logging.info('💻 Closing browser in 3 seconds')
-    time.sleep(3)
+    logging.info('💻 Closing browser in a second')
+    time.sleep(DELAY)
     browser.close()
 
 
@@ -79,10 +78,11 @@ def main_page(browser, investment_amount):
             try:
                 browser.find_element_by_xpath(
                     "//*[contains(text(), 'MASA PELABURAN TAMAT')]")
-                logging.info('⛔️ Investment time closed')
+                logging.error('⛔️ Investment time closed')
                 log_out(browser)
+                sys.exit()
             except NoSuchElementException:
-                logging.warning(
+                logging.error(
                     '⛔️ Unexpected error')
             continue
 
@@ -100,7 +100,7 @@ def main_page(browser, investment_amount):
             try:
                 browser.find_element_by_xpath(
                     "//*[contains(text(), 'Tutup')]").click()
-                logging.warning(
+                logging.error(
                     '⛔️ Exceeded maximum attempt, please retry for 5 minutes')
                 continue
             except:
@@ -114,7 +114,7 @@ def main_page(browser, investment_amount):
         purchase_unit(browser, investment_amount)
 
     # End of loop
-    logging.info(f"💸 End of loop...")
+    logging.info(f"💸 End of loop")
     log_out(browser)
 
 
@@ -135,7 +135,8 @@ def purchase_unit(browser, investment_amount):
             time.sleep(DELAY)
         except NoSuchElementException:
             browser.maximize_window()
-            logging.error(
+            browser.set_window_position(0, 0)
+            logging.info(
                 f"🥳 Success! Please make your payment within the next 5 minutes")
             time.sleep(300)
 
