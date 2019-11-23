@@ -1,34 +1,29 @@
 #!/usr/bin/env bash
 
-#################################################################################
-# 
-#   Create a virtualenv before running this setup.sh script
-#   
-#       python3 -m venv virtual-env-name
-#   
-#################################################################################
-
 # font color
-red=`tput setaf 1`
 green=`tput setaf 2`
 white=`tput sgr0`
 
 # functions
 setup_virtualenv () {
-    python3 -m virtualenv venv-six-percent --no-site-packages
+    echo "🛠 $white Removing existing venv-six-percent"
+    rm -rf venv-six-percent
+    virtualenv venv-six-percent
+    echo "🔧 $white Activating virtual environment"
+    source venv-six-percent/bin/activate
 }
 
 pip_install () {
+    echo "🐍 $white Installing Python dependencies with pip"
     pip3 install -r requirements.txt
-    echo "🐍 $white Installing dependencies with pip"
     echo "$green✔$white Completed pip install"
 }
 
 echo_finish () {
-    echo "$green✔$white Finished setup."
+    echo "$green✔$white$1 Finished setup"
 }
 
 # main
 setup_virtualenv
 pip_install
-echo_finish
+echo_finish 
