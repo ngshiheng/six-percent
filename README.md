@@ -20,14 +20,14 @@ Amanah Saham are funds that are managed by Amanah Saham National Berhad (ASNB)
 
 ### Facts :newspaper:
 
-- If there is no units available, you will never be able to purchase new units or opening up a new account.
-- Fixed price (RM 1/unit) means there will be no price fluctuation. These funds can thus be regarded as saving accounts.
+- If there is no units available, you will never be able to purchase new units or opening up a new account
+- Fixed price (RM 1/unit) means there will be no price fluctuation. These funds can thus be regarded as saving accounts
 - The dividend earned is not taxable
-- No sales charge.
+- No sales charge
 
 For more details, visit the [myASNB Official Website](https://www.myasnb.com.my/)
 
-## Requirements
+## Requirements & Dependencies
 
 ### Software :computer:
 
@@ -37,12 +37,7 @@ For more details, visit the [myASNB Official Website](https://www.myasnb.com.my/
 - [chromedriver](https://chromedriver.chromium.org/downloads) based off your OS & Chrome version
 - Rename `users.json.example` to `users.json` and update the file accordingly
 
-### Account :closed_lock_with_key:
-
-- You need a ASNB account in order to start investing
-- You can perform all the transactions (including opening an account) at any ASNB branches or agents
-
-## Quick installation for Ubuntu user :wrench:
+#### Quick installation for Ubuntu user :wrench:
 
 ```bash
 apt-get update && apt-get install -y --no-install-recommends python3 python3-virtualenv python3-pip chromium-chromedriver locales
@@ -50,25 +45,22 @@ apt-get update && apt-get install -y --no-install-recommends python3 python3-vir
 locale-gen en_US.UTF-8
 ```
 
-## Project Setup for Ubuntu :nut_and_bolt:
+### Opening ASNB Account :closed_lock_with_key:
 
-This project is tested and develop on Ubuntu 18.04 LTS.
+- You need a ASNB account in order to start investing
+- You can perform all the transactions (including opening an account) at any ASNB branches or agents
 
-Setup with the provided bash script
+## Setup for **Ubuntu** :nut_and_bolt:
 
-```bash
-./setup.sh
-```
+This project is tested and developed on Ubuntu 18.04 LTS.
 
-Starting the bot
+Run `./setup.sh` to install all the Python dependencies
 
-```bash
-./run.sh
-```
+Run `./run.sh` to start using the bot
 
 ### Docker :whale:
 
-_Coming soon_
+Make sure you have [Docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/) installed on your machine
 
 ## Contributing :family:
 
