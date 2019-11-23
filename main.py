@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
@@ -11,7 +13,7 @@ DELAY = 1
 
 def launch_browser():
     # Start Chrome browser
-    PATH_TO_CHROME_DRIVER = "/usr/lib/chromium-browser/chromedriver"
+    PATH_TO_CHROME_DRIVER = "/usr/bin/chromedriver"
     ASNB_URL = "https://www.myasnb.com.my/uhsessionexpired"
     browser = webdriver.Chrome(PATH_TO_CHROME_DRIVER)
     browser.get(ASNB_URL)
