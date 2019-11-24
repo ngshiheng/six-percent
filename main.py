@@ -39,7 +39,7 @@ def log_in(browser, asnb_username, asnb_password):
     try:
         browser.find_element_by_link_text('Portfolio').click()
 
-    except:
+    except NoSuchElementException:
         logging.warning('⛔️ User has uncleared session')
         if browser.current_url == "https://www.myasnb.com.my/uh/uhlogin/authfail":
             return True
@@ -76,7 +76,7 @@ def main_page(browser, investment_amount):
             time.sleep(DELAY)
             browser.find_element_by_xpath(fund_xpath).click()
             browser.find_element_by_id(fund_id).click()
-        except:
+        except NoSuchElementException:
             try:
                 browser.find_element_by_xpath(
                     "//*[contains(text(), 'MASA PELABURAN TAMAT')]")
@@ -94,18 +94,18 @@ def main_page(browser, investment_amount):
             # PEP declaration
             logging.info(
                 '📜 PEP declaration')
+            time.sleep(DELAY)
             browser.find_element_by_id('NEXT').click()
 
         except NoSuchElementException:
 
-            # time.sleep(DELAY)
             try:
                 browser.find_element_by_xpath(
                     "//*[contains(text(), 'Tutup')]").click()
                 logging.error(
                     '⛔️ Exceeded maximum attempt, please retry for 5 minutes')
                 continue
-            except:
+            except Exception:
                 logging.warning(
                     '💬 You do not need to declare PEP again')
                 pass
