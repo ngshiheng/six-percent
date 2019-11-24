@@ -1,15 +1,24 @@
 #!/usr/bin/env bash
-# -*- encoding: utf-8 -*- 
+# -*- encoding: utf-8 -*-
 
-virtualenv () {
+red=$(tput setaf 1)
+PYVENV="venv-six-percent"
+
+activate_virtualenv() {
+
   echo "🔨 Activate virtual environment"
-  . ./venv-six-percent/bin/activate
+  . ./$PYVENV/bin/activate
+  if [ "$?" -ne "0" ]; then echo_error "ERR - Virtual environment not found, please run ./setup.sh $1" && exit 1; fi
+
 }
 
-virtualenv 
+echo_error() {
+  echo "$red✗ $1"
+}
 
-while true
-  do
+main() {
+  activate_virtualenv
+  while true; do
     python3 main.py
     echo "⏱  Retrying in 5 minutes..."
     sleep 60
@@ -21,4 +30,7 @@ while true
     sleep 60
     echo "⏱  Retrying in 1 minutes..."
     sleep 60
-done
+  done
+}
+
+main
