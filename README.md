@@ -62,6 +62,8 @@ Run `./run.sh` to start using the bot
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
+Please run `./lint.sh` before commiting any code and make sure it passes all the lint and format check
+
 Please make sure to update tests as appropriate.
 
 ## License :copyright:
