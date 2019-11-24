@@ -37,7 +37,7 @@ For more details, visit the [myASNB Official Website](https://www.myasnb.com.my/
 - [chromedriver](https://chromedriver.chromium.org/downloads) based off your OS & Chrome version
 - Rename `users.json.example` to `users.json` and update the file accordingly
 
-#### Quick installation for Ubuntu user :wrench:
+#### Installation (Ubuntu) :wrench:
 
 ```bash
 apt-get update && apt-get install -y --no-install-recommends python3 python3-virtualenv python3-pip chromium-chromedriver locales
@@ -50,17 +50,13 @@ locale-gen en_US.UTF-8
 - You need a ASNB account in order to start investing
 - You can perform all the transactions (including opening an account) at any ASNB branches or agents
 
-## Setup for **Ubuntu** :nut_and_bolt:
+## Setup & Run :nut_and_bolt:
 
 This project is tested and developed on Ubuntu 18.04 LTS.
 
 Run `./setup.sh` to install all the Python dependencies
 
 Run `./run.sh` to start using the bot
-
-### Docker :whale:
-
-Make sure you have [Docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/) installed on your machine
 
 ## Contributing :family:
 
