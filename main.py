@@ -23,7 +23,14 @@ def launch_browser():
 def log_in(browser, asnb_username, asnb_password):
 
     logging.info('🔑 Logging in')
-    browser.find_element_by_class_name("btn-login").click()
+#     browser.find_element_by_class_name("btn-login").click()
+    
+    aTagsInLi = browser.find_elements_by_css_selector('li a')
+    for a in aTagsInLi:
+        if "https://www.myasnb.com.my/uh/uhlogin/index?id=" in a.get_attribute('href'):
+            browser.get(a.get_attribute('href'))
+            break
+    
     browser.find_element_by_id("username").send_keys(asnb_username)
     browser.find_element_by_id("username").send_keys(Keys.ENTER)
 
