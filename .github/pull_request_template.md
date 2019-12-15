@@ -20,5 +20,6 @@ Please delete options that are not relevant.
 - Please describe the tests that you ran to verify your changes. 
 - Provide instructions so we can reproduce. 
 - Please also list any relevant details for your test configuration
-  * OS:
-  * Dependencies version:
+  * Operating System: Windows? Mac? Ubuntu? Fedora?
+  * Dependencies version: Python 3.4?
+  * Browser: Firefox? Chrome?
