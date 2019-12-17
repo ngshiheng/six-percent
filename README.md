@@ -42,7 +42,7 @@ For more details, visit the [myASNB Official Website](https://www.myasnb.com.my/
 - [chromedriver](https://chromedriver.chromium.org/downloads) based off your OS & Chrome version
 
 ### File configuration :document:
-- Rename `users.json.example` to `users.json` and add/update the information accordingly. Change `"is_active": true` if you do not want to use the user 
+- Rename `users.json.example` to `users.json` and add/update the information accordingly. Change `"is_active": false` if you do not want to use the user 
 - Configure `funds.json`, set `"skip": true` if you do **NOT** want to buy that specific fund
 
 #### Installation (Ubuntu) :wrench:
@@ -55,7 +55,7 @@ locale-gen en_US.UTF-8
 
 ## Setup & Run :nut_and_bolt:
 
-This project is tested and developed on Ubuntu 18.04 LTS.
+This project is tested and developed on Ubuntu 18.04 LTS. You can probably get this up and running on Windows or Mac with some minor tweaks.
 
 Run `./setup.sh` to install all the Python dependencies
 
@@ -67,14 +67,13 @@ To run only once, run `python3 main.py`
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-Please run `./lint.sh` before commiting any code and make sure it passes all the lint and format check
-
 ### Steps 
 1. Fork this
 2. Create your feature branch (`git checkout -b feature/fooBar`)
-3. Commit your changes (`git commit -am 'Add some fooBar'`)
-4. Push to the branch (`git push origin feature/fooBar`)
-5. Create a new Pull Request
+3. Please run `./lint.sh` before commiting any code and make sure it passes all the lint and format check
+4. Commit your changes (`git commit -am 'Add some fooBar'`)
+5. Push to the branch (`git push origin feature/fooBar`)
+6. Create a new Pull Request
 
 ## License :copyright:
 
