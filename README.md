@@ -1,8 +1,8 @@
 # Six Percent :money_with_wings:
 
-This bot helps user to automatically purchase ASNB Fixed Price UT units. The bot will trigger the user to proceed to make payment if the purchase attempt is successful.
+This bot helps user to automatically purchase ASNB Fixed Price UT units. User shall proceed to make their own payment if there is a successful purchase attempt.
 
-Currently this bot supports up to 3 fixed price unit trust:
+Currently, this bot supports up to 3 fixed price unit trust:
 
 - ASM (Malaysia)
 - ASM2 (Wawasan)
@@ -29,6 +29,11 @@ For more details, visit the [myASNB Official Website](https://www.myasnb.com.my/
 
 ## Requirements & Dependencies
 
+### Opening ASNB Account :closed_lock_with_key:
+
+- You need a ASNB account in order to start investing
+- You can perform all the transactions (including opening an account) at any ASNB branches or agents
+
 ### Software :computer:
 
 - Python 3.6+
@@ -36,11 +41,9 @@ For more details, visit the [myASNB Official Website](https://www.myasnb.com.my/
 - Python [virtual environment](https://virtualenv.pypa.io/en/latest/)
 - [chromedriver](https://chromedriver.chromium.org/downloads) based off your OS & Chrome version
 
-**File configuration:**
-- Rename `users.json.example` to `users.json` and update the information accordingly
-- Configure `funds.json` accordingly, if the specific fund you own is categorized under initial investment or additional investment
-  - E.g.: If the specific fund you have on your account is an initial investment, set `"initial_investment": true`
-  
+### File configuration :document:
+- Rename `users.json.example` to `users.json` and add/update the information accordingly. Change `"is_active": true` if you do not want to use the user 
+- Configure `funds.json`, set `"skip": true` if you do **NOT** want to buy that specific fund
 
 #### Installation (Ubuntu) :wrench:
 
@@ -50,18 +53,15 @@ apt-get update && apt-get install -y --no-install-recommends python3 python3-vir
 locale-gen en_US.UTF-8
 ```
 
-### Opening ASNB Account :closed_lock_with_key:
-
-- You need a ASNB account in order to start investing
-- You can perform all the transactions (including opening an account) at any ASNB branches or agents
-
 ## Setup & Run :nut_and_bolt:
 
 This project is tested and developed on Ubuntu 18.04 LTS.
 
 Run `./setup.sh` to install all the Python dependencies
 
-Run `./run.sh` to start using the bot
+Run `./run.sh` to start using the bot with scheduler (5 minutes)
+
+To run only once, run `python3 main.py`
 
 ## Contributing :family:
 
