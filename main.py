@@ -7,7 +7,10 @@ import time
 import sys
 import logging
 import json
-DELAY = 1
+
+
+def wait(delay=1):
+    time.sleep(delay)
 
 
 def launch_browser():
@@ -24,7 +27,7 @@ def log_in(browser, asnb_username, asnb_password):
     browser.find_element_by_id("username").send_keys(asnb_username)
     browser.find_element_by_id("username").send_keys(Keys.ENTER)
 
-    time.sleep(DELAY)
+    wait()
     browser.find_element_by_id("yes").click()
     browser.find_element_by_id("j_password_user").send_keys(asnb_password)
     browser.find_element_by_id("j_password_user").send_keys(Keys.ENTER)
@@ -34,11 +37,11 @@ def log_in(browser, asnb_username, asnb_password):
 
 
 def log_out(browser):
-    time.sleep(DELAY)
+    wait()
     browser.find_element_by_link_text('LOG KELUAR').click()
     logging.info('🔒 Logged out gracefully')
     logging.info('💻 Closing browser in a second')
-    time.sleep(DELAY)
+    wait()
     browser.close()
 
 
@@ -47,35 +50,44 @@ def main_page(browser, investment_amount):
         fund_data = json.load(f)
 
     for fund in fund_data:
-        if not fund['is_active']:
+        if fund['skip']:
             continue
 
-        fund_xpath = fund['elements']['drop_down_xpath']
         fund_id = fund['elements']['id']
+        initial_investment_xpath = fund['elements']['initial_investment_xpath']
+        additional_investment_xpath = fund['elements']['additional_investment_xpath']
 
         logging.info(
             f"💲 Attempting to buy {fund['name']} ({fund['alternate_name']})")
 
         try:
-            # Navigate to product page
+            # Navigate to 'Produk' page
             browser.find_element_by_link_text('Produk').click()
+
             # Click 'Transaksi' drop down
-            browser.find_element_by_xpath('/html/body/div[3]/div[2]/div[1]/div[1]').click()
+            browser.find_element_by_xpath('//div[@class="faq-title1 accordionTitle glyphicon glyphicon-plus-sign"]').click()
 
         except NoSuchElementException:
             logging.warning('⛔️ User has uncleared session')
             if browser.current_url == "https://www.myasnb.com.my/uh/uhlogin/authfail":
                 return True
 
-        time.sleep(DELAY)
-        browser.find_element_by_xpath('/html/body/div[3]/div[2]/div[1]/div[1]').click
+        wait()
+        browser.find_element_by_xpath('/html/body/div[3]/div[2]/div[1]/div[1]').click  # TODO: check what does this do
 
         try:
-            # Click on drop down
-            time.sleep(DELAY)
-            browser.find_element_by_xpath(fund_xpath).click()
-            if not fund['initial_investment']:
+            # Figure out if the current attempt is an initial/additional investment
+            try:
+                wait()
+                browser.find_element_by_xpath(initial_investment_xpath).click()
+                logging.info('🤑 Initial Investment')
+
+            except NoSuchElementException:
+                wait()
+                browser.find_element_by_xpath(additional_investment_xpath).click()
+                wait()
                 browser.find_element_by_id(fund_id).click()
+                logging.info('💵 Additional Investment')
 
         except NoSuchElementException:
             try:
@@ -89,13 +101,12 @@ def main_page(browser, investment_amount):
                     '⛔️ Unexpected error')
             continue
 
-        time.sleep(DELAY)
-
+        wait()
         try:
             # PEP declaration
             logging.info(
                 '📜 PEP declaration')
-            time.sleep(DELAY)
+            wait()
             browser.find_element_by_id('NEXT').click()
 
         except NoSuchElementException:
@@ -124,14 +135,15 @@ def purchase_unit(browser, investment_amount):
     browser.find_element_by_xpath(
         '/html/body/div[3]/form/div/div[1]/div[4]/label/p').click()
     browser.find_element_by_id('btn-unit-fund').click()
-    time.sleep(DELAY)
+    wait()
     browser.find_element_by_xpath("//input[@placeholder='0.00']").send_keys(investment_amount)
+    browser.find_element_by_xpath("//input[@placeholder='0.00']").send_keys(Keys.ENTER)
 
-    for attempt in range(11):
+    for attempt in range(10):
         try:
             browser.find_element_by_xpath("//input[@placeholder='0.00']").send_keys(Keys.ENTER)
             logging.info(f"🎰 Attempt {attempt+1}")
-            time.sleep(DELAY)
+            wait()
         except NoSuchElementException:
             browser.maximize_window()
             browser.set_window_position(0, 0)
@@ -150,7 +162,7 @@ def purchase_unit(browser, investment_amount):
             continue
 
     else:
-        logging.info(f"💸 End of loop")
+        logging.info(f"🔚 End of loop")
 
 
 if __name__ == "__main__":
@@ -170,7 +182,7 @@ if __name__ == "__main__":
         asnb_password = user['credentials']['password']
         investment_amount = user['investment_amount']
 
-        # Main
+        # Login
         browser = launch_browser()
         if log_in(browser, asnb_username, asnb_password):
             browser.close()
@@ -179,6 +191,8 @@ if __name__ == "__main__":
                 '💡 Please always remember to logout to prevent uncleared session')
             continue
 
+        # Main loop
         main_page(browser, investment_amount)
 
-    sys.exit()
+    else:
+        sys.exit()
