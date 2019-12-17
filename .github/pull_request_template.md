@@ -23,8 +23,6 @@ Please delete options that are not relevant.
   * OS:
   * Dependencies version:
 
-
-
 # Description
 
 - _What is the summary of the change and which issue is fixed?_
