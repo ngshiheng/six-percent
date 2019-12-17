@@ -35,7 +35,12 @@ For more details, visit the [myASNB Official Website](https://www.myasnb.com.my/
 - [pip](https://pip.pypa.io/en/stable/) package installer
 - Python [virtual environment](https://virtualenv.pypa.io/en/latest/)
 - [chromedriver](https://chromedriver.chromium.org/downloads) based off your OS & Chrome version
-- Rename `users.json.example` to `users.json` and update the file accordingly
+
+**File configuration:**
+- Rename `users.json.example` to `users.json` and update the information accordingly
+- Configure `funds.json` accordingly, if the specific fund you own is categorized under initial investment or additional investment
+  - E.g.: If the specific fund you have on your account is an initial investment, set `"initial_investment": true`
+  
 
 #### Installation (Ubuntu) :wrench:
 
@@ -64,7 +69,12 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Please run `./lint.sh` before commiting any code and make sure it passes all the lint and format check
 
-Please make sure to update tests as appropriate.
+### Steps 
+1. Fork this
+2. Create your feature branch (`git checkout -b feature/fooBar`)
+3. Commit your changes (`git commit -am 'Add some fooBar'`)
+4. Push to the branch (`git push origin feature/fooBar`)
+5. Create a new Pull Request
 
 ## License :copyright:
 
