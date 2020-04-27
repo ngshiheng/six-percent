@@ -20,11 +20,12 @@
 - _Please describe the tests that you ran to verify your changes._
 - _How can we reproduce the issue?_
 - _What are the relevant details for your test configuration:?_
-- 
+
 **Test Configuration**:
-  * OS:
-  * Browser:
-  * Python version:
+
+- OS:
+- Browser:
+- Python version:
 
 # Checklist:
 
