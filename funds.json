@@ -22,7 +22,7 @@
   {
     "name": "Amanah Saham Malaysia 3",
     "alternate_name": "AS1M",
-    "skip": true,
+    "skip": false,
     "elements": {
       "id": "submit_buy_AS1M",
       "initial_investment_xpath": "//input[@id='submit_initial_invest_AS1M']",

@@ -49,13 +49,12 @@ def main_page(browser, investment_amount):
     with open('funds.json', 'r') as f:
         fund_data = json.load(f)
 
-    for fund in fund_data:
+    for i, fund in enumerate(fund_data):
         if fund['skip']:
             continue
 
         fund_id = fund['elements']['id']
         initial_investment_xpath = fund['elements']['initial_investment_xpath']
-        additional_investment_xpath = fund['elements']['additional_investment_xpath']
 
         logging.info(
             f"💲 Attempting to buy {fund['name']} ({fund['alternate_name']})")
@@ -73,7 +72,7 @@ def main_page(browser, investment_amount):
                 return True
 
         wait()
-        browser.find_element_by_xpath('/html/body/div[3]/div[2]/div[1]/div[1]').click  # TODO: check what does this do
+        browser.find_elements_by_class_name("btn.btn-form-submit.btnsbmt.dropdown-toggle")[i].click()
 
         try:
             # Figure out if the current attempt is an initial/additional investment
@@ -83,8 +82,6 @@ def main_page(browser, investment_amount):
                 logging.info('🤑 Initial Investment')
 
             except NoSuchElementException:
-                wait()
-                browser.find_element_by_xpath(additional_investment_xpath).click()
                 wait()
                 browser.find_element_by_id(fund_id).click()
                 logging.info('💵 Additional Investment')
