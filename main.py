@@ -14,7 +14,7 @@ if __name__ == "__main__":
         user_data = json.load(u)
     # end with
 
-    # Loop through all active users in users.json
+    # Loops through all active users in users.json
     for user in user_data:
         if not user['is_active']:
             continue

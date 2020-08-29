@@ -114,24 +114,25 @@ class SixPercent:
                 try:
                     self.wait()
                     browser.find_element_by_xpath(initial_investment_xpath).click()
-                    logging.info('🤑 Initial Investment')
+                    logging.info("🤑 Initial Investment")
 
                 except NoSuchElementException:
                     self.wait()
                     browser.find_element_by_id(fund_id).click()
-                    logging.info('💵 Additional Investment')
+                    logging.info("💵 Additional Investment")
                 # end try
 
             except NoSuchElementException:
                 try:
-                    browser.find_element_by_xpath(
-                        "//*[contains(text(), 'MASA PELABURAN TAMAT')]")
+                    browser.find_element_by_xpath("//*[contains(text(), 'MASA PELABURAN TAMAT')]")
                     logging.error('⛔️ Investment time closed')
                     self.log_out(browser)
                     sys.exit()
+
                 except NoSuchElementException:
-                    logging.error(
-                        '⛔️ Unexpected error')
+                    logging.error(f"⛔️ Unexpected error while attempting to purchase {fund['name']} ({fund['alternate_name']})")
+                    self.log_out(browser)
+                    sys.exit()
                 # end try
                 continue
             # end try
