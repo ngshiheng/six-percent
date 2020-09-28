@@ -107,7 +107,14 @@ class SixPercent:
             # end try
 
             self.wait()
-            browser.find_elements_by_class_name("btn.btn-form-submit.btnsbmt.dropdown-toggle")[i].click()
+
+            try:
+                browser.find_elements_by_class_name("btn.btn-form-submit.btnsbmt.dropdown-toggle")[i].click()
+
+            except IndexError:
+                logging.warning(f"⛔️ {fund['name']} ({fund['alternate_name']}) is currently unavailable for purchase")
+                continue
+            # end try
 
             try:
                 # Figure out if the current attempt is an initial/additional investment
