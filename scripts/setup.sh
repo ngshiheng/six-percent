@@ -14,7 +14,7 @@ setup_virtualenv() {
 
 pipenv_install() {
     echo "🐍 $white Installing Python dependencies with pipenv"
-    pipenv install
+    pipenv install --dev
     echo "$green✔$white Completed pipenv install"
 }
 

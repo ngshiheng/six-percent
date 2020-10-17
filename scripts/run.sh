@@ -10,7 +10,7 @@ echo_error() {
 main() {
   while true; do
     pipenv run python3 main.py
-    if [ "$?" -ne "0" ]; then echo_error "Dependencies are not installed, please run ./setup.sh $1" && exit 1; fi
+    if [ "$?" -ne "0" ]; then echo_error "ERR - dependencies are not installed, please run ./setup.sh $1" && exit 1; fi
     echo "⏱  Retrying in 5 minutes..."
     sleep 60
     echo "⏱  Retrying in 4 minutes..."
