@@ -2,7 +2,7 @@
   {
     "name": "Amanah Saham Malaysia",
     "alternate_name": "ASM",
-    "skip": false,
+    "is_active": true,
     "elements": {
       "id": "submit_buy_ASM",
       "initial_investment_xpath": "//input[@id='submit_initial_invest_ASM']",
@@ -12,7 +12,7 @@
   {
     "name": "Amanah Saham Malaysia 2 - Wawasan",
     "alternate_name": "ASW",
-    "skip": false,
+    "is_active": true,
     "elements": {
       "id": "submit_buy_ASW",
       "initial_investment_xpath": "//input[@id='submit_initial_invest_ASW']",
@@ -22,7 +22,7 @@
   {
     "name": "Amanah Saham Malaysia 3",
     "alternate_name": "AS1M",
-    "skip": false,
+    "is_active": true,
     "elements": {
       "id": "submit_buy_AS1M",
       "initial_investment_xpath": "//input[@id='submit_initial_invest_AS1M']",

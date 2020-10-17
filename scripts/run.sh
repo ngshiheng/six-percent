@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # -*- encoding: utf-8 -*-
 
+# Deprecated use
+# Bot now uses https://pypi.org/project/schedule/ to run its task every N minutes
+
 red=$(tput setaf 1)
 
 echo_error() {
