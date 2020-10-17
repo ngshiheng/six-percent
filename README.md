@@ -45,7 +45,7 @@ For more details, visit [myASNB Official Website](https://www.myasnb.com.my/)
 
 ### User Configuration
 
-1. Update `config.ini` to edit your `chromedriver` path
+1. Update `config.ini` to edit your `chromedriver` path. **Please note that your `chromedriver` path might be different from the default settings in `config.ini`**
 
 2. Rename `users.example.json` to `users.json` and add/update the information accordingly. Change `"is_active": false` if you do **NOT** want to purchase units for that specific user
 
@@ -59,17 +59,39 @@ This project is tested and developed on `Ubuntu 20.04.01 LTS`. You can probably 
 apt-get update && apt-get install -y --no-install-recommends python3 python3-virtualenv python3-pip chromium-chromedriver locales
 
 locale-gen en_US.UTF-8
+
+# At project directory
+pipenv shell
+pipenv install --dev
+
+python3 main.py
 ```
 
 Run `./scripts/setup.sh` to install all the Python dependencies
 
 ### Installation (Windows)
 
-> _Coming soon..._
+Run `pip install pipenv` See [this](https://stackoverflow.com/questions/46041719/windows-reports-error-when-trying-to-install-package-using-pipenv) post if you encounter any error with pipenv
+
+```bash
+# At project directory
+pipenv shell
+pipenv install --dev
+
+python .\main.py
+```
 
 ### Installation (MacOS)
 
-> _Coming soon..._
+```bash
+brew install pipenv
+
+# At project directory
+pipenv shell
+pipenv install --dev
+
+python3 main.py
+```
 
 ## How to use
 
