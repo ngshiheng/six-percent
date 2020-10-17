@@ -6,17 +6,16 @@ white=$(tput sgr0)
 
 # functions
 setup_virtualenv() {
-    echo "🛠 $white Removing existing venv-six-percent"
-    rm -rf venv-six-percent
-    virtualenv venv-six-percent
+    echo "🛠 $white Removing existing virtualenv"
+    pipenv --rm
     echo "🔧 $white Activating virtual environment"
-    source venv-six-percent/bin/activate
+    pipenv shell
 }
 
-pip_install() {
-    echo "🐍 $white Installing Python dependencies with pip"
-    pip3 install -r requirements.txt
-    echo "$green✔$white Completed pip install"
+pipenv_install() {
+    echo "🐍 $white Installing Python dependencies with pipenv"
+    pipenv install
+    echo "$green✔$white Completed pipenv install"
 }
 
 echo_finish() {
@@ -25,7 +24,7 @@ echo_finish() {
 
 main() {
     setup_virtualenv
-    pip_install
+    pipenv_install
     echo_finish
 }
 
