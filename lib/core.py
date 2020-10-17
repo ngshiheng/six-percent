@@ -4,7 +4,7 @@ import json
 import logging
 import sys
 import time
-from configparser import ConfigParser
+import random
 
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
@@ -18,24 +18,22 @@ class SixPercent:
     This is a bot which helps to automatically purchase ASNB Fixed Price UT units
     """
 
-    def __init__(self):
-
-        # Read user configurations from `config.ini` file
-        config = ConfigParser()
-        config.read('config.ini')
-
-        self.PATH_TO_CHROME_DRIVER = config.get('chromedriver', 'path')
-        self.ASNB_URL = config.get('website', 'url')
-        self.BROWSER_WIDTH = config.get('browser', 'width')
-        self.BROWSER_HEIGHT = config.get('browser', 'height')
+    def __init__(self, chrome_driver_path, url, browser_width=1600, browser_height=900, min_delay=1, max_delay=1):
+        self.url = url
+        self.chrome_driver_path = chrome_driver_path
+        self.browser_width = browser_width
+        self.browser_height = browser_height
+        self.min_delay = min_delay
+        self.max_delay = max_delay
 
     # end def
 
-    def wait(self, delay=1):
+    def wait(self):
         """
-        Delay method, in seconds
+        Introduce a random delay between `min_delay` to `max_delay`
         """
-        time.sleep(delay)
+
+        time.sleep(random.uniform(self.min_delay, self.max_delay))
     # end def
 
     def launch_browser(self):
@@ -43,11 +41,10 @@ class SixPercent:
         Launches a chromedriver instance
         """
 
-        browser = webdriver.Chrome(self.PATH_TO_CHROME_DRIVER)
-        browser.get(self.ASNB_URL)
+        browser = webdriver.Chrome(self.chrome_driver_path)
+        browser.get(self.url)
 
         return browser
-
     # end def
 
     def log_in(self, browser, asnb_username, asnb_password):
@@ -66,7 +63,7 @@ class SixPercent:
         browser.find_element_by_id("j_password_user").send_keys(Keys.ENTER)
         logging.info('🔓 Successfully logged in')
 
-        browser.set_window_size(self.BROWSER_WIDTH, self.BROWSER_HEIGHT)
+        browser.set_window_size(self.browser_width, self.browser_height)
     # end def
 
     def log_out(self, browser):
@@ -91,7 +88,7 @@ class SixPercent:
             fund_data = json.load(f)
 
         for i, fund in enumerate(fund_data):
-            if fund['skip']:
+            if not fund['is_active']:
                 continue
             # end if
 

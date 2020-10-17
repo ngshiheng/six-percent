@@ -1,6 +1,10 @@
-# Six Percent :money_with_wings:
+# Six Percent
 
-This bot helps user to automatically purchase ASNB Fixed Price UT units. User shall proceed to make their own payment if there is a successful purchase attempt.
+> _DISCLAIMER: Please use this at your own risk_
+
+This bot helps user to automatically purchase ASNB Fixed Price UT units.
+
+User shall proceed to make their own payment if there is a successful purchase attempt.
 
 Currently, this bot supports up to 3 fixed price unit trust:
 
@@ -8,12 +12,7 @@ Currently, this bot supports up to 3 fixed price unit trust:
 - ASM2 (Wawasan)
 - ASM3 (1Malaysia)
 
-Please **use this software at your own risk**!
-Please read the disclaimer section.
-
-_Note: As of Q3 2019, ASNB removed the need of solving CAPTCHA in order to purchase any ASNB Fixed Price UT_
-
-## About myASNB Fixed Price Fund :moneybag:
+## About myASNB Fixed Price Fund
 
 ASNB is a subsidiary of “Permodalan Nasional Berhad” (PNB). It is a government-supported unit trust management company.
 
@@ -21,40 +20,40 @@ Amanah Saham are funds that are managed by Amanah Saham National Berhad (ASNB)
 
 ![alt text](https://i.imgur.com/LCB8Soo.jpg)
 
-### Facts :newspaper:
+### Facts
 
 - If there is no units available, you will never be able to purchase new units or opening up a new account
 - Fixed price (RM 1/unit) means there will be no price fluctuation. These funds can thus be regarded as saving accounts
 - The dividend earned is not taxable
 - No sales charge
 
-For more details, visit the [myASNB Official Website](https://www.myasnb.com.my/)
+For more details, visit [myASNB Official Website](https://www.myasnb.com.my/)
 
 ## Requirements & Dependencies
 
-Please read carefully.
-
-### Opening ASNB Account :closed_lock_with_key:
+### Opening ASNB Account
 
 - You need a ASNB account in order to start investing
 - You can perform all the transactions (including opening an account) at any ASNB branches or agents
 
-### Software :computer:
+### Software
 
 - Python 3.6+
 - [pip](https://pip.pypa.io/en/stable/) package installer
 - [pipenv](https://pypi.org/project/pipenv/)
-- [chromedriver](https://chromedriver.chromium.org/downloads) based off your OS & Chrome version (Important!!!)
+- [chromedriver](https://chromedriver.chromium.org/downloads) based on your OS & Chrome version
 
-### File configuration :document:
+### User Configuration
 
-- Config `config.ini` to edit your `chromedriver` path etc.
-- Rename `users.json.example` to `users.json` and add/update the information accordingly. Change `"is_active": false` if you do not want to use the user
-- Configure `funds.json`, set `"skip": true` if you do **NOT** want to buy that specific fund
+1. Update `config.ini` to edit your `chromedriver` path
 
-#### Installation (Ubuntu) :wrench:
+2. Rename `users.example.json` to `users.json` and add/update the information accordingly. Change `"is_active": false` if you do **NOT** want to purchase units for that specific user
 
-This project is tested and developed on Ubuntu 20.04.01 LTS. You can probably get this up and running on Windows or Mac with some minor tweaks.
+3. Configure `funds.json`, set `"is_active": false` if you do **NOT** want to buy that specific fund
+
+### Installation (Ubuntu)
+
+This project is tested and developed on `Ubuntu 20.04.01 LTS`. You can probably get this up and running on Windows or Mac with some minor tweaks
 
 ```bash
 apt-get update && apt-get install -y --no-install-recommends python3 python3-virtualenv python3-pip chromium-chromedriver locales
@@ -64,21 +63,25 @@ locale-gen en_US.UTF-8
 
 Run `./scripts/setup.sh` to install all the Python dependencies
 
-Run `./scripts/run.sh` to start using the bot with scheduler (5 minutes)
+### Installation (Windows)
 
-#### Installation (Windows)
+> _Coming soon..._
 
-_Coming soon..._
+### Installation (MacOS)
 
-#### Installation (MacOS)
+> _Coming soon..._
 
-_Coming soon..._
+## How to use
 
-## Setup & Run :nut_and_bolt:
+1. Run `pipenv run python3 main.py`
 
-To run only once, run `python3 main.py`
+2. Job to purchase ASNB unit will start based on your configuration
 
-## Contributing :family:
+3. Proceed to make your own payment if purchasing attempt is successful
+
+4. Repeat every 5 minutes (Able to modify in `config.ini` under `schedule_minutes`)
+
+## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
@@ -93,20 +96,12 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## Disclaimer
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+> THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 This software was designed to be used only for research purposes.
+
 Uses are not recommended, and have never been evaluated.
-This software comes with no warranties of any kind whatsoever,
-and may not be useful for anything. Use it at your own risk!
+
+This software comes with no warranties of any kind whatsoever, and may not be useful for anything. Use it at your own risk!
+
 If these terms are not acceptable, you aren't allowed to use the code.

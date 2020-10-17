@@ -1,8 +1,8 @@
 [
   {
     "uid": "Aladdin",
-    "photo": "👳‍",
-    "is_active": false,
+    "photo": "😀",
+    "is_active": true,
     "investment_amount": 800,
     "credentials": {
       "username": "aladdin",
@@ -11,7 +11,7 @@
   },
   {
     "uid": "Bob",
-    "photo": "👷‍♂️‍",
+    "photo": "👷",
     "is_active": false,
     "investment_amount": 1200,
     "credentials": {
