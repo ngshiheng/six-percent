@@ -48,12 +48,13 @@ Please read carefully.
 
 ### File configuration :document:
 
+- Config `config.ini` to edit your `chromedriver` path etc.
 - Rename `users.json.example` to `users.json` and add/update the information accordingly. Change `"is_active": false` if you do not want to use the user
 - Configure `funds.json`, set `"skip": true` if you do **NOT** want to buy that specific fund
 
 #### Installation (Ubuntu) :wrench:
 
-This project is tested and developed on Ubuntu 18.04 LTS. You can probably get this up and running on Windows or Mac with some minor tweaks.
+This project is tested and developed on Ubuntu 20.04.01 LTS. You can probably get this up and running on Windows or Mac with some minor tweaks.
 
 ```bash
 apt-get update && apt-get install -y --no-install-recommends python3 python3-virtualenv python3-pip chromium-chromedriver locales
@@ -61,9 +62,9 @@ apt-get update && apt-get install -y --no-install-recommends python3 python3-vir
 locale-gen en_US.UTF-8
 ```
 
-Run `./setup.sh` to install all the Python dependencies
+Run `./scripts/setup.sh` to install all the Python dependencies
 
-Run `./run.sh` to start using the bot with scheduler (5 minutes)
+Run `./scripts/run.sh` to start using the bot with scheduler (5 minutes)
 
 #### Installation (Windows)
 
@@ -85,7 +86,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 1. Fork this
 2. Create your feature branch (`git checkout -b feature/fooBar`)
-3. Please run `./lint.sh` before commiting any code and make sure it passes all the lint and format check
+3. Please run `./scripts/lint.sh` before commiting any code and make sure it passes all the lint and format check
 4. Commit your changes (`git commit -am 'Add some fooBar'`)
 5. Push to the branch (`git push origin feature/fooBar`)
 6. Create a new Pull Request

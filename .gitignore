@@ -12,4 +12,5 @@ env/
 venv*/
 ENV*/
 
+# Users credetnails
 users.json
