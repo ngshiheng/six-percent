@@ -196,8 +196,7 @@ class SixPercent:
             except NoSuchElementException:
                 browser.maximize_window()
                 browser.set_window_position(0, 0)
-                logging.info(
-                    f"🥳 Success! Please make your payment within the next 5 minutes")
+                logging.info("🥳 Success! Please make your payment within the next 5 minutes")
                 time.sleep(300)
             # end try
 
@@ -213,7 +212,7 @@ class SixPercent:
             # end try
 
         else:
-            logging.info(f"🔚 End of loop")
+            logging.info("🔚 End of loop")
         # end for
 
     # end def
