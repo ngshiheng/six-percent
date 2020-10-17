@@ -4,6 +4,7 @@ import json
 import logging
 import sys
 import time
+from configparser import ConfigParser
 
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
@@ -18,7 +19,16 @@ class SixPercent:
     """
 
     def __init__(self):
-        pass
+
+        # Read user configurations from `config.ini` file
+        config = ConfigParser()
+        config.read('config.ini')
+
+        self.PATH_TO_CHROME_DRIVER = config.get('chromedriver', 'path')
+        self.ASNB_URL = config.get('website', 'url')
+        self.BROWSER_WIDTH = config.get('browser', 'width')
+        self.BROWSER_HEIGHT = config.get('browser', 'height')
+
     # end def
 
     def wait(self, delay=1):
@@ -33,11 +43,8 @@ class SixPercent:
         Launches a chromedriver instance
         """
 
-        PATH_TO_CHROME_DRIVER = "/usr/bin/chromedriver"  # TODO: set this in a configuration file
-        ASNB_URL = "https://www.myasnb.com.my/uhsessionexpired"  # TODO: set this in a configuration file
-
-        browser = webdriver.Chrome(PATH_TO_CHROME_DRIVER)
-        browser.get(ASNB_URL)
+        browser = webdriver.Chrome(self.PATH_TO_CHROME_DRIVER)
+        browser.get(self.ASNB_URL)
 
         return browser
 
@@ -59,7 +66,7 @@ class SixPercent:
         browser.find_element_by_id("j_password_user").send_keys(Keys.ENTER)
         logging.info('🔓 Successfully logged in')
 
-        browser.set_window_size(1600, 900)
+        browser.set_window_size(self.BROWSER_WIDTH, self.BROWSER_HEIGHT)
     # end def
 
     def log_out(self, browser):
@@ -102,8 +109,7 @@ class SixPercent:
 
             except NoSuchElementException:
                 logging.warning('⛔️ User has uncleared session')
-                if browser.current_url == "https://www.myasnb.com.my/uh/uhlogin/authfail":
-                    return True
+                return True if browser.current_url == "https://www.myasnb.com.my/uh/uhlogin/authfail" else False
             # end try
 
             self.wait()
@@ -141,28 +147,23 @@ class SixPercent:
                     self.log_out(browser)
                     sys.exit()
                 # end try
-                continue
             # end try
 
             self.wait()
             try:
                 # PEP declaration
-                logging.info(
-                    '📜 PEP declaration')
+                logging.info('📜 PEP declaration')
                 self.wait()
                 browser.find_element_by_id('NEXT').click()
 
             except NoSuchElementException:
 
                 try:
-                    browser.find_element_by_xpath(
-                        "//*[contains(text(), 'Tutup')]").click()
-                    logging.error(
-                        '⛔️ Exceeded maximum attempt, please retry for 5 minutes')
+                    browser.find_element_by_xpath("//*[contains(text(), 'Tutup')]").click()
+                    logging.error('⛔️ Exceeded maximum attempt, please retry for 5 minutes')
                     continue
                 except Exception:
-                    logging.warning(
-                        '💬 You do not need to declare PEP again')
+                    logging.warning('💬 You do not need to declare PEP again')
                     pass
                 # end try
             # end try
@@ -196,16 +197,13 @@ class SixPercent:
             except NoSuchElementException:
                 browser.maximize_window()
                 browser.set_window_position(0, 0)
-                logging.info(
-                    f"🥳 Success! Please make your payment within the next 5 minutes")
+                logging.info("🥳 Success! Please make your payment within the next 5 minutes")
                 time.sleep(300)
             # end try
 
             try:
-                browser.find_element_by_xpath(
-                    "//*[contains(text(), 'Transaksi tidak berjaya. Sila hubungi Pusat Khidmat Pelanggan ASNB di talian 03-7730 8899. Kod Rujukan Gagal: 1001')]")
-                browser.find_element_by_xpath(
-                    '/html/body/div[3]/form/div/div[1]/div[2]/div/div/input').send_keys(Keys.ENTER)
+                browser.find_element_by_xpath("//*[contains(text(), 'Transaksi tidak berjaya. Sila hubungi Pusat Khidmat Pelanggan ASNB di talian 03-7730 8899. Kod Rujukan Gagal: 1001')]")
+                browser.find_element_by_xpath('/html/body/div[3]/form/div/div[1]/div[2]/div/div/input').send_keys(Keys.ENTER)
                 return
 
             except NoSuchElementException:
@@ -213,7 +211,7 @@ class SixPercent:
             # end try
 
         else:
-            logging.info(f"🔚 End of loop")
+            logging.info("🔚 End of loop")
         # end for
 
     # end def
