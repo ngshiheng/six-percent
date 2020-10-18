@@ -53,7 +53,7 @@ For more details, visit [myASNB Official Website](https://www.myasnb.com.my/)
 
 ### Installation (Ubuntu)
 
-This project is tested and developed on `Ubuntu 20.04.01 LTS`. You can probably get this up and running on Windows or Mac with some minor tweaks
+This project is tested and developed on `Ubuntu 20.04.01 LTS`. You can probably get this up and running on Mac with some minor tweaks
 
 ```bash
 apt-get update && apt-get install -y --no-install-recommends python3 python3-virtualenv python3-pip chromium-chromedriver locales
@@ -71,11 +71,11 @@ Run `./scripts/setup.sh` to install all the Python dependencies
 
 ### Installation (Windows)
 
-This project is tested on `Windows 10`
+This project is also tested on `Windows 10`
 
 Run `pip install pipenv` See [this](https://stackoverflow.com/questions/46041719/windows-reports-error-when-trying-to-install-package-using-pipenv) post if you encounter any error with pipenv
 
-**Option 1: Run this project with python:**
+**Option 1: Run this project directly with python:**
 
 ```bash
 # At project directory
@@ -89,6 +89,9 @@ python main.py
 To generate a `exe` application, run
 
 ```sh
+pipenv shell
+pipenv install --dev
+
 pyi-makespec main.py --onefile --noconsole --add-binary "winexe\driver\chromedriver.exe;winexe\driver\" --add-data "funds.json;." --add-data "config.ini;." --add-data "users.json;." --name SixPercent --icon "winexe\favicon.ico"  --console
 ```
 
@@ -99,12 +102,11 @@ import shutil
 shutil.copyfile('config.ini', '{0}/config.ini'.format(DISTPATH))
 shutil.copyfile('users.json', '{0}/users.json'.format(DISTPATH))
 shutil.copyfile('funds.json', '{0}/funds.json'.format(DISTPATH))
-
 ```
 
 Finally run `pyinstaller SixPercent.spec`
 
-Run the `SixPercent.exe` directly inside the `dist` folder! :)
+Run the `SixPercent.exe` directly inside generated the `dist` folder! :)
 
 ### Installation (MacOS)
 
@@ -118,7 +120,7 @@ pipenv install --dev
 python3 main.py
 ```
 
-## How to use
+## How to use with python:
 
 1. Run `pipenv run python3 main.py`
 
@@ -127,6 +129,14 @@ python3 main.py
 3. Proceed to make your own payment if purchasing attempt is successful
 
 4. Repeat every 5 minutes (Able to modify in `config.ini` under `schedule_minutes`)
+
+## How to use with executable (Windows user):
+
+Refer to Installation (Windows) option 2 if the `SixPercent.exe` is not generated yet
+
+1. Update the `config.ini`, `funds.json` and `users.json`
+
+2. Run `SixPercent.exe` directly
 
 ## Contributing
 
