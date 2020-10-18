@@ -85,7 +85,7 @@ pipenv install --dev
 python main.py
 ```
 
-**Option 1: Run this project with `exe` file:**
+**Option 2: Run this project with `exe` file:**
 To generate a `exe` application, run
 
 ```sh
