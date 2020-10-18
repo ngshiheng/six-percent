@@ -2,6 +2,8 @@
 
 **_Note: Please delete placeholder texts that are not relevant. Including this_**
 
+Tips:
+
 - _What is the summary of the change and which issue is fixed?_
 - _What is the relevant motivation and context?_
 - _Is there any dependencies that are required for this change?_
@@ -17,21 +19,14 @@
 
 # How Has This Been Tested?
 
+Tips:
+
 - _Please describe the tests that you ran to verify your changes._
 - _How can we reproduce the issue?_
 - _What are the relevant details for your test configuration:?_
 
-**Test Configuration**:
+**Test/Development Configuration**:
 
 - OS:
 - Browser:
 - Python version:
-
-# Checklist:
-
-- [ ] My code follows the style guidelines of this project
-- [ ] I have performed a self-review of my own code
-- [ ] I have commented my code, particularly in hard-to-understand areas
-- [ ] I have made corresponding changes to the documentation
-- [ ] My changes generate no new warnings
-- [ ] I have added tests that prove my fix is effective or that my feature works
