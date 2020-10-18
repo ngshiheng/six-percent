@@ -14,3 +14,7 @@ ENV*/
 
 # Users credetnails
 users.json
+
+# PyInstaller
+build/
+dist/

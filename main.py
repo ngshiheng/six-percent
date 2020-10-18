@@ -1,6 +1,8 @@
 import functools
 import json
 import logging
+import os
+import sys
 import time
 from configparser import ConfigParser
 
@@ -11,6 +13,21 @@ from lib.core import SixPercent
 # Read user configuration from `config.ini` file
 config = ConfigParser()
 config.read('config.ini')
+
+
+def resource_path(relative_path: str) -> str:
+    """
+    Get absolute path to resource, works for dev and for PyInstaller
+    """
+    try:
+        base_path = sys._MEIPASS
+
+    except Exception:
+        base_path = os.path.dirname(__file__)
+    # end try
+
+    return os.path.join(base_path, relative_path)
+# end def
 
 
 def with_logging(func):
@@ -33,7 +50,7 @@ def invest_job():
 
     bot = SixPercent(
         url=config.get('website', 'url'),
-        chrome_driver_path=config.get('chromedriver', 'path'),
+        chrome_driver_path=resource_path(config.get('chromedriver', 'path')),
         browser_width=config.getint('browser', 'width'),
         browser_height=config.getint('browser', 'height'),
         min_delay=config.getfloat('delay', 'min_seconds'),

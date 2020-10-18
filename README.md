@@ -71,15 +71,40 @@ Run `./scripts/setup.sh` to install all the Python dependencies
 
 ### Installation (Windows)
 
+This project is tested on `Windows 10`
+
 Run `pip install pipenv` See [this](https://stackoverflow.com/questions/46041719/windows-reports-error-when-trying-to-install-package-using-pipenv) post if you encounter any error with pipenv
+
+**Option 1: Run this project with python:**
 
 ```bash
 # At project directory
 pipenv shell
 pipenv install --dev
 
-python .\main.py
+python main.py
 ```
+
+**Option 1: Run this project with `exe` file:**
+To generate a `exe` application, run
+
+```sh
+pyi-makespec main.py --onefile --noconsole --add-binary "winexe\driver\chromedriver.exe;winexe\driver\" --add-data "funds.json;." --add-data "config.ini;." --add-data "users.json;." --name SixPercent --icon "winexe\favicon.ico"  --console
+```
+
+Then append the code block below at the **end** of the generated `SixPercent.spec`. See [example](winexe/SixPercent.spec)
+
+```spec
+import shutil
+shutil.copyfile('config.ini', '{0}/config.ini'.format(DISTPATH))
+shutil.copyfile('users.json', '{0}/users.json'.format(DISTPATH))
+shutil.copyfile('funds.json', '{0}/funds.json'.format(DISTPATH))
+
+```
+
+Finally run `pyinstaller SixPercent.spec`
+
+Run the `SixPercent.exe` directly inside the `dist` folder! :)
 
 ### Installation (MacOS)
 
