@@ -19,7 +19,8 @@ echo_error() {
 
 lint_check() {
     echo "⌛ $white Running flake8"
-    pipenv run flake8
+    pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics 
+    pipenv run flake8 . --count --exit-zero --max-complexity=20 --max-line-length=255 --statistics
     if [ "$?" -ne "0" ]; then echo_error "ERR - error while running flake8" && exit 1; fi
     echo "⌛ $white Running autopep8"
     pipenv run autopep8 --in-place --aggressive -v main.py
@@ -28,7 +29,6 @@ lint_check() {
 }
 
 main() {
-
     lint_check
     if [ "$?" -ne "0" ]; then echo_error "ERR - dependencies are not installed, please run ./setup.sh $1" && exit 1; fi
     echo_finish
