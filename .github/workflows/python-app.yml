@@ -1,0 +1,25 @@
+name: Six Percent
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  ubuntu-job:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - uses: dschep/install-pipenv-action@v1
+      - name: Install dependencies
+        run: |
+          ./scripts/setup.sh
+      - name: Lint with flake8 and autopep8
+        run: |
+          ./scripts/lint.sh

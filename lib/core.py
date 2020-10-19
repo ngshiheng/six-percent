@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 
-import json
 import logging
+import random
 import sys
 import time
-import random
 
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
+
+from .constants import ASNB_FUNDS_DATA
 
 logging.getLogger().setLevel(logging.INFO)
 
@@ -52,6 +53,7 @@ class SixPercent:
         Logs user into the main ASNB portal with username & password
         """
 
+        self.wait()
         logging.info('🔑 Logging in')
         browser.find_element_by_class_name("btn-login").click()
         browser.find_element_by_id("username").send_keys(asnb_username)
@@ -84,10 +86,7 @@ class SixPercent:
         Navigates around the main pages logging in
         """
 
-        with open('funds.json', 'r') as f:  # TODO: set this in a configuration file
-            fund_data = json.load(f)
-
-        for i, fund in enumerate(fund_data):
+        for i, fund in enumerate(ASNB_FUNDS_DATA.values()):
             if not fund['is_active']:
                 continue
             # end if
@@ -95,7 +94,7 @@ class SixPercent:
             fund_id = fund['elements']['id']
             initial_investment_xpath = fund['elements']['initial_investment_xpath']
 
-            logging.info(f"💲 Attempting to buy {fund['name']} ({fund['alternate_name']})")
+            logging.info(f"💲 Attempting to buy {fund['name']} ({fund['alt_name']})")
 
             try:
                 # Navigate to 'Produk' page
@@ -115,7 +114,7 @@ class SixPercent:
                 browser.find_elements_by_class_name("btn.btn-form-submit.btnsbmt.dropdown-toggle")[i].click()
 
             except IndexError:
-                logging.warning(f"⛔️ {fund['name']} ({fund['alternate_name']}) is currently unavailable for purchase")
+                logging.warning(f"⛔️ {fund['name']} ({fund['alt_name']}) is currently unavailable for purchase")
                 continue
             # end try
 
@@ -140,7 +139,7 @@ class SixPercent:
                     sys.exit()
 
                 except NoSuchElementException:
-                    logging.error(f"⛔️ Unexpected error while attempting to purchase {fund['name']} ({fund['alternate_name']})")
+                    logging.error(f"⛔️ Unexpected error while attempting to purchase {fund['name']} ({fund['alt_name']})")
                     self.log_out(browser)
                     sys.exit()
                 # end try
@@ -166,7 +165,7 @@ class SixPercent:
             # end try
 
             # Start purchasing loop
-            logging.info(f"💸 Start purchasing loop for {fund['alternate_name']}...")
+            logging.info(f"💸 Start purchasing loop for {fund['alt_name']}...")
             self.purchase_unit(browser, investment_amount)
 
         # End of loop

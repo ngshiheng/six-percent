@@ -47,13 +47,13 @@ For more details, visit [myASNB Official Website](https://www.myasnb.com.my/)
 
 1. Update `config.ini` to edit your `chromedriver` path. **Please note that your `chromedriver` path might be different from the default settings in `config.ini`**
 
-2. Rename `users.example.json` to `users.json` and add/update the information accordingly. Change `"is_active": false` if you do **NOT** want to purchase units for that specific user
-
-3. Configure `funds.json`, set `"is_active": false` if you do **NOT** want to buy that specific fund
+2. Rename `users.example.json` to `users.json` and add/update/remove the information accordingly. Change `"is_active": false` if you do **NOT** want to purchase units for that specific user
 
 ### Installation (Ubuntu)
 
 This project is tested and developed on `Ubuntu 20.04.01 LTS`. You can probably get this up and running on Mac with some minor tweaks
+
+For Ubuntu user please remember to update your `chromedriver` path at `config.ini`
 
 ```bash
 apt-get update && apt-get install -y --no-install-recommends python3 python3-virtualenv python3-pip chromium-chromedriver locales
@@ -92,16 +92,15 @@ To generate a `exe` application, run
 pipenv shell
 pipenv install --dev
 
-pyi-makespec main.py --onefile --noconsole --add-binary "winexe\driver\chromedriver.exe;winexe\driver\" --add-data "funds.json;." --add-data "config.ini;." --add-data "users.json;." --name SixPercent --icon "winexe\favicon.ico"  --console
+pyi-makespec main.py --onefile --noconsole --add-binary "bin\driver\chromedriver.exe;bin\driver\" --add-data "config.ini;." --add-data "users.json;." --name SixPercent --icon "bin\favicon.ico"  --console
 ```
 
-Then append the code block below at the **end** of the generated `SixPercent.spec`. See [example](winexe/SixPercent.spec)
+Then append the code block below at the **end** of the generated `SixPercent.spec`. See [example](SixPercent.spec)
 
 ```spec
 import shutil
 shutil.copyfile('config.ini', '{0}/config.ini'.format(DISTPATH))
 shutil.copyfile('users.json', '{0}/users.json'.format(DISTPATH))
-shutil.copyfile('funds.json', '{0}/funds.json'.format(DISTPATH))
 ```
 
 Finally run `pyinstaller SixPercent.spec`
@@ -124,19 +123,21 @@ python3 main.py
 
 1. Run `pipenv run python3 main.py`
 
-2. Job to purchase ASNB unit will start based on your configuration
+2. Job to purchase ASNB unit will start based on your configuration at `config.ini`. Please note that if the bot doesn't work. Try to increase `min_seconds`
 
-3. Proceed to make your own payment if purchasing attempt is successful
+3. Proceed to make your own payment if purchasing attempt is successful. Always remember to logout and restart the bot manually (exit and run again).
 
-4. Repeat every 5 minutes (Able to modify in `config.ini` under `schedule_minutes`)
+4. If purchase attempt is unsuccessfully this time, the bot will repeat the attempt every 5 minutes (Able to modify in `config.ini` under `minutes`)
 
 ## How to use with executable (Windows user):
 
 Refer to Installation (Windows) option 2 if the `SixPercent.exe` is not generated yet
 
-1. Update the `config.ini`, `funds.json` and `users.json`
+1. Update the `config.ini` and `users.json`
 
 2. Run `SixPercent.exe` directly
+
+3. Proceed to make your own payment if purchasing attempt is successful. Always remember to logout and restart the bot manually (exit and run again).
 
 ## Contributing
 

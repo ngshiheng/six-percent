@@ -37,7 +37,7 @@ def with_logging(func):
         logging.info(f"🦿 Running job '{func.__name__}'")
         result = func(*args, **kwargs)
         logging.info(f"🦾 Job '{func.__name__}' completed")
-        logging.info(f"🤖 Repeating job '{func.__name__}' after {config.getint('schedule', 'schedule_minutes')} minutes")
+        logging.info(f"🤖 Repeating job '{func.__name__}' after {config.getint('schedule', 'minutes')} minutes")
         return result
     # end def
 
@@ -95,7 +95,7 @@ if __name__ == "__main__":
     invest_job()
 
     # Schedule job every 5 minutes
-    schedule.every(config.getint('schedule', 'schedule_minutes')).minutes.do(invest_job)
+    schedule.every(config.getint('schedule', 'minutes')).minutes.do(invest_job)
 
     while True:
         schedule.run_pending()
