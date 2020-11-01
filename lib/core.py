@@ -2,7 +2,6 @@
 
 import logging
 import random
-import sys
 import time
 
 from selenium import webdriver
@@ -48,7 +47,7 @@ class SixPercent:
         return browser
     # end def
 
-    def log_in(self, browser, asnb_username, asnb_password):
+    def log_in(self, browser, asnb_username: str, asnb_password: str) -> bool:
         """
         Logs user into the main ASNB portal with username & password
         """
@@ -63,12 +62,19 @@ class SixPercent:
         browser.find_element_by_id("yes").click()
         browser.find_element_by_id("j_password_user").send_keys(asnb_password)
         browser.find_element_by_id("j_password_user").send_keys(Keys.ENTER)
-        logging.info('🔓 Successfully logged in')
 
-        browser.set_window_size(self.browser_width, self.browser_height)
+        if browser.current_url == "https://www.myasnb.com.my/uh/uhlogin/authfail":
+            logging.warning('⛔️ User has uncleared session')
+            return True
+        else:
+            logging.info('🔓 Successfully logged in')
+            browser.set_window_size(self.browser_width, self.browser_height)
+            return False
+        # end if
+
     # end def
 
-    def log_out(self, browser):
+    def log_out(self, browser) -> None:
         """
         Logs user out of the main ASNB portal
         """
@@ -98,17 +104,16 @@ class SixPercent:
 
             try:
                 # Navigate to 'Produk' page
+                self.wait()
                 browser.find_element_by_link_text('Produk').click()
 
                 # Click 'Transaksi' drop down
                 browser.find_element_by_xpath('//div[@class="faq-title1 accordionTitle glyphicon glyphicon-plus-sign"]').click()
 
             except NoSuchElementException:
-                logging.warning('⛔️ User has uncleared session')
-                return True if browser.current_url == "https://www.myasnb.com.my/uh/uhlogin/authfail" else False
+                logging.warning(f"⛔️ Unexpected error while attempting to purchase {fund['name']} ({fund['alt_name']})")
+                continue
             # end try
-
-            self.wait()
 
             # Figure out if the current attempt is an initial/additional investment
             try:
