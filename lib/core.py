@@ -110,42 +110,27 @@ class SixPercent:
 
             self.wait()
 
+            # Figure out if the current attempt is an initial/additional investment
             try:
-                browser.find_elements_by_class_name("btn.btn-form-submit.btnsbmt.dropdown-toggle")[i].click()
+                self.wait()
+                browser.find_element_by_xpath(initial_investment_xpath).click()
+                logging.info("🤑 Initial Investment")
 
-            except IndexError:
-                logging.warning(f"⛔️ {fund['name']} ({fund['alt_name']}) is currently unavailable for purchase")
-                continue
-            # end try
+            except NoSuchElementException:
 
-            try:
-                # Figure out if the current attempt is an initial/additional investment
                 try:
                     self.wait()
-                    browser.find_element_by_xpath(initial_investment_xpath).click()
-                    logging.info("🤑 Initial Investment")
-
-                except NoSuchElementException:
+                    browser.find_elements_by_class_name("btn.btn-form-submit.btnsbmt.dropdown-toggle")[i].click()
                     self.wait()
                     browser.find_element_by_id(fund_id).click()
                     logging.info("💵 Additional Investment")
-                # end try
 
-            except NoSuchElementException:
-                try:
-                    browser.find_element_by_xpath("//*[contains(text(), 'MASA PELABURAN TAMAT')]")
-                    logging.error('⛔️ Investment time closed')
-                    self.log_out(browser)
-                    sys.exit()
-
-                except NoSuchElementException:
-                    logging.error(f"⛔️ Unexpected error while attempting to purchase {fund['name']} ({fund['alt_name']})")
-                    self.log_out(browser)
-                    sys.exit()
+                except IndexError:
+                    logging.warning(f"⛔️ {fund['name']} ({fund['alt_name']}) is currently unavailable for purchase")
+                    continue
                 # end try
             # end try
 
-            self.wait()
             try:
                 # PEP declaration
                 logging.info('📜 PEP declaration')
