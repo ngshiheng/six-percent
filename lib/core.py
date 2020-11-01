@@ -2,7 +2,6 @@
 
 import logging
 import random
-import sys
 import time
 
 from selenium import webdriver
@@ -48,7 +47,7 @@ class SixPercent:
         return browser
     # end def
 
-    def log_in(self, browser, asnb_username, asnb_password):
+    def log_in(self, browser, asnb_username: str, asnb_password: str) -> bool:
         """
         Logs user into the main ASNB portal with username & password
         """
@@ -63,12 +62,19 @@ class SixPercent:
         browser.find_element_by_id("yes").click()
         browser.find_element_by_id("j_password_user").send_keys(asnb_password)
         browser.find_element_by_id("j_password_user").send_keys(Keys.ENTER)
-        logging.info('🔓 Successfully logged in')
 
-        browser.set_window_size(self.browser_width, self.browser_height)
+        if browser.current_url == "https://www.myasnb.com.my/uh/uhlogin/authfail":
+            logging.warning('⛔️ User has uncleared session')
+            return True
+        else:
+            logging.info('🔓 Successfully logged in')
+            browser.set_window_size(self.browser_width, self.browser_height)
+            return False
+        # end if
+
     # end def
 
-    def log_out(self, browser):
+    def log_out(self, browser) -> None:
         """
         Logs user out of the main ASNB portal
         """
@@ -98,54 +104,38 @@ class SixPercent:
 
             try:
                 # Navigate to 'Produk' page
+                self.wait()
                 browser.find_element_by_link_text('Produk').click()
 
                 # Click 'Transaksi' drop down
                 browser.find_element_by_xpath('//div[@class="faq-title1 accordionTitle glyphicon glyphicon-plus-sign"]').click()
 
             except NoSuchElementException:
-                logging.warning('⛔️ User has uncleared session')
-                return True if browser.current_url == "https://www.myasnb.com.my/uh/uhlogin/authfail" else False
-            # end try
-
-            self.wait()
-
-            try:
-                browser.find_elements_by_class_name("btn.btn-form-submit.btnsbmt.dropdown-toggle")[i].click()
-
-            except IndexError:
-                logging.warning(f"⛔️ {fund['name']} ({fund['alt_name']}) is currently unavailable for purchase")
+                logging.warning(f"⛔️ Unexpected error while attempting to purchase {fund['name']} ({fund['alt_name']})")
                 continue
             # end try
 
+            # Figure out if the current attempt is an initial/additional investment
             try:
-                # Figure out if the current attempt is an initial/additional investment
+                self.wait()
+                browser.find_element_by_xpath(initial_investment_xpath).click()
+                logging.info("🤑 Initial Investment")
+
+            except NoSuchElementException:
+
                 try:
                     self.wait()
-                    browser.find_element_by_xpath(initial_investment_xpath).click()
-                    logging.info("🤑 Initial Investment")
-
-                except NoSuchElementException:
+                    browser.find_elements_by_class_name("btn.btn-form-submit.btnsbmt.dropdown-toggle")[i].click()
                     self.wait()
                     browser.find_element_by_id(fund_id).click()
                     logging.info("💵 Additional Investment")
-                # end try
 
-            except NoSuchElementException:
-                try:
-                    browser.find_element_by_xpath("//*[contains(text(), 'MASA PELABURAN TAMAT')]")
-                    logging.error('⛔️ Investment time closed')
-                    self.log_out(browser)
-                    sys.exit()
-
-                except NoSuchElementException:
-                    logging.error(f"⛔️ Unexpected error while attempting to purchase {fund['name']} ({fund['alt_name']})")
-                    self.log_out(browser)
-                    sys.exit()
+                except IndexError:
+                    logging.warning(f"⛔️ {fund['name']} ({fund['alt_name']}) is currently unavailable for purchase")
+                    continue
                 # end try
             # end try
 
-            self.wait()
             try:
                 # PEP declaration
                 logging.info('📜 PEP declaration')

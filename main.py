@@ -65,7 +65,7 @@ def invest_job():
     # Loops through all active users in users.json
     for user in users_data:
         if user['is_active']:
-            logging.info(f"{user['photo']} {user['uid']}")
+            logging.info(f"{user['name']}")
             asnb_username = user['credentials']['username']
             asnb_password = user['credentials']['password']
             investment_amount = user['investment_amount']
