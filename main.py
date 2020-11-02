@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import functools
 import json
 import logging
@@ -9,6 +10,7 @@ from configparser import ConfigParser
 import schedule
 
 from lib.core import SixPercent
+from lib.gui import login_gui
 
 # Read user configuration from `config.ini` file
 config = ConfigParser()
