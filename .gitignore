@@ -15,3 +15,6 @@ dist/
 
 # Secrets
 *.key
+
+# Logs
+*.log

@@ -42,7 +42,7 @@ class SixPercent:
 
         browser = webdriver.Chrome(self.chrome_driver_path)
         browser.get(self.url)
-
+        browser.set_window_size(self.browser_width, self.browser_height)
         return browser
     # end def
 
@@ -53,7 +53,7 @@ class SixPercent:
 
         self.wait()
         logging.info('🔑 Logging in')
-        browser.find_element_by_class_name("btn-login").click()
+        browser.find_element_by_xpath("//*[@class='btn-login']").click()
         browser.find_element_by_id("username").send_keys(asnb_username)
         browser.find_element_by_id("username").send_keys(Keys.ENTER)
 
@@ -67,7 +67,6 @@ class SixPercent:
             return False
         else:
             logging.info('🔓 Successfully logged in')
-            browser.set_window_size(self.browser_width, self.browser_height)
             return True
         # end if
 
