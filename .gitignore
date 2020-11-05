@@ -12,3 +12,6 @@ user.json
 # PyInstaller
 build/
 dist/
+
+# Secrets
+*.key

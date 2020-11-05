@@ -11,6 +11,7 @@ import schedule
 
 from lib.core import SixPercent
 from lib.gui import login_gui
+from lib.utils import decrypt_password
 
 # Read user configuration from `config.ini` file
 config = ConfigParser()
@@ -60,9 +61,11 @@ def invest_job(user_credentials: dict) -> None:
     )
 
     logging.info(f"🤑 Logging in as {user_credentials['username']}")
-    asnb_username = user_credentials['username']
-    asnb_password = user_credentials['password']
     investment_amount = user_credentials['investment_amount']
+    asnb_username = user_credentials['username']
+    hashed_asnb_password = user_credentials['password']
+
+    asnb_password = decrypt_password(hashed_asnb_password)
 
     # Login
     browser = bot.launch_browser()
@@ -96,12 +99,12 @@ if __name__ == "__main__":
             with open('user.json', 'r') as u:
                 user_credentials = json.load(u)
             # end with
-        #end if
+        # end if
 
     except FileNotFoundError:
         logging.warning('❓ No user found. Please login as new user')
         sys.exit()
-    #end try
+    # end try
 
     # Run job once on start
     invest_job(user_credentials)

@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 import logging
+import os
 import re
 import sys
 
 import PySimpleGUI as sg
+
+from lib.utils import encrypt_password, generate_key
 
 
 def login_gui():
@@ -59,7 +62,7 @@ def login_gui():
 
             elif event == '_INVESTMENT_AMOUNT_':
                 window.FindElement(event).Update(re.sub("[^0-9]", "", values[event]))
-            #end if
+            # end if
 
             user_credentials = {
                 **user_credentials,
@@ -75,10 +78,19 @@ def login_gui():
 
             elif event == 'Start':
                 break
-            #end if
+            # end if
         # end while
 
         window.close()
+
+        if not os.path.isfile('secret.key'):
+            generate_key()
+        # end if
+
+        # Encrypts user password before storing it
+        if user_credentials['password']:
+            user_credentials['password'] = encrypt_password(user_credentials['password'])
+        #end if
 
         return dict() if user_credentials == user_credentials_template else user_credentials
 
