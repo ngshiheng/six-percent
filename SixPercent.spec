@@ -6,7 +6,7 @@ block_cipher = None
 a = Analysis(['main.py'],
              pathex=['C:\\Users\\ngshi\\Documents\\Personal\\six-percent'],
              binaries=[('bin\\driver\\chromedriver.exe', 'bin\\driver\\')],
-             datas=[('config.ini', '.'), ('users.json', '.')],
+             datas=[('config.ini', '.')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -34,4 +34,3 @@ exe = EXE(pyz,
 
 import shutil
 shutil.copyfile('config.ini', '{0}/config.ini'.format(DISTPATH))
-shutil.copyfile('users.json', '{0}/users.json'.format(DISTPATH))
