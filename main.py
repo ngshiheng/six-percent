@@ -48,7 +48,7 @@ def with_logging(func):
 
 
 @with_logging
-def invest_job():
+def invest_job(user_credentials: dict) -> None:
 
     bot = SixPercent(
         url=config.get('website', 'url'),
@@ -59,32 +59,27 @@ def invest_job():
         max_delay=config.getfloat('delay', 'max_seconds'),
     )
 
-    # Loads user configuration from users.json
-    with open('users.json', 'r') as u:
-        users_data = json.load(u)
+    logging.info(f"🤑 Logging in as {user_credentials['username']}")
+    asnb_username = user_credentials['username']
+    asnb_password = user_credentials['password']
+    investment_amount = user_credentials['investment_amount']
+
+    # Login
+    browser = bot.launch_browser()
+    if not bot.log_in(browser, asnb_username, asnb_password):
+        browser.close()
+        logging.info('💡 Are you sure you entered the correct username and password?')
+        logging.info('💡 Did you forget to logout somewhere else?')
+        logging.info('💡 Please always remember to logout to prevent uncleared session')
+    # end if
+
+    # Updates user.json is login is successful
+    with open('user.json', 'w') as u:
+        json.dump(user_credentials, u)
     # end with
 
-    # Loops through all active users in users.json
-    for user in users_data:
-        if user['is_active']:
-            logging.info(f"{user['name']}")
-            asnb_username = user['credentials']['username']
-            asnb_password = user['credentials']['password']
-            investment_amount = user['investment_amount']
-
-            # Login
-            browser = bot.launch_browser()
-            if bot.log_in(browser, asnb_username, asnb_password):
-                browser.close()
-                logging.info('💡 Did you forget to logout somewhere else?')
-                logging.info('💡 Please always remember to logout to prevent uncleared session')
-                continue
-            # end if
-
-            # Main loop
-            bot.main_page(browser, investment_amount)
-        # end if
-    # end for
+    # Main loop
+    bot.main_page(browser, investment_amount)
 
 # end def
 
@@ -93,11 +88,26 @@ def invest_job():
 if __name__ == "__main__":
     logging.getLogger().setLevel(logging.INFO)
 
+    user_credentials = login_gui()
+
+    # Loads user configuration from user.json
+    try:
+        if bool(user_credentials) is False:
+            with open('user.json', 'r') as u:
+                user_credentials = json.load(u)
+            # end with
+        #end if
+
+    except FileNotFoundError:
+        logging.warning('❓ No user found. Please login as new user')
+        sys.exit()
+    #end try
+
     # Run job once on start
-    invest_job()
+    invest_job(user_credentials)
 
     # Schedule job every 5 minutes
-    schedule.every(config.getint('schedule', 'minutes')).minutes.do(invest_job)
+    schedule.every(config.getint('schedule', 'minutes')).minutes.do(invest_job, user_credentials)
 
     while True:
         schedule.run_pending()
