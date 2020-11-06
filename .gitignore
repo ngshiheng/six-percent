@@ -6,15 +6,15 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 
-# Environments
-.env
-env/
-venv*/
-ENV*/
-
-# Users credetnails
-users.json
+# User credetnails
+user.json
 
 # PyInstaller
 build/
 dist/
+
+# Secrets
+*.key
+
+# Logs
+*.log

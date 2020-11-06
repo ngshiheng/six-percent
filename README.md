@@ -38,16 +38,14 @@ For more details, visit [myASNB Official Website](https://www.myasnb.com.my/)
 
 ### Software
 
-- Python 3.6+
+- Python 3.8
 - [pip](https://pip.pypa.io/en/stable/) package installer
 - [pipenv](https://pypi.org/project/pipenv/)
 - [chromedriver](https://chromedriver.chromium.org/downloads) based on your OS & Chrome version
 
 ### User Configuration
 
-1. Update `config.ini` to edit your `chromedriver` path. **Please note that your `chromedriver` path might be different from the default settings in `config.ini`**
-
-2. Rename `users.example.json` to `users.json` and add/update/remove the information accordingly. Change `"is_active": false` if you do **NOT** want to purchase units for that specific user
+Update `config.ini` to edit your `chromedriver` path. **Please note that your `chromedriver` path might be different from the default settings in `config.ini`**
 
 ### Installation (Ubuntu)
 
@@ -92,7 +90,7 @@ To generate a `exe` application, run
 pipenv shell
 pipenv install --dev
 
-pyi-makespec main.py --onefile --noconsole --add-binary "bin\driver\chromedriver.exe;bin\driver\" --add-data "config.ini;." --add-data "users.json;." --name SixPercent --icon "bin\favicon.ico"  --console
+pyi-makespec main.py --onefile --add-binary "bin\driver\chromedriver.exe;bin\driver\" --add-data "config.ini;." --name SixPercent --icon "bin\favicon.ico"  --console
 ```
 
 Then append the code block below at the **end** of the generated `SixPercent.spec`. See [example](SixPercent.spec)
@@ -100,24 +98,11 @@ Then append the code block below at the **end** of the generated `SixPercent.spe
 ```spec
 import shutil
 shutil.copyfile('config.ini', '{0}/config.ini'.format(DISTPATH))
-shutil.copyfile('users.json', '{0}/users.json'.format(DISTPATH))
 ```
 
 Finally run `pyinstaller SixPercent.spec`
 
 Run the `SixPercent.exe` directly inside generated the `dist` folder! :)
-
-### Installation (MacOS)
-
-```bash
-brew install pipenv
-
-# At project directory
-pipenv shell
-pipenv install --dev
-
-python3 main.py
-```
 
 ## How to use with python:
 
@@ -129,15 +114,15 @@ python3 main.py
 
 4. If purchase attempt is unsuccessfully this time, the bot will repeat the attempt every 5 minutes (Able to modify in `config.ini` under `minutes`)
 
-## How to use with executable (Windows user):
+## How to use with executable (Windows only):
 
 Refer to Installation (Windows) option 2 if the `SixPercent.exe` is not generated yet
 
-1. Update the `config.ini` and `users.json`
+1. Run `SixPercent.exe` directly
 
-2. Run `SixPercent.exe` directly
+2. Proceed to make your own payment if purchasing attempt is successful. Always remember to logout and restart the bot manually (exit and run again).
 
-3. Proceed to make your own payment if purchasing attempt is successful. Always remember to logout and restart the bot manually (exit and run again).
+3. Kill the program and re-run it after payment is made
 
 ## Contributing
 

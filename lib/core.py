@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 import logging
 import random
 import time
@@ -28,7 +27,7 @@ class SixPercent:
 
     # end def
 
-    def wait(self):
+    def wait(self) -> None:
         """
         Introduce a random delay between `min_delay` to `max_delay`
         """
@@ -43,7 +42,7 @@ class SixPercent:
 
         browser = webdriver.Chrome(self.chrome_driver_path)
         browser.get(self.url)
-
+        browser.set_window_size(self.browser_width, self.browser_height)
         return browser
     # end def
 
@@ -54,7 +53,7 @@ class SixPercent:
 
         self.wait()
         logging.info('🔑 Logging in')
-        browser.find_element_by_class_name("btn-login").click()
+        browser.find_element_by_xpath("//*[@class='btn-login']").click()
         browser.find_element_by_id("username").send_keys(asnb_username)
         browser.find_element_by_id("username").send_keys(Keys.ENTER)
 
@@ -64,12 +63,11 @@ class SixPercent:
         browser.find_element_by_id("j_password_user").send_keys(Keys.ENTER)
 
         if browser.current_url == "https://www.myasnb.com.my/uh/uhlogin/authfail":
-            logging.warning('⛔️ User has uncleared session')
-            return True
+            logging.warning('⛔️ Unable to login')
+            return False
         else:
             logging.info('🔓 Successfully logged in')
-            browser.set_window_size(self.browser_width, self.browser_height)
-            return False
+            return True
         # end if
 
     # end def
@@ -87,7 +85,7 @@ class SixPercent:
         browser.close()
     # end def
 
-    def main_page(self, browser, investment_amount):
+    def main_page(self, browser, investment_amount: str):
         """
         Navigates around the main pages logging in
         """
@@ -162,7 +160,7 @@ class SixPercent:
         self.log_out(browser)
     # end def
 
-    def purchase_unit(self, browser, investment_amount):
+    def purchase_unit(self, browser, investment_amount: str):
         """
         Attempts to purchase ASNB unit after declaration
         """
