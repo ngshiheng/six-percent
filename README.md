@@ -1,5 +1,8 @@
 # Six Percent
 
+![Build executables](https://github.com/ngshiheng/six-percent/workflows/Build%20executables/badge.svg?branch=master)
+![Lint check](https://github.com/ngshiheng/six-percent/workflows/Lint%20check/badge.svg?branch=master)
+
 > _DISCLAIMER: Please use this at your own risk_
 
 This bot helps user to automatically purchase ASNB Fixed Price UT units.
