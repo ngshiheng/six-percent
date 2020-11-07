@@ -90,7 +90,7 @@ def login_gui():
         # Encrypts user password before storing it
         if user_credentials['password']:
             user_credentials['password'] = encrypt_password(user_credentials['password'])
-        #end if
+        # end if
 
         return dict() if user_credentials == user_credentials_template else user_credentials
 
