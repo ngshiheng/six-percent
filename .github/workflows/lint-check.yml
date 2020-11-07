@@ -1,0 +1,31 @@
+name: Lint check
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  lint-check-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - uses: dschep/install-pipenv-action@v1
+      - name: Install pipenv
+        run: |
+          pip install pipenv
+      - name: Install dependencies
+        run: |
+          pipenv install --dev
+      
+      - name: Lint check
+        run: |
+          pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          pipenv run flake8 . --count --max-complexity=20 --max-line-length=255 --statistics

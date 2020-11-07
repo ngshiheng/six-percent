@@ -6,15 +6,18 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 
-# User credetnails
+# User credentials
 user.json
-
-# PyInstaller
-build/
-dist/
 
 # Secrets
 *.key
 
 # Logs
 *.log
+
+# PyInstaller
+*.manifest
+
+# Distribution / packaging
+build/
+dist/

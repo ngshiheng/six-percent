@@ -1,0 +1,36 @@
+name: Build executables
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build-exe-job:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - uses: dschep/install-pipenv-action@v1
+      - name: Install pipenv
+        run: |
+          pip install pipenv
+
+      - name: Install dependencies
+        run: |
+          pipenv install --dev
+
+      - name: Build executables with pyinstaller
+        run: |
+          pipenv run pyinstaller SixPercent.spec
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: SixPercent
+          path: ./dist
