@@ -5,9 +5,10 @@ import time
 
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.keys import Keys
 
-from .constants import ASNB_FUNDS_DATA
+from lib.constants import ASNB_FUNDS_DATA
 
 logging.getLogger().setLevel(logging.INFO)
 
@@ -35,14 +36,14 @@ class SixPercent:
         time.sleep(random.uniform(self.min_delay, self.max_delay))
     # end def
 
-    def launch_browser(self):
+    def launch_browser(self) -> WebDriver:
         """
         Launches a chromedriver instance
         """
 
         browser = webdriver.Chrome(self.chrome_driver_path)
         browser.get(self.url)
-        browser.set_window_size(self.browser_width, self.browser_height)
+        browser.maximize_window()
         return browser
     # end def
 
@@ -51,25 +52,26 @@ class SixPercent:
         Logs user into the main ASNB portal with username & password
         """
 
-        self.wait()
-        logging.info('🔑 Logging in')
-        browser.find_element_by_xpath("//*[@class='btn-login']").click()
-        browser.find_element_by_id("username").send_keys(asnb_username)
-        browser.find_element_by_id("username").send_keys(Keys.ENTER)
+        try:
+            self.wait()
+            logging.info('🔑 Logging in')
+            browser.find_element_by_xpath("//*[@class='btn-login']").click()
+            browser.find_element_by_id("username").send_keys(asnb_username)
+            browser.find_element_by_id("username").send_keys(Keys.ENTER)
 
-        self.wait()
-        browser.find_element_by_id("yes").click()
-        browser.find_element_by_id("j_password_user").send_keys(asnb_password)
-        browser.find_element_by_id("j_password_user").send_keys(Keys.ENTER)
+            self.wait()
+            browser.find_element_by_id("yes").click()
+            browser.find_element_by_id("j_password_user").send_keys(asnb_password)
+            browser.find_element_by_id("j_password_user").send_keys(Keys.ENTER)
 
-        if browser.current_url == "https://www.myasnb.com.my/uh/uhlogin/authfail":
-            logging.warning('⛔️ Unable to login')
-            return False
-        else:
             logging.info('🔓 Successfully logged in')
             return True
-        # end if
 
+        except NoSuchElementException:
+
+            logging.warning('⛔️ Unable to login')
+            return False
+        # end try
     # end def
 
     def log_out(self, browser) -> None:
@@ -85,7 +87,7 @@ class SixPercent:
         browser.close()
     # end def
 
-    def main_page(self, browser, investment_amount: str):
+    def main_page(self, browser, investment_amount: str) -> None:
         """
         Navigates around the main pages logging in
         """
@@ -109,6 +111,7 @@ class SixPercent:
                 browser.find_element_by_xpath('//div[@class="faq-title1 accordionTitle glyphicon glyphicon-plus-sign"]').click()
 
             except NoSuchElementException:
+
                 logging.warning(f"⛔️ Unexpected error while attempting to purchase {fund['name']} ({fund['alt_name']})")
                 continue
             # end try
@@ -157,13 +160,14 @@ class SixPercent:
             self.purchase_unit(browser, investment_amount)
 
         # End of loop
-        self.log_out(browser)
+        return self.log_out(browser)
     # end def
 
-    def purchase_unit(self, browser, investment_amount: str):
+    def purchase_unit(self, browser: WebDriver, investment_amount: str) -> None:
         """
         Attempts to purchase ASNB unit after declaration
         """
+
         browser.find_element_by_xpath('/html/body/div[3]/form/div/div[1]/div[4]/label/p').click()
         browser.find_element_by_id('btn-unit-fund').click()
         self.wait()

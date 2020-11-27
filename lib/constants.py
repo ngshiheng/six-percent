@@ -30,3 +30,7 @@ ASNB_FUNDS_DATA = {
         }
     }
 }
+
+ASNB_LOGIN_URL = "https://www.myasnb.com.my/uhsessionexpired"
+
+CHROME_DRIVER_PATH = "./bin/driver/chromedriver.exe"

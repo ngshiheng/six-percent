@@ -5,17 +5,13 @@ import logging
 import os
 import sys
 import time
-from configparser import ConfigParser
 
 import schedule
 
+from lib.constants import ASNB_LOGIN_URL, CHROME_DRIVER_PATH
 from lib.core import SixPercent
 from lib.gui import login_gui
 from lib.utils import decrypt_password
-
-# Read user configuration from `config.ini` file
-config = ConfigParser()
-config.read('config.ini')
 
 
 def resource_path(relative_path: str) -> str:
@@ -40,7 +36,7 @@ def with_logging(func):
         logging.info(f"🦿 Running job '{func.__name__}'")
         result = func(*args, **kwargs)
         logging.info(f"🦾 Job '{func.__name__}' completed")
-        logging.info(f"🤖 Repeating job '{func.__name__}' after {config.getint('schedule', 'minutes')} minutes")
+        logging.info(f"🤖 Repeating job '{func.__name__}' after 5 minutes")
         return result
     # end def
 
@@ -52,12 +48,10 @@ def with_logging(func):
 def invest_job(user_credentials: dict) -> None:
 
     bot = SixPercent(
-        url=config.get('website', 'url'),
-        chrome_driver_path=resource_path(config.get('chromedriver', 'path')),
-        browser_width=config.getint('browser', 'width'),
-        browser_height=config.getint('browser', 'height'),
-        min_delay=config.getfloat('delay', 'min_seconds'),
-        max_delay=config.getfloat('delay', 'max_seconds'),
+        url=ASNB_LOGIN_URL,
+        chrome_driver_path=resource_path(CHROME_DRIVER_PATH),
+        min_delay=1,
+        max_delay=1.25,
     )
 
     logging.info(f"🤑 Logging in as {user_credentials['username']}")
@@ -110,7 +104,7 @@ if __name__ == "__main__":
     invest_job(user_credentials)
 
     # Schedule job every 5 minutes
-    schedule.every(config.getint('schedule', 'minutes')).minutes.do(invest_job, user_credentials)
+    schedule.every(5).minutes.do(invest_job, user_credentials)
 
     while True:
         schedule.run_pending()
