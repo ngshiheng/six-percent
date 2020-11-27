@@ -41,20 +41,16 @@ For more details, visit [myASNB Official Website](https://www.myasnb.com.my/)
 
 ### Software
 
-- Python 3.8
+- Python 3.8+
 - [pip](https://pip.pypa.io/en/stable/) package installer
 - [pipenv](https://pypi.org/project/pipenv/)
 - [chromedriver](https://chromedriver.chromium.org/downloads) based on your OS & Chrome version
-
-### User Configuration
-
-Update `config.ini` to edit your `chromedriver` path. **Please note that your `chromedriver` path might be different from the default settings in `config.ini`**
 
 ### Installation (Ubuntu)
 
 This project is tested and developed on `Ubuntu 20.04.01 LTS`. You can probably get this up and running on Mac with some minor tweaks
 
-For Ubuntu user please remember to update your `chromedriver` path at `config.ini`
+For Ubuntu user please remember to update your `CHROME_DRIVER_PATH` path at `lib/constants.py`
 
 ```bash
 apt-get update && apt-get install -y --no-install-recommends python3 python3-virtualenv python3-pip chromium-chromedriver locales
@@ -74,54 +70,47 @@ Run `./scripts/setup.sh` to install all the Python dependencies
 
 This project is also tested on `Windows 10`
 
-Run `pip install pipenv` See [this](https://stackoverflow.com/questions/46041719/windows-reports-error-when-trying-to-install-package-using-pipenv) post if you encounter any error with pipenv
+Run `pip install pipenv` See [this](https://stackoverflow.com/questions/46041719/windows-reports-error-when-trying-to-install-package-using-pipenv) post if you encounter any error with `pipenv`
 
-**Option 1: Run this project directly with python:**
+Start by installing all the dependencies
 
 ```bash
 # At project directory
 pipenv shell
 pipenv install --dev
+```
 
+**Option 1: Run this project directly with python:**
+
+```bash
 python main.py
 ```
 
 **Option 2: Run this project with `exe` file:**
-To generate a `exe` application, run
+
+1. To generate a `exe` application, run
 
 ```sh
-pipenv shell
-pipenv install --dev
-
-pyi-makespec main.py --onefile --add-binary "bin\driver\chromedriver.exe;bin\driver\" --add-data "config.ini;." --name SixPercent --icon "bin\favicon.ico"  --console
+pyi-makespec main.py --name SixPercent --icon "bin\favicon.ico" --onefile --console --add-binary "bin\driver\chromedriver.exe;bin\driver\\"
 ```
 
-Then append the code block below at the **end** of the generated `SixPercent.spec`. See [example](SixPercent.spec)
+2. Finally run `pyinstaller SixPercent.spec --clean`
 
-```spec
-import shutil
-shutil.copyfile('config.ini', '{0}/config.ini'.format(DISTPATH))
-```
-
-Finally run `pyinstaller SixPercent.spec`
-
-Run the `SixPercent.exe` directly inside generated the `dist` folder! :)
+3. Run the `SixPercent.exe` directly inside generated the `dist` folder
 
 ## How to use with python:
 
 1. Run `pipenv run python3 main.py`
 
-2. Job to purchase ASNB unit will start based on your configuration at `config.ini`. Please note that if the bot doesn't work. Try to increase `min_seconds`
+2. Proceed to make your own payment if purchasing attempt is successful. Always remember to logout and restart the bot manually (exit and run again).
 
-3. Proceed to make your own payment if purchasing attempt is successful. Always remember to logout and restart the bot manually (exit and run again).
-
-4. If purchase attempt is unsuccessfully this time, the bot will repeat the attempt every 5 minutes (Able to modify in `config.ini` under `minutes`)
+3. If purchase attempt is unsuccessfully this time, the bot will repeat the attempt every 5 minutes.
 
 ## How to use with executable (Windows only):
 
 Refer to Installation (Windows) option 2 if the `SixPercent.exe` is not generated yet
 
-1. Run `SixPercent.exe` directly
+1. Run `SixPercent.exe` directly -> click 'Login as new user' -> Fill in your credentials -> click 'Start'
 
 2. Proceed to make your own payment if purchasing attempt is successful. Always remember to logout and restart the bot manually (exit and run again).
 
