@@ -31,6 +31,8 @@ ASNB_FUNDS_DATA = {
     }
 }
 
+ASNB_COOLDOWN_PERIOD = 5  # minutes per fund
+
 ASNB_LOGIN_URL = "https://www.myasnb.com.my/uhsessionexpired"
 
 CHROME_DRIVER_PATH = "./bin/driver/chromedriver.exe"

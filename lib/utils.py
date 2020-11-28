@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 from cryptography.fernet import Fernet
 
 
@@ -19,6 +18,7 @@ def load_key() -> bytes:
     """
     Loads the key named `secret.key` from the current directory
     """
+
     return open("secret.key", "rb").read()
 # end def
 
@@ -27,6 +27,7 @@ def encrypt_password(password: str) -> str:
     """
     Returns an encrypted password
     """
+
     encoded_password = password.encode()
 
     f = Fernet(load_key())

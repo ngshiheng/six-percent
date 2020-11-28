@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import functools
 import json
 import logging
 import os
@@ -8,16 +7,20 @@ import time
 
 import schedule
 
-from lib.constants import ASNB_LOGIN_URL, CHROME_DRIVER_PATH
+from lib.constants import ASNB_COOLDOWN_PERIOD, ASNB_LOGIN_URL, CHROME_DRIVER_PATH
 from lib.core import SixPercent
 from lib.gui import login_gui
+from lib.log import log_errors
 from lib.utils import decrypt_password
+
+logging.basicConfig(level=logging.INFO)
 
 
 def resource_path(relative_path: str) -> str:
     """
     Get absolute path to resource, works for dev and for PyInstaller
     """
+
     try:
         base_path = sys._MEIPASS
 
@@ -29,29 +32,14 @@ def resource_path(relative_path: str) -> str:
 # end def
 
 
-def with_logging(func):
-
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        logging.info(f"🦿 Running job '{func.__name__}'")
-        result = func(*args, **kwargs)
-        logging.info(f"🦾 Job '{func.__name__}' completed")
-        logging.info(f"🤖 Repeating job '{func.__name__}' after 5 minutes")
-        return result
-    # end def
-
-    return wrapper
-# end def
-
-
-@with_logging
+@log_errors()
 def invest_job(user_credentials: dict) -> None:
+
+    logging.info("🦿 Starting Six Percent Bot")
 
     bot = SixPercent(
         url=ASNB_LOGIN_URL,
         chrome_driver_path=resource_path(CHROME_DRIVER_PATH),
-        min_delay=1,
-        max_delay=1.25,
     )
 
     logging.info(f"🤑 Logging in as {user_credentials['username']}")
@@ -65,26 +53,25 @@ def invest_job(user_credentials: dict) -> None:
     browser = bot.launch_browser()
     if not bot.log_in(browser, asnb_username, asnb_password):
         browser.close()
-        logging.info('💡 Are you sure you entered the correct username and password?')
-        logging.info('💡 Did you forget to logout somewhere else?')
-        logging.info('💡 Please always remember to logout to prevent uncleared session')
+        logging.info("💡 Are you sure you entered the correct username and password?")
+        logging.info("💡 Did you forget to logout somewhere else?")
+        logging.info("💡 Please always remember to logout to prevent uncleared session")
+        return
     # end if
 
-    # Updates user.json is login is successful
+    # Updates user.json when login is successful
     with open('user.json', 'w') as u:
         json.dump(user_credentials, u)
     # end with
 
     # Main loop
     bot.main_page(browser, investment_amount)
-
+    logging.info(f"🤖 Repeating job after {ASNB_COOLDOWN_PERIOD} minutes")
 # end def
 
 
 # Start here
 if __name__ == "__main__":
-    logging.getLogger().setLevel(logging.INFO)
-
     user_credentials = login_gui()
 
     # Loads user configuration from user.json
@@ -96,15 +83,15 @@ if __name__ == "__main__":
         # end if
 
     except FileNotFoundError:
-        logging.warning('❓ No user found. Please login as new user')
+        logging.error('❓ No user found. Please login as new user')
         sys.exit()
     # end try
 
     # Run job once on start
     invest_job(user_credentials)
 
-    # Schedule job every 5 minutes
-    schedule.every(5).minutes.do(invest_job, user_credentials)
+    # Schedule job every ASNB_COOLDOWN_PERIOD minutes
+    schedule.every(ASNB_COOLDOWN_PERIOD).minutes.do(invest_job, user_credentials)
 
     while True:
         schedule.run_pending()
