@@ -5,15 +5,16 @@ import re
 import sys
 
 import PySimpleGUI as sg
+from PySimpleGUI.PySimpleGUI import Column
 
 from lib.utils import encrypt_password, generate_key
 
 
-def login_gui():
+def login_gui() -> dict:
 
     sg.theme('DarkAmber')
 
-    def collapse(layout, key: str, visible: bool):
+    def collapse(layout: list, key: str, visible: bool) -> Column:
         """
         Helper function to hide and un-hide layouts
         """
@@ -21,7 +22,7 @@ def login_gui():
         return sg.pin(sg.Column(layout, key=key, visible=visible))
     # end def
 
-    def main():
+    def main() -> dict:
         """
         Main GUI function
         """

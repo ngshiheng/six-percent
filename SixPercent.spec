@@ -6,7 +6,7 @@ block_cipher = None
 a = Analysis(['main.py'],
              pathex=['C:\\Users\\ngshi\\Documents\\Personal\\six-percent'],
              binaries=[('bin\\driver\\chromedriver.exe', 'bin\\driver\\')],
-             datas=[('config.ini', '.')],
+             datas=[],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -31,6 +31,3 @@ exe = EXE(pyz,
           upx_exclude=[],
           runtime_tmpdir=None,
           console=True , icon='bin\\favicon.ico')
-
-import shutil
-shutil.copyfile('config.ini', '{0}/config.ini'.format(DISTPATH))
