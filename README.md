@@ -44,7 +44,9 @@ For more details, visit [myASNB Official Website](https://www.myasnb.com.my/)
 - Python 3.8+
 - [pip](https://pip.pypa.io/en/stable/) package installer
 - [pipenv](https://pypi.org/project/pipenv/)
-- [chromedriver](https://chromedriver.chromium.org/downloads) based on your OS & Chrome version
+- [chromedriver](https://chromedriver.chromium.org/downloads) based on your OS & [Chrome version](chrome://settings/help)
+
+_NOTE: Currently the `chromedriver.exe` version is at `bin\driver\` is version 88_
 
 ### Installation (Ubuntu)
 
