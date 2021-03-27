@@ -29,7 +29,6 @@ class SixPercent(object):
         """
         Introduce a random delay between `min_delay` to `max_delay`
         """
-
         time.sleep(random.uniform(self.min_delay, self.max_delay))
     # end def
 
@@ -37,7 +36,6 @@ class SixPercent(object):
         """
         Launches a chromedriver instance
         """
-
         browser = webdriver.Chrome(self.chrome_driver_path)
         browser.get(self.url)
         browser.maximize_window()
@@ -65,7 +63,6 @@ class SixPercent(object):
             return True
 
         except NoSuchElementException:
-
             logging.exception('⛔️ Unable to login')
             return False
         # end try
@@ -75,7 +72,6 @@ class SixPercent(object):
         """
         Logs user out of the main ASNB portal
         """
-
         self._wait()
         browser.find_element_by_link_text('LOG KELUAR').click()
         logging.info('🔒 Logged out gracefully')
@@ -88,8 +84,8 @@ class SixPercent(object):
         """
         Navigates around the main pages after logging in
         """
-
-        for i, fund in enumerate(ASNB_FUNDS_DATA.values()):
+        order = 0  # NOTE: This is use to handle case where ASM is not available. The order of the drop-down elements does not always correspond to the availability of the funds
+        for fund in ASNB_FUNDS_DATA.values():
             if not fund['is_active']:
                 continue
             # end if
@@ -123,17 +119,18 @@ class SixPercent(object):
 
                 try:
                     self._wait()
-                    browser.find_elements_by_class_name("btn.btn-form-submit.btnsbmt.dropdown-toggle")[i].click()
+                    browser.find_elements_by_class_name("btn.btn-form-submit.btnsbmt.dropdown-toggle")[order].click()
                     self._wait()
                     browser.find_element_by_id(fund_id).click()
                     logging.info("💵 Additional Investment")
 
-                except IndexError:
+                except (IndexError, NoSuchElementException):
                     logging.warning(f"⛔️ {fund['name']} ({fund['alt_name']}) is currently unavailable for purchase")
                     continue
                 # end try
             # end try
 
+            order += 1  # NOTE: We only increment this whenever the fund is available for purchase, i.e. it has drop-down
             try:
                 # PEP declaration
                 logging.info('📜 PEP declaration')
@@ -148,7 +145,6 @@ class SixPercent(object):
                     continue
                 except Exception:
                     logging.info('💬 You do not need to declare PEP again')
-                    pass
                 # end try
             # end try
 
@@ -164,7 +160,6 @@ class SixPercent(object):
         """
         Attempts to purchase ASNB unit after declaration
         """
-
         browser.find_element_by_xpath("//*[contains(text(), 'Saya telah membaca, memahami dan bersetuju dengan kenyataan')]").click()
         browser.find_element_by_id('btn-unit-fund').click()
         self._wait()
