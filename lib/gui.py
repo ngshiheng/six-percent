@@ -12,7 +12,7 @@ from lib.utils import encrypt_password, generate_key
 
 
 def login_gui() -> Dict[str, Any]:
-    sg.theme('DarkAmber')
+    sg.theme('DarkTeal12')
 
     def collapse(layout: list, key: str, visible: bool) -> Column:
         """
