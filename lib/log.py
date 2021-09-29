@@ -21,7 +21,6 @@ def _generate_log(path: str) -> Logger:
 
     logger.addHandler(file_handler)
     return logger
-# end def
 
 
 def log_errors(path: str = 'errors.log'):
@@ -45,11 +44,7 @@ def log_errors(path: str = 'errors.log'):
                 logger = _generate_log(path)
                 logger.exception(f"An error has occurred at /{func.__name__}\n")
                 return e
-            # end try
-        # end def
 
         return wrapper
-    # end def
 
     return error_log
-# end def

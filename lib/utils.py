@@ -10,8 +10,6 @@ def generate_key() -> None:
 
     with open("secret.key", "wb") as key_file:
         key_file.write(key)
-    # end with
-# end def
 
 
 def load_key() -> bytes:
@@ -20,7 +18,6 @@ def load_key() -> bytes:
     """
 
     return open("secret.key", "rb").read()
-# end def
 
 
 def encrypt_password(password: str) -> str:
@@ -33,7 +30,6 @@ def encrypt_password(password: str) -> str:
     f = Fernet(load_key())
 
     return f.encrypt(encoded_password).decode()
-# end def
 
 
 def decrypt_password(hashed_password: str) -> str:
@@ -44,4 +40,3 @@ def decrypt_password(hashed_password: str) -> str:
     f = Fernet(load_key())
 
     return f.decrypt(hashed_password.encode()).decode()
-# end def

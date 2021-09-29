@@ -12,7 +12,7 @@ from lib.constants import ASNB_FUNDS_DATA
 logging.basicConfig(level=logging.INFO)
 
 
-class SixPercent(object):
+class SixPercent:
     """
     This is a bot which helps to automatically purchase ASNB Fixed Price UT units
     """
@@ -23,14 +23,11 @@ class SixPercent(object):
         self.min_delay = min_delay
         self.max_delay = max_delay
 
-    # end def
-
     def _wait(self) -> None:
         """
         Introduce a random delay between `min_delay` to `max_delay`
         """
         time.sleep(random.uniform(self.min_delay, self.max_delay))
-    # end def
 
     def launch_browser(self) -> WebDriver:
         """
@@ -40,7 +37,6 @@ class SixPercent(object):
         browser.get(self.url)
         browser.maximize_window()
         return browser
-    # end def
 
     def log_in(self, browser: WebDriver, asnb_username: str, asnb_password: str) -> bool:
         """
@@ -65,8 +61,6 @@ class SixPercent(object):
         except NoSuchElementException:
             logging.exception('⛔️ Unable to login')
             return False
-        # end try
-    # end def
 
     def log_out(self, browser: WebDriver) -> None:
         """
@@ -78,7 +72,6 @@ class SixPercent(object):
         logging.info('💻 Closing browser in a second')
         self._wait()
         browser.close()
-    # end def
 
     def main_page(self, browser: WebDriver, investment_amount: str) -> None:
         """
@@ -88,7 +81,6 @@ class SixPercent(object):
         for fund in ASNB_FUNDS_DATA.values():
             if not fund['is_active']:
                 continue
-            # end if
 
             fund_id = fund['elements']['id']
             initial_investment_xpath = fund['elements']['initial_investment_xpath']
@@ -107,7 +99,6 @@ class SixPercent(object):
 
                 logging.exception(f"⛔️ Unexpected error while attempting to purchase {fund['name']} ({fund['alt_name']})")
                 continue
-            # end try
 
             # Figure out if the current attempt is an initial/additional investment
             try:
@@ -127,8 +118,6 @@ class SixPercent(object):
                 except (IndexError, NoSuchElementException):
                     logging.warning(f"⛔️ {fund['name']} ({fund['alt_name']}) is currently unavailable for purchase")
                     continue
-                # end try
-            # end try
 
             order += 1  # NOTE: We only increment this whenever the fund is available for purchase, i.e. it has drop-down
             try:
@@ -145,8 +134,6 @@ class SixPercent(object):
                     continue
                 except Exception:
                     logging.info('💬 You do not need to declare PEP again')
-                # end try
-            # end try
 
             # Start purchasing loop
             logging.info(f"💸 Start purchasing loop for {fund['alt_name']}...")
@@ -154,7 +141,6 @@ class SixPercent(object):
 
         # End of loop
         return self.log_out(browser)
-    # end def
 
     def _purchase_unit(self, browser: WebDriver, investment_amount: str) -> None:
         """
@@ -182,7 +168,6 @@ class SixPercent(object):
 
                 # To ensure user has enough time to make payment
                 time.sleep(300)  # seconds
-            # end try
 
             try:
                 browser.find_element_by_xpath("//*[contains(text(), 'Transaksi tidak berjaya. Sila hubungi Pusat Khidmat Pelanggan ASNB di talian 03-7730 8899. Kod Rujukan Gagal: 1001')]")
@@ -191,10 +176,6 @@ class SixPercent(object):
 
             except NoSuchElementException:
                 continue
-            # end try
 
         else:
             logging.info("🔚 End of loop")
-        # end for
-    # end def
-# end class

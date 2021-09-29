@@ -26,10 +26,8 @@ def resource_path(relative_path: str) -> str:
 
     except Exception:
         base_path = os.path.dirname(__file__)
-    # end try
 
     return os.path.join(base_path, relative_path)
-# end def
 
 
 @log_errors()
@@ -57,17 +55,14 @@ def invest_job(user_credentials: dict) -> None:
         logging.info("💡 Did you forget to logout somewhere else?")
         logging.info("💡 Please always remember to logout to prevent uncleared session")
         return
-    # end if
 
     # Updates user.json when login is successful
     with open('user.json', 'w') as u:
         json.dump(user_credentials, u)
-    # end with
 
     # Main loop
     bot.main_page(browser, investment_amount)
     logging.info(f"🤖 Repeating job after {ASNB_COOLDOWN_PERIOD} minutes")
-# end def
 
 
 # Start here
@@ -79,13 +74,10 @@ if __name__ == "__main__":
         if bool(user_credentials) is False:
             with open('user.json', 'r') as u:
                 user_credentials = json.load(u)
-            # end with
-        # end if
 
     except FileNotFoundError:
         logging.error('❓ No user found. Please login as new user')
         sys.exit()
-    # end try
 
     # Run job once on start
     invest_job(user_credentials)
@@ -96,5 +88,3 @@ if __name__ == "__main__":
     while True:
         schedule.run_pending()
         time.sleep(1)
-    # end while
-# end if
