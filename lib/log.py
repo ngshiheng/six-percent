@@ -7,7 +7,6 @@ def _generate_log(path: str) -> Logger:
     """
     Creates a logger object
     """
-
     # Creates a logger and set the level.
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.ERROR)

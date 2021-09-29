@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import logging
 import os
 import re
@@ -25,7 +24,6 @@ def login_gui() -> Dict[str, Any]:
         """
         Main GUI function
         """
-
         new_user_section = [
             [sg.Text('Username'), sg.Input(key='_USERNAME_', tooltip='What is your myASNB account username?')],
             [sg.Text('Password'), sg.Input(key='_PASSWORD_', password_char="*", tooltip='What is your myASNB account password?')],

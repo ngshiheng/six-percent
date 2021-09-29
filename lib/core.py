@@ -33,27 +33,21 @@ class SixPercent:
         browser.maximize_window()
         return browser
 
-    def login(self, browser: WebDriver, asnb_username: str, asnb_password: str) -> bool:
+    def login(self, browser: WebDriver, asnb_username: str, asnb_password: str) -> None:
         """
         Logs user into the main ASNB portal with their username & password
         """
         wait = WebDriverWait(browser, TIMEOUT_LIMIT)
 
-        try:
-            username_field = wait.until(EC.element_to_be_clickable((By.XPATH, "//input[@name='username']")))
-            username_field.send_keys(asnb_username)
-            username_field.send_keys(Keys.ENTER)
+        username_field = wait.until(EC.element_to_be_clickable((By.XPATH, "//input[@name='username']")))
+        username_field.send_keys(asnb_username)
+        username_field.send_keys(Keys.ENTER)
 
-            wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@id='btnYes']"))).click()  # "Adakah ini frasa keselamatan anda?"
+        wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@id='btnYes']"))).click()  # "Adakah ini frasa keselamatan anda?"
 
-            password_field = wait.until(EC.element_to_be_clickable((By.XPATH, "//input[@name='password']")))
-            password_field.send_keys(asnb_password)
-            password_field.send_keys(Keys.ENTER)
-            return True
-
-        except TimeoutException:
-            logger.exception('Login attempt failed')
-            return False
+        password_field = wait.until(EC.element_to_be_clickable((By.XPATH, "//input[@name='password']")))
+        password_field.send_keys(asnb_password)
+        password_field.send_keys(Keys.ENTER)
 
     def logout(self, browser: WebDriver) -> None:
         """
@@ -63,19 +57,19 @@ class SixPercent:
 
         try:
             wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "LOGOUT"))).click()
-            wait.until(EC.presence_of_element_located((By.XPATH, "//span[contains(text(), 'Successfully Logged out')]")))
+            wait.until(EC.presence_of_element_located((By.XPATH, "//span[contains(text(), 'Logged out')]")))
             logger.info('Successfully logged out')
 
-        except Exception:
-            logger.exception('Unexpected error')
+        except Exception as e:
+            logger.exception(e)
             raise
 
         else:
             browser.close()
 
-    def main_page(self, browser: WebDriver, investment_amount: str) -> None:
+    def purchase(self, browser: WebDriver, investment_amount: str) -> None:
         """
-        Navigates around the main pages after login
+        Purchase ASNB Fixed Price UT units
         """
         browser.find_element_by_xpath("//a[@name='en']").click()  # Always set language to English
 
@@ -84,6 +78,7 @@ class SixPercent:
 
             wait = WebDriverWait(browser, 2)
             for i in range(TOTAL_FUND_COUNT):
+                # Select fund to purchase
                 WebDriverWait(browser, TIMEOUT_LIMIT).until(EC.presence_of_all_elements_located((By.XPATH, FUNDS_XPATH)))[i].click()
 
                 # Handle cases where the funds are unavailable (i.e. due to distribution of dividends)
@@ -92,10 +87,14 @@ class SixPercent:
                     browser.find_element_by_xpath("//button[contains(text(), 'OK')]").click()
                     continue
 
+                # Enter investment amount
                 amount_field = wait.until(EC.element_to_be_clickable((By.XPATH, "//input[@name='amount']")))
                 amount_field.send_keys(investment_amount)
 
+                # Select bank of choice
                 wait.until(EC.element_to_be_clickable((By.XPATH, "//select[@name='banks']/option[@value='Maybank2U']"))).click()  # TODO: Allow users to select bank of choice from UI
+
+                # Check the terms and condition checkbox
                 browser.find_element_by_xpath("//input[@type='checkbox']").click()
 
                 submit_purchase_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']")))
@@ -125,13 +124,13 @@ class SixPercent:
                         time.sleep(300)
                         return None
 
+                # Return to main portfolio page
                 browser.find_elements_by_xpath("//a[@href='/portfolio']")[1].click()
                 continue
 
         except TimeoutException:
             WebDriverWait(browser, TIMEOUT_LIMIT).until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Close')]"))).click()
             logger.exception('Unable to purchase fund now')
-            raise
 
         finally:
             self.logout(browser)

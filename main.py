@@ -1,10 +1,9 @@
-#!/usr/bin/env python
 import json
 import logging
 import os
 import sys
 import time
-from typing import Any, Dict
+from typing import Dict
 
 import schedule  # type: ignore
 
@@ -21,7 +20,6 @@ def resource_path(relative_path: str) -> str:
     """
     Get absolute path to resource, works for dev and for PyInstaller
     """
-
     try:
         base_path = sys._MEIPASS  # type: ignore
 
@@ -32,7 +30,7 @@ def resource_path(relative_path: str) -> str:
 
 
 @log_errors()
-def main(user_credentials: Dict[str, Any]) -> None:
+def main(user_credentials: Dict[str, str]) -> None:
     logger.info("Starting Six Percent Bot")
 
     bot = SixPercent(
@@ -41,42 +39,35 @@ def main(user_credentials: Dict[str, Any]) -> None:
     )
 
     logger.info(f"Logging in as {user_credentials['username']}")
-    investment_amount = user_credentials['investment_amount']
-    asnb_username = user_credentials['username']
-    hashed_asnb_password = user_credentials['password']
+    investment_amount = user_credentials["investment_amount"]
+    asnb_username = user_credentials["username"]
+    hashed_asnb_password = user_credentials["password"]
 
     asnb_password = decrypt_password(hashed_asnb_password)
 
     # Login
     browser = bot.launch_browser()
-    if not bot.login(browser, asnb_username, asnb_password):
-        browser.close()
-        logger.info("Are you sure you entered the correct username and password?")
-        logger.info("Did you forget to logout somewhere else?")
-        logger.info("Please always remember to logout to prevent uncleared session")
-        return None
+    bot.login(browser, asnb_username, asnb_password)
 
     # Updates user.json when login is successful
-    with open('user.json', 'w') as u:
+    with open("user.json", "w") as u:
         json.dump(user_credentials, u)
 
-    # Main loop
-    bot.main_page(browser, investment_amount)
+    bot.purchase(browser, investment_amount)
     logger.info(f"Repeating job after {ASNB_COOLDOWN_PERIOD} minutes")
 
 
-# Start here
 if __name__ == "__main__":
     user_credentials = login_gui()
 
     # Loads user configuration from user.json
     try:
         if bool(user_credentials) is False:
-            with open('user.json', 'r') as u:
+            with open("user.json", "r") as u:
                 user_credentials = json.load(u)
 
     except FileNotFoundError:
-        logger.error('No user found. Please login as new user')
+        logger.error("No user found. Please login as new user")
         sys.exit()
 
     # Run job once on start
