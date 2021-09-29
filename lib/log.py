@@ -27,12 +27,9 @@ def log_errors(path: str = 'errors.log'):
     """
     Creates a parent function to take arguments
     """
-
     def error_log(func):
-
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-
             try:
                 # Executes the called function
                 # If it throws an error `Exception` will be called
@@ -40,7 +37,6 @@ def log_errors(path: str = 'errors.log'):
                 return func(*args, **kwargs)
 
             except Exception as e:
-
                 logger = _generate_log(path)
                 logger.exception(f"An error has occurred at /{func.__name__}\n")
                 return e

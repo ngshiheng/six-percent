@@ -31,16 +31,15 @@ def resource_path(relative_path: str) -> str:
 
 
 @log_errors()
-def invest_job(user_credentials: dict) -> None:
-
-    logging.info("🦿 Starting Six Percent Bot")
+def main(user_credentials: dict) -> None:
+    logging.info("Starting Six Percent Bot")
 
     bot = SixPercent(
         url=ASNB_LOGIN_URL,
         chrome_driver_path=resource_path(CHROME_DRIVER_PATH),
     )
 
-    logging.info(f"🤑 Logging in as {user_credentials['username']}")
+    logging.info(f"Logging in as {user_credentials['username']}")
     investment_amount = user_credentials['investment_amount']
     asnb_username = user_credentials['username']
     hashed_asnb_password = user_credentials['password']
@@ -49,12 +48,12 @@ def invest_job(user_credentials: dict) -> None:
 
     # Login
     browser = bot.launch_browser()
-    if not bot.log_in(browser, asnb_username, asnb_password):
+    if not bot.login(browser, asnb_username, asnb_password):
         browser.close()
-        logging.info("💡 Are you sure you entered the correct username and password?")
-        logging.info("💡 Did you forget to logout somewhere else?")
-        logging.info("💡 Please always remember to logout to prevent uncleared session")
-        return
+        logging.info("Are you sure you entered the correct username and password?")
+        logging.info("Did you forget to logout somewhere else?")
+        logging.info("Please always remember to logout to prevent uncleared session")
+        return None
 
     # Updates user.json when login is successful
     with open('user.json', 'w') as u:
@@ -62,7 +61,7 @@ def invest_job(user_credentials: dict) -> None:
 
     # Main loop
     bot.main_page(browser, investment_amount)
-    logging.info(f"🤖 Repeating job after {ASNB_COOLDOWN_PERIOD} minutes")
+    logging.info(f"Repeating job after {ASNB_COOLDOWN_PERIOD} minutes")
 
 
 # Start here
@@ -76,14 +75,14 @@ if __name__ == "__main__":
                 user_credentials = json.load(u)
 
     except FileNotFoundError:
-        logging.error('❓ No user found. Please login as new user')
+        logging.error('No user found. Please login as new user')
         sys.exit()
 
     # Run job once on start
-    invest_job(user_credentials)
+    main(user_credentials)
 
     # Schedule job every ASNB_COOLDOWN_PERIOD minutes
-    schedule.every(ASNB_COOLDOWN_PERIOD).minutes.do(invest_job, user_credentials)
+    schedule.every(ASNB_COOLDOWN_PERIOD).minutes.do(main, user_credentials)
 
     while True:
         schedule.run_pending()
