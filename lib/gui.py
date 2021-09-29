@@ -5,8 +5,8 @@ import re
 import sys
 from typing import Any, Dict
 
-import PySimpleGUI as sg
-from PySimpleGUI.PySimpleGUI import Column
+import PySimpleGUI as sg  # type: ignore
+from PySimpleGUI.PySimpleGUI import Column  # type: ignore
 
 from lib.utils import encrypt_password, generate_key
 

@@ -6,7 +6,7 @@ import sys
 import time
 from typing import Any, Dict
 
-import schedule
+import schedule  # type: ignore
 
 from lib.constants import ASNB_COOLDOWN_PERIOD, ASNB_LOGIN_URL, CHROME_DRIVER_PATH
 from lib.core import SixPercent
@@ -14,7 +14,7 @@ from lib.gui import login_gui
 from lib.log import log_errors
 from lib.utils import decrypt_password
 
-logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 def resource_path(relative_path: str) -> str:
@@ -23,7 +23,7 @@ def resource_path(relative_path: str) -> str:
     """
 
     try:
-        base_path = sys._MEIPASS
+        base_path = sys._MEIPASS  # type: ignore
 
     except Exception:
         base_path = os.path.dirname(__file__)
@@ -33,14 +33,14 @@ def resource_path(relative_path: str) -> str:
 
 @log_errors()
 def main(user_credentials: Dict[str, Any]) -> None:
-    logging.info("Starting Six Percent Bot")
+    logger.info("Starting Six Percent Bot")
 
     bot = SixPercent(
         url=ASNB_LOGIN_URL,
         chrome_driver_path=resource_path(CHROME_DRIVER_PATH),
     )
 
-    logging.info(f"Logging in as {user_credentials['username']}")
+    logger.info(f"Logging in as {user_credentials['username']}")
     investment_amount = user_credentials['investment_amount']
     asnb_username = user_credentials['username']
     hashed_asnb_password = user_credentials['password']
@@ -51,9 +51,9 @@ def main(user_credentials: Dict[str, Any]) -> None:
     browser = bot.launch_browser()
     if not bot.login(browser, asnb_username, asnb_password):
         browser.close()
-        logging.info("Are you sure you entered the correct username and password?")
-        logging.info("Did you forget to logout somewhere else?")
-        logging.info("Please always remember to logout to prevent uncleared session")
+        logger.info("Are you sure you entered the correct username and password?")
+        logger.info("Did you forget to logout somewhere else?")
+        logger.info("Please always remember to logout to prevent uncleared session")
         return None
 
     # Updates user.json when login is successful
@@ -62,8 +62,7 @@ def main(user_credentials: Dict[str, Any]) -> None:
 
     # Main loop
     bot.main_page(browser, investment_amount)
-    bot.logout(browser)
-    logging.info(f"Repeating job after {ASNB_COOLDOWN_PERIOD} minutes")
+    logger.info(f"Repeating job after {ASNB_COOLDOWN_PERIOD} minutes")
 
 
 # Start here
@@ -77,7 +76,7 @@ if __name__ == "__main__":
                 user_credentials = json.load(u)
 
     except FileNotFoundError:
-        logging.error('No user found. Please login as new user')
+        logger.error('No user found. Please login as new user')
         sys.exit()
 
     # Run job once on start

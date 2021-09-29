@@ -16,6 +16,8 @@ cryptography = "*"
 autopep8 = "*"
 flake8 = "*"
 pyinstaller = "*"
+mypy = "*"
+types-selenium = "*"
 
 [requires]
 python_version = "3.8"

@@ -5,7 +5,6 @@ def generate_key() -> None:
     """
     Generates a key and save it into a file
     """
-
     key = Fernet.generate_key()
 
     with open("secret.key", "wb") as key_file:
@@ -16,7 +15,6 @@ def load_key() -> bytes:
     """
     Loads the key named `secret.key` from the current directory
     """
-
     return open("secret.key", "rb").read()
 
 
@@ -24,7 +22,6 @@ def encrypt_password(password: str) -> str:
     """
     Returns an encrypted password
     """
-
     encoded_password = password.encode()
 
     f = Fernet(load_key())
@@ -36,7 +33,6 @@ def decrypt_password(hashed_password: str) -> str:
     """
     Returns a decrypted password
     """
-
     f = Fernet(load_key())
 
     return f.decrypt(hashed_password.encode()).decode()
