@@ -7,7 +7,6 @@ def _generate_log(path: str) -> Logger:
     """
     Creates a logger object
     """
-
     # Creates a logger and set the level.
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.ERROR)
@@ -21,19 +20,15 @@ def _generate_log(path: str) -> Logger:
 
     logger.addHandler(file_handler)
     return logger
-# end def
 
 
 def log_errors(path: str = 'errors.log'):
     """
     Creates a parent function to take arguments
     """
-
     def error_log(func):
-
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-
             try:
                 # Executes the called function
                 # If it throws an error `Exception` will be called
@@ -41,15 +36,10 @@ def log_errors(path: str = 'errors.log'):
                 return func(*args, **kwargs)
 
             except Exception as e:
-
                 logger = _generate_log(path)
                 logger.exception(f"An error has occurred at /{func.__name__}\n")
                 return e
-            # end try
-        # end def
 
         return wrapper
-    # end def
 
     return error_log
-# end def

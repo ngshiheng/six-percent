@@ -1,18 +1,17 @@
-#!/usr/bin/env python
 import logging
 import os
 import re
 import sys
+from typing import Any, Dict
 
-import PySimpleGUI as sg
-from PySimpleGUI.PySimpleGUI import Column
+import PySimpleGUI as sg  # type: ignore
+from PySimpleGUI.PySimpleGUI import Column  # type: ignore
 
 from lib.utils import encrypt_password, generate_key
 
 
-def login_gui() -> dict:
-
-    sg.theme('DarkAmber')
+def login_gui() -> Dict[str, Any]:
+    sg.theme('DarkTeal12')
 
     def collapse(layout: list, key: str, visible: bool) -> Column:
         """
@@ -20,13 +19,11 @@ def login_gui() -> dict:
         """
 
         return sg.pin(sg.Column(layout, key=key, visible=visible))
-    # end def
 
-    def main() -> dict:
+    def main() -> Dict[str, Any]:
         """
         Main GUI function
         """
-
         new_user_section = [
             [sg.Text('Username'), sg.Input(key='_USERNAME_', tooltip='What is your myASNB account username?')],
             [sg.Text('Password'), sg.Input(key='_PASSWORD_', password_char="*", tooltip='What is your myASNB account password?')],
@@ -63,7 +60,6 @@ def login_gui() -> dict:
 
             elif event == '_INVESTMENT_AMOUNT_':
                 window.FindElement(event).Update(re.sub("[^0-9]", "", values[event]))
-            # end if
 
             user_credentials = {
                 **user_credentials,
@@ -73,36 +69,28 @@ def login_gui() -> dict:
             }
 
             if event in (sg.WIN_CLOSED, 'Quit'):
-                logging.info('👋 Exiting program gracefully')
+                logging.info('Exiting program gracefully')
                 window.close()
                 sys.exit()
 
             elif event == 'Start':
                 break
-            # end if
-        # end while
 
         window.close()
 
         if not os.path.isfile('secret.key'):
             generate_key()
-        # end if
 
         # Encrypts user password before storing it
         if user_credentials['password']:
             user_credentials['password'] = encrypt_password(user_credentials['password'])
-        # end if
 
         return dict() if user_credentials == user_credentials_template else user_credentials
 
-    # end def
-
     user_info = main()
     return user_info
-# end def
 
 
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)
     logging.info(login_gui())
-# end if

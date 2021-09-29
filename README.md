@@ -1,76 +1,30 @@
-# Six Percent
+<h1 align="center">Six Percent</h1>
 
 ![Build executables](https://github.com/ngshiheng/six-percent/workflows/Build%20executables/badge.svg?branch=master)
 ![Lint check](https://github.com/ngshiheng/six-percent/workflows/Lint%20check/badge.svg?branch=master)
 
-> _DISCLAIMER: Please use this at your own risk_
+Please read the [disclaimer](##Disclaimer) section before using.
 
-This bot helps user to automatically purchase ASNB Fixed Price UT units.
+This bot helps user to automatically purchase [ASNB Fixed Price UT units](##FAQ).
 
-User shall proceed to make their own payment if there is a successful purchase attempt.
+User shall proceed to **make their own payment** if there is a successful purchase attempt.
 
 Currently, this bot supports up to 3 fixed price unit trust:
 
-- ASM (Malaysia)
-- ASM2 (Wawasan)
-- ASM3 (1Malaysia)
+-   ASM (Malaysia)
+-   ASM2 (Wawasan)
+-   ASM3 (1Malaysia)
 
-## About myASNB Fixed Price Fund
+---
 
-ASNB is a subsidiary of “Permodalan Nasional Berhad” (PNB). It is a government-supported unit trust management company.
+## Development Requirements
 
-Amanah Saham are funds that are managed by Amanah Saham National Berhad (ASNB)
+-   Python 3.8+
+-   [pip](https://pip.pypa.io/en/stable/) package installer
+-   [pipenv](https://pypi.org/project/pipenv/)
+-   [chromedriver](https://chromedriver.chromium.org/downloads) based on your OS & [Chrome version](chrome://settings/help)
 
-![alt text](https://i.imgur.com/LCB8Soo.jpg)
-
-### Facts
-
-- If there is no units available, you will never be able to purchase new units or opening up a new account
-- Fixed price (RM 1/unit) means there will be no price fluctuation. These funds can thus be regarded as saving accounts
-- The dividend earned is not taxable
-- No sales charge
-
-For more details, visit [myASNB Official Website](https://www.myasnb.com.my/)
-
-## Requirements & Dependencies
-
-### Opening ASNB Account
-
-- You need a ASNB account in order to start investing
-- You can perform all the transactions (including opening an account) at any ASNB branches or agents
-
-### Software
-
-- Python 3.8+
-- [pip](https://pip.pypa.io/en/stable/) package installer
-- [pipenv](https://pypi.org/project/pipenv/)
-- [chromedriver](https://chromedriver.chromium.org/downloads) based on your OS & [Chrome version](chrome://settings/help)
-
-_NOTE: Currently the `chromedriver.exe` version is at `bin\driver\` is version 88_
-
-### Installation (Ubuntu)
-
-This project is tested and developed on `Ubuntu 20.04.01 LTS`. You can probably get this up and running on Mac with some minor tweaks
-
-For Ubuntu user please remember to update your `CHROME_DRIVER_PATH` path at `lib/constants.py`
-
-```bash
-apt-get update && apt-get install -y --no-install-recommends python3 python3-virtualenv python3-pip chromium-chromedriver locales
-
-locale-gen en_US.UTF-8
-
-# At project directory
-pipenv shell
-pipenv install --dev
-
-python3 main.py
-```
-
-Run `./scripts/setup.sh` to install all the Python dependencies
-
-### Installation (Windows)
-
-This project is also tested on `Windows 10`
+### Installation (Windows 10/11)
 
 Run `pip install pipenv` See [this](https://stackoverflow.com/questions/46041719/windows-reports-error-when-trying-to-install-package-using-pipenv) post if you encounter any error with `pipenv`
 
@@ -102,7 +56,7 @@ pyi-makespec main.py --name SixPercent --icon "bin\favicon.ico" --onefile --cons
 
 ## How to use with python:
 
-1. Run `pipenv run python3 main.py`
+1. Run `pipenv run python main.py`
 
 2. Proceed to make your own payment if purchasing attempt is successful. Always remember to logout and restart the bot manually (exit and run again).
 
@@ -118,6 +72,8 @@ Refer to Installation (Windows) option 2 if the `SixPercent.exe` is not generate
 
 3. Kill the program and re-run it after payment is made
 
+---
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
@@ -131,14 +87,42 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 5. Push to the branch (`git push origin feature/fooBar`)
 6. Create a new Pull Request
 
+---
+
 ## Disclaimer
 
 > THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-This software was designed to be used only for research purposes.
+-   This software comes with no warranties of any kind whatsoever, and may not be useful for anything. Use it at your own risk!
+-   This software was designed to be used only for research purposes.
+-   Uses are not recommended, and have never been evaluated.
+-   If these terms are not acceptable, you aren't allowed to use the code.
 
-Uses are not recommended, and have never been evaluated.
+---
 
-This software comes with no warranties of any kind whatsoever, and may not be useful for anything. Use it at your own risk!
+## FAQ
 
-If these terms are not acceptable, you aren't allowed to use the code.
+> What is myASNB Fixed Price Fund?
+
+-   ASNB is a subsidiary of “Permodalan Nasional Berhad” (PNB). It is a government-supported unit trust management company.
+-   Amanah Saham are funds that are managed by Amanah Saham National Berhad (ASNB)
+
+> How does the fund work? Why do I care?
+
+-   If there is no units available, you will never be able to purchase new units or opening up a new account
+-   Fixed price (RM 1/unit) means there will be no price fluctuation. These funds can thus be regarded as saving accounts
+
+> Tax?
+
+-   The dividend earned is not taxable
+
+> Fees?
+
+-   No sales charge
+
+> How to start buying?
+
+-   You need a ASNB account in order to start investing
+-   You can perform all the transactions (including opening an account) at any ASNB branches or agents
+
+For more details, visit [myASNB Official Website](https://www.myasnb.com.my/)

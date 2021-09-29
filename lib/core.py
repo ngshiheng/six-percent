@@ -1,200 +1,136 @@
 import logging
-import random
 import time
+from contextlib import suppress
 
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
-from lib.constants import ASNB_FUNDS_DATA
+from lib.constants import MAX_PURCHASE_RETRY_ATTEMPTS, TIMEOUT_LIMIT, TOTAL_FUND_COUNT
 
-logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
-class SixPercent(object):
+class SixPercent:
     """
     This is a bot which helps to automatically purchase ASNB Fixed Price UT units
     """
 
-    def __init__(self, chrome_driver_path: str, url: str, min_delay: float = 1.00, max_delay: float = 1.25):
+    def __init__(self, chrome_driver_path: str, url: str):
         self.url = url
         self.chrome_driver_path = chrome_driver_path
-        self.min_delay = min_delay
-        self.max_delay = max_delay
-
-    # end def
-
-    def _wait(self) -> None:
-        """
-        Introduce a random delay between `min_delay` to `max_delay`
-        """
-        time.sleep(random.uniform(self.min_delay, self.max_delay))
-    # end def
 
     def launch_browser(self) -> WebDriver:
         """
-        Launches a chromedriver instance
+        Launches a chromedriver instance in fullscreen
         """
         browser = webdriver.Chrome(self.chrome_driver_path)
         browser.get(self.url)
         browser.maximize_window()
         return browser
-    # end def
 
-    def log_in(self, browser: WebDriver, asnb_username: str, asnb_password: str) -> bool:
+    def login(self, browser: WebDriver, asnb_username: str, asnb_password: str) -> None:
         """
-        Logs user into the main ASNB portal with username & password
+        Logs user into the main ASNB portal with their username & password
         """
+        wait = WebDriverWait(browser, TIMEOUT_LIMIT)
 
-        try:
-            self._wait()
-            logging.info('🔑 Logging in')
-            browser.find_element_by_xpath("//*[@class='btn-login']").click()
-            browser.find_element_by_id("username").send_keys(asnb_username)
-            browser.find_element_by_id("username").send_keys(Keys.ENTER)
+        username_field = wait.until(EC.element_to_be_clickable((By.XPATH, "//input[@name='username']")))
+        username_field.send_keys(asnb_username)
+        username_field.send_keys(Keys.ENTER)
 
-            self._wait()
-            browser.find_element_by_id("yes").click()
-            browser.find_element_by_id("j_password_user").send_keys(asnb_password)
-            browser.find_element_by_id("j_password_user").send_keys(Keys.ENTER)
+        wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@id='btnYes']"))).click()  # "Adakah ini frasa keselamatan anda?"
 
-            logging.info('🔓 Successfully logged in')
-            return True
+        password_field = wait.until(EC.element_to_be_clickable((By.XPATH, "//input[@name='password']")))
+        password_field.send_keys(asnb_password)
+        password_field.send_keys(Keys.ENTER)
 
-        except NoSuchElementException:
-            logging.exception('⛔️ Unable to login')
-            return False
-        # end try
-    # end def
-
-    def log_out(self, browser: WebDriver) -> None:
+    def logout(self, browser: WebDriver) -> None:
         """
         Logs user out of the main ASNB portal
         """
-        self._wait()
-        browser.find_element_by_link_text('LOG KELUAR').click()
-        logging.info('🔒 Logged out gracefully')
-        logging.info('💻 Closing browser in a second')
-        self._wait()
-        browser.close()
-    # end def
+        wait = WebDriverWait(browser, TIMEOUT_LIMIT)
 
-    def main_page(self, browser: WebDriver, investment_amount: str) -> None:
-        """
-        Navigates around the main pages after logging in
-        """
-        order = 0  # NOTE: This is use to handle case where ASM is not available. The order of the drop-down elements does not always correspond to the availability of the funds
-        for fund in ASNB_FUNDS_DATA.values():
-            if not fund['is_active']:
-                continue
-            # end if
+        try:
+            wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "LOGOUT"))).click()
+            wait.until(EC.presence_of_element_located((By.XPATH, "//span[contains(text(), 'Logged out')]")))
+            logger.info('Successfully logged out')
 
-            fund_id = fund['elements']['id']
-            initial_investment_xpath = fund['elements']['initial_investment_xpath']
-
-            logging.info(f"💲 Attempting to buy {fund['name']} ({fund['alt_name']})")
-
-            try:
-                # Navigate to 'Produk' page
-                self._wait()
-                browser.find_element_by_link_text('Produk').click()
-
-                # Click 'Transaksi' drop down
-                browser.find_element_by_xpath('//div[@class="faq-title1 accordionTitle glyphicon glyphicon-plus-sign"]').click()
-
-            except NoSuchElementException:
-
-                logging.exception(f"⛔️ Unexpected error while attempting to purchase {fund['name']} ({fund['alt_name']})")
-                continue
-            # end try
-
-            # Figure out if the current attempt is an initial/additional investment
-            try:
-                self._wait()
-                browser.find_element_by_xpath(initial_investment_xpath).click()
-                logging.info("🤑 Initial Investment")
-
-            except NoSuchElementException:
-
-                try:
-                    self._wait()
-                    browser.find_elements_by_class_name("btn.btn-form-submit.btnsbmt.dropdown-toggle")[order].click()
-                    self._wait()
-                    browser.find_element_by_id(fund_id).click()
-                    logging.info("💵 Additional Investment")
-
-                except (IndexError, NoSuchElementException):
-                    logging.warning(f"⛔️ {fund['name']} ({fund['alt_name']}) is currently unavailable for purchase")
-                    continue
-                # end try
-            # end try
-
-            order += 1  # NOTE: We only increment this whenever the fund is available for purchase, i.e. it has drop-down
-            try:
-                # PEP declaration
-                logging.info('📜 PEP declaration')
-                self._wait()
-                browser.find_element_by_id('NEXT').click()
-
-            except NoSuchElementException:
-
-                try:
-                    browser.find_element_by_xpath("//*[contains(text(), 'Tutup')]").click()
-                    logging.error('⛔️ Exceeded maximum attempt, please retry for 5 minutes')
-                    continue
-                except Exception:
-                    logging.info('💬 You do not need to declare PEP again')
-                # end try
-            # end try
-
-            # Start purchasing loop
-            logging.info(f"💸 Start purchasing loop for {fund['alt_name']}...")
-            self._purchase_unit(browser, investment_amount)
-
-        # End of loop
-        return self.log_out(browser)
-    # end def
-
-    def _purchase_unit(self, browser: WebDriver, investment_amount: str) -> None:
-        """
-        Attempts to purchase ASNB unit after declaration
-        """
-        browser.find_element_by_xpath("//*[contains(text(), 'Saya telah membaca, memahami dan bersetuju dengan kenyataan')]").click()
-        browser.find_element_by_id('btn-unit-fund').click()
-        self._wait()
-        browser.find_element_by_xpath("//input[@placeholder='0.00']").send_keys(investment_amount)
-        browser.find_element_by_xpath("//input[@placeholder='0.00']").send_keys(Keys.ENTER)
-
-        # NOTE: Currently ASNB only allows a maximum of 10 tries per fund
-        MAXIMUM_ATTEMPTS = 10
-
-        for attempt in range(MAXIMUM_ATTEMPTS):
-            try:
-                browser.find_element_by_xpath("//input[@placeholder='0.00']").send_keys(Keys.ENTER)
-                logging.info(f"🎰 Attempt {attempt+1}")
-                self._wait()
-
-            except NoSuchElementException:
-                browser.maximize_window()
-                browser.set_window_position(0, 0)
-                logging.info("🥳 Success! Please make your payment within the next 5 minutes")
-
-                # To ensure user has enough time to make payment
-                time.sleep(300)  # seconds
-            # end try
-
-            try:
-                browser.find_element_by_xpath("//*[contains(text(), 'Transaksi tidak berjaya. Sila hubungi Pusat Khidmat Pelanggan ASNB di talian 03-7730 8899. Kod Rujukan Gagal: 1001')]")
-                browser.find_element_by_id('btn-unit-fund').send_keys(Keys.ENTER)
-                return
-
-            except NoSuchElementException:
-                continue
-            # end try
+        except Exception as e:
+            logger.exception(e)
+            raise
 
         else:
-            logging.info("🔚 End of loop")
-        # end for
-    # end def
-# end class
+            browser.close()
+
+    def purchase(self, browser: WebDriver, investment_amount: str) -> None:
+        """
+        Purchase ASNB Fixed Price UT units
+        """
+        browser.find_element_by_xpath("//a[@name='en']").click()  # Always set language to English
+
+        try:
+            FUNDS_XPATH = '//div[@class="bg-white mb-3 w-full mx-auto text-gray-500 grid grid-cols-4 md:grid-cols-5 xl:grid-cols-6 justify-between rounded-lg px-0 py-4 shadow-lg dark:bg-gray-700 dark:text-gray-400 lg:h-48"]'
+
+            wait = WebDriverWait(browser, 2)
+            for i in range(TOTAL_FUND_COUNT):
+                # Select fund to purchase
+                WebDriverWait(browser, TIMEOUT_LIMIT).until(EC.presence_of_all_elements_located((By.XPATH, FUNDS_XPATH)))[i].click()
+
+                # Handle cases where the funds are unavailable (i.e. due to distribution of dividends)
+                with suppress(TimeoutException):
+                    wait.until(EC.element_to_be_clickable((By.XPATH, "//p[contains(text(), 'not available')]")))
+                    browser.find_element_by_xpath("//button[contains(text(), 'OK')]").click()
+                    continue
+
+                # Enter investment amount
+                amount_field = wait.until(EC.element_to_be_clickable((By.XPATH, "//input[@name='amount']")))
+                amount_field.send_keys(investment_amount)
+
+                # Select bank of choice
+                wait.until(EC.element_to_be_clickable((By.XPATH, "//select[@name='banks']/option[@value='Maybank2U']"))).click()  # TODO: Allow users to select bank of choice from UI
+
+                # Check the terms and condition checkbox
+                browser.find_element_by_xpath("//input[@type='checkbox']").click()
+
+                submit_purchase_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']")))
+
+                for attempt in range(MAX_PURCHASE_RETRY_ATTEMPTS):
+                    submit_purchase_button.click()
+
+                    # PEP declaration
+                    with suppress(NoSuchElementException):
+                        browser.find_element_by_xpath("//h3[contains(text(), 'Declaration of PEP')]")
+                        logger.info('PEP declaration')
+                        browser.find_elements_by_xpath("//button[contains(text(), 'Next')]")[1].click()
+
+                    # Stop trying when blocked
+                    with suppress(TimeoutException):
+                        wait.until(EC.element_to_be_clickable((By.XPATH, "//p[contains(text(), 'Blocked')]")))
+                        browser.find_element_by_xpath("//button[contains(text(), 'OK')]").click()
+                        break
+
+                    try:
+                        wait.until(EC.element_to_be_clickable((By.XPATH, "//p[contains(text(), 'insufficient units')]")))
+                        logger.info(f"The transaction was declined due to insufficient units available - {attempt + 1}")
+                        browser.find_element_by_xpath("//button[contains(text(), 'OK')]").click()
+
+                    except TimeoutException:
+                        logger.info('Please proceed to make payment')
+                        time.sleep(300)
+                        return None
+
+                # Return to main portfolio page
+                browser.find_elements_by_xpath("//a[@href='/portfolio']")[1].click()
+                continue
+
+        except TimeoutException:
+            WebDriverWait(browser, TIMEOUT_LIMIT).until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Close')]"))).click()
+            logger.exception('Unable to purchase fund now')
+
+        finally:
+            self.logout(browser)
