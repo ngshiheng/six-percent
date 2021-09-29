@@ -4,6 +4,7 @@ import logging
 import os
 import sys
 import time
+from typing import Any, Dict
 
 import schedule
 
@@ -31,7 +32,7 @@ def resource_path(relative_path: str) -> str:
 
 
 @log_errors()
-def main(user_credentials: dict) -> None:
+def main(user_credentials: Dict[str, Any]) -> None:
     logging.info("Starting Six Percent Bot")
 
     bot = SixPercent(
@@ -61,6 +62,7 @@ def main(user_credentials: dict) -> None:
 
     # Main loop
     bot.main_page(browser, investment_amount)
+    bot.logout(browser)
     logging.info(f"Repeating job after {ASNB_COOLDOWN_PERIOD} minutes")
 
 

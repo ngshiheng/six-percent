@@ -1,5 +1,6 @@
 import logging
 import time
+from contextlib import suppress
 
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
@@ -9,7 +10,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from lib.constants import TIMEOUT_LIMIT
+from lib.constants import MAX_PURCHASE_RETRY_ATTEMPTS, TIMEOUT_LIMIT, TOTAL_FUND_COUNT
 
 logger = logging.getLogger(__name__)
 
@@ -62,7 +63,7 @@ class SixPercent:
         """
         wait = WebDriverWait(browser, TIMEOUT_LIMIT)
 
-        wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "LOG KELUAR"))).click()
+        wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "LOGOUT"))).click()
         logger.info('Successfully logged out')
         browser.close()
 
@@ -72,13 +73,14 @@ class SixPercent:
         """
         FUNDS_XPATH = '//div[@class="bg-white mb-3 w-full mx-auto text-gray-500 grid grid-cols-4 md:grid-cols-5 xl:grid-cols-6 justify-between rounded-lg px-0 py-4 shadow-lg dark:bg-gray-700 dark:text-gray-400 lg:h-48"]'
 
-        MAX_RETRIES = 20
-        funds = WebDriverWait(browser, TIMEOUT_LIMIT).until(EC.presence_of_all_elements_located((By.XPATH, FUNDS_XPATH)))
-
         wait = WebDriverWait(browser, 2)
-        for i in range(len(funds)):
-            WebDriverWait(browser, TIMEOUT_LIMIT).until(EC.presence_of_all_elements_located((By.XPATH, FUNDS_XPATH)))
-            funds[i].click()
+        for i in range(TOTAL_FUND_COUNT):
+            WebDriverWait(browser, TIMEOUT_LIMIT).until(EC.presence_of_all_elements_located((By.XPATH, FUNDS_XPATH)))[i].click()
+
+            with suppress(TimeoutException):
+                wait.until(EC.element_to_be_clickable((By.XPATH, "//p[contains(text(), 'not available')]")))
+                browser.find_element_by_xpath("//button[contains(text(), 'OK')]").click()
+                continue
 
             amount_field = wait.until(EC.element_to_be_clickable((By.XPATH, "//input[@name='amount']")))
             amount_field.send_keys(investment_amount)
@@ -88,23 +90,20 @@ class SixPercent:
 
             submit_purchase_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']")))
 
-            for _ in range(MAX_RETRIES):
+            for _ in range(MAX_PURCHASE_RETRY_ATTEMPTS):
                 submit_purchase_button.click()
 
-                try:
+                # PEP declaration
+                with suppress(NoSuchElementException):
                     browser.find_element_by_xpath("//h3[contains(text(), 'Declaration of PEP')]")
                     logger.info('PEP declaration')
                     browser.find_elements_by_xpath("//button[contains(text(), 'Next')]")[1].click()
-                except NoSuchElementException:
-                    logger.info('Skipping PEP declaration')
 
-                try:
+                # Stop trying when blocked
+                with suppress(TimeoutException):
                     wait.until(EC.element_to_be_clickable((By.XPATH, "//p[contains(text(), 'Blocked')]")))
                     browser.find_element_by_xpath("//button[contains(text(), 'OK')]").click()
                     break
-
-                except TimeoutException:
-                    pass
 
                 try:
                     wait.until(EC.element_to_be_clickable((By.XPATH, "//p[contains(text(), 'insufficient units')]")))
@@ -113,7 +112,8 @@ class SixPercent:
 
                 except TimeoutException:
                     logger.info('Please proceed to make payment')
-                    time.sleep(120)
+                    time.sleep(300)
+                    return None
 
             browser.find_elements_by_xpath("//a[@href='/portfolio']")[1].click()
             continue

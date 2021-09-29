@@ -3,6 +3,7 @@ import logging
 import os
 import re
 import sys
+from typing import Any, Dict
 
 import PySimpleGUI as sg
 from PySimpleGUI.PySimpleGUI import Column
@@ -10,8 +11,7 @@ from PySimpleGUI.PySimpleGUI import Column
 from lib.utils import encrypt_password, generate_key
 
 
-def login_gui() -> dict:
-
+def login_gui() -> Dict[str, Any]:
     sg.theme('DarkAmber')
 
     def collapse(layout: list, key: str, visible: bool) -> Column:
@@ -21,7 +21,7 @@ def login_gui() -> dict:
 
         return sg.pin(sg.Column(layout, key=key, visible=visible))
 
-    def main() -> dict:
+    def main() -> Dict[str, Any]:
         """
         Main GUI function
         """
@@ -71,7 +71,7 @@ def login_gui() -> dict:
             }
 
             if event in (sg.WIN_CLOSED, 'Quit'):
-                logging.info('👋 Exiting program gracefully')
+                logging.info('Exiting program gracefully')
                 window.close()
                 sys.exit()
 
