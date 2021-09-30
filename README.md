@@ -17,9 +17,12 @@ Currently, this bot supports up to 3 fixed price unit trust:
 
 ---
 
-## Development Requirements
+## Development
 
--   Python 3.8+
+### Requirements
+
+-   Windows 10+
+-   [Python](https://www.python.org/) 3.8+
 -   [pip](https://pip.pypa.io/en/stable/) package installer
 -   [pipenv](https://pypi.org/project/pipenv/)
 -   [chromedriver](https://chromedriver.chromium.org/downloads) based on your OS & [Chrome version](chrome://settings/help)
@@ -36,13 +39,13 @@ pipenv shell
 pipenv install --dev
 ```
 
-**Option 1: Run this project directly with python:**
+### Run this project directly with python
 
 ```bash
-python main.py
+pipenv run python main.py
 ```
 
-**Option 2: Run this project with `exe` file:**
+### Run this project with `exe` file
 
 1. To generate a `exe` application, run
 
@@ -54,15 +57,19 @@ pyi-makespec main.py --name SixPercent --icon "bin\favicon.ico" --onefile --cons
 
 3. Run the `SixPercent.exe` directly inside generated the `dist` folder
 
-## How to use with python:
+---
+
+## Usage
+
+### Run with Python installed
 
 1. Run `pipenv run python main.py`
 
 2. Proceed to make your own payment if purchasing attempt is successful. Always remember to logout and restart the bot manually (exit and run again).
 
-3. If purchase attempt is unsuccessfully this time, the bot will repeat the attempt every 5 minutes.
+3. If purchase attempt is unsuccessfully this time, the bot will repeat the attempt every ~5 minutes.
 
-## How to use with executable (Windows only):
+### Run with executable (Windows only):
 
 Refer to Installation (Windows) option 2 if the `SixPercent.exe` is not generated yet
 
@@ -111,16 +118,14 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 -   If there is no units available, you will never be able to purchase new units or opening up a new account
 -   Fixed price (RM 1/unit) means there will be no price fluctuation. These funds can thus be regarded as saving accounts
-
-> Tax?
-
 -   The dividend earned is not taxable
 
-> Fees?
+> Is there any sales charge or additional fees?
 
 -   No sales charge
+-   No additional fees
 
-> How to start buying?
+> How to start buying or investing?
 
 -   You need a ASNB account in order to start investing
 -   You can perform all the transactions (including opening an account) at any ASNB branches or agents
