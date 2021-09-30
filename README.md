@@ -5,9 +5,9 @@
 
 Please read the [disclaimer](#Disclaimer) section before using.
 
-This bot helps user to automatically purchase [ASNB Fixed Price UT units](#FAQ).
+This bot helps users to buy [ASNB Fixed Price UT units](#FAQ).
 
-User shall proceed to **make their own payment** if there is a successful purchase attempt.
+The user shall proceed to **make his/her own payment** if there is a successful purchase attempt.
 
 Currently, this bot supports up to 3 fixed price unit trust:
 
@@ -53,7 +53,7 @@ pipenv run python main.py
 pyi-makespec main.py --name SixPercent --icon "bin\favicon.ico" --onefile --console --add-binary "bin\driver\chromedriver.exe;bin\driver\\"
 ```
 
-2. Finally run `pyinstaller SixPercent.spec --clean`
+2. Finally, run `pyinstaller SixPercent.spec --clean`
 
 3. Run the `SixPercent.exe` directly inside generated the `dist` folder
 
@@ -65,9 +65,9 @@ pyi-makespec main.py --name SixPercent --icon "bin\favicon.ico" --onefile --cons
 
 1. Run `pipenv run python main.py`
 
-2. Proceed to make your own payment if purchasing attempt is successful. Always remember to logout and restart the bot manually (exit and run again).
+2. Proceed to make the payment if purchasing attempt is successful. Always remember to log out and restart the bot manually (exit and run again).
 
-3. If purchase attempt is unsuccessfully this time, the bot will repeat the attempt every ~5 minutes.
+3. If purchase attempt is unsuccessful this time, the bot will repeat the attempt every ~5 minutes.
 
 ### Run with executable (Windows only):
 
@@ -89,7 +89,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 1. Fork this
 2. Create your feature branch (`git checkout -b feature/fooBar`)
-3. Please run `./scripts/lint.sh` before commiting any code and make sure it passes all the lint and format check
+3. Please run `./scripts/lint.sh` before committing any code and make sure it passes all the lint and format check
 4. Commit your changes (`git commit -am 'Add some fooBar'`)
 5. Push to the branch (`git push origin feature/fooBar`)
 6. Create a new Pull Request
@@ -112,22 +112,22 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 > What is myASNB Fixed Price Fund?
 
 -   ASNB is a subsidiary of “Permodalan Nasional Berhad” (PNB). It is a government-supported unit trust management company.
--   Amanah Saham are funds that are managed by Amanah Saham National Berhad (ASNB)
+-   Amanah Saham are funds that are managed by Amanah Saham National Berhad (ASNB).
 
 > How does the fund work? Why do I care?
 
--   If there is no units available, you will never be able to purchase new units or opening up a new account
--   Fixed price (RM 1/unit) means there will be no price fluctuation. These funds can thus be regarded as saving accounts
--   The dividend earned is not taxable
+-   If there is no units available, you will never be able to purchase new units or opening up a new account.
+-   A fixed price (RM 1/unit) means there will be no price fluctuation. These funds can thus be regarded as saving accounts.
+-   The dividend earned is not taxable.
 
 > Is there any sales charge or additional fees?
 
--   No sales charge
--   No additional fees
+-   No sales charge.
+-   No additional fees.
 
 > How to start buying or investing?
 
--   You need a ASNB account in order to start investing
--   You can perform all the transactions (including opening an account) at any ASNB branches or agents
+-   You need an ASNB account in order to start investing.
+-   You can perform all the transactions (including opening an account) at any ASNB branches or agents.
 
 For more details, visit [myASNB Official Website](https://www.myasnb.com.my/)
