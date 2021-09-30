@@ -3,9 +3,9 @@
 ![Build executables](https://github.com/ngshiheng/six-percent/workflows/Build%20executables/badge.svg?branch=master)
 ![Lint check](https://github.com/ngshiheng/six-percent/workflows/Lint%20check/badge.svg?branch=master)
 
-Please read the [disclaimer](##Disclaimer) section before using.
+Please read the [disclaimer](#Disclaimer) section before using.
 
-This bot helps user to automatically purchase [ASNB Fixed Price UT units](##FAQ).
+This bot helps user to automatically purchase [ASNB Fixed Price UT units](#FAQ).
 
 User shall proceed to **make their own payment** if there is a successful purchase attempt.
 
