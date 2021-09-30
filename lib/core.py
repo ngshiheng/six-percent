@@ -12,7 +12,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from lib.constants import MAX_PURCHASE_RETRY_ATTEMPTS, TIMEOUT_LIMIT, TOTAL_FUND_COUNT
 
-logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 
 class SixPercent:
@@ -58,10 +58,10 @@ class SixPercent:
         try:
             wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "LOGOUT"))).click()
             wait.until(EC.presence_of_element_located((By.XPATH, "//span[contains(text(), 'Logged out')]")))
-            logger.info('Successfully logged out')
+            logging.info('Successfully logged out')
 
         except Exception as e:
-            logger.exception(e)
+            logging.exception(e)
             raise
 
         else:
@@ -105,7 +105,7 @@ class SixPercent:
                     # PEP declaration
                     with suppress(NoSuchElementException):
                         browser.find_element_by_xpath("//h3[contains(text(), 'Declaration of PEP')]")
-                        logger.info('PEP declaration')
+                        logging.info('PEP declaration')
                         browser.find_elements_by_xpath("//button[contains(text(), 'Next')]")[1].click()
 
                     # Stop trying when blocked
@@ -116,11 +116,11 @@ class SixPercent:
 
                     try:
                         wait.until(EC.element_to_be_clickable((By.XPATH, "//p[contains(text(), 'insufficient units')]")))
-                        logger.info(f"The transaction was declined due to insufficient units available - {attempt + 1}")
+                        logging.info(f"The transaction was declined due to insufficient units available - {attempt + 1}")
                         browser.find_element_by_xpath("//button[contains(text(), 'OK')]").click()
 
                     except TimeoutException:
-                        logger.info('Please proceed to make payment')
+                        logging.info('Please proceed to make payment')
                         time.sleep(300)
                         return None
 
@@ -130,7 +130,7 @@ class SixPercent:
 
         except TimeoutException:
             WebDriverWait(browser, TIMEOUT_LIMIT).until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Close')]"))).click()
-            logger.exception('Unable to purchase fund now')
+            logging.exception('Unable to purchase fund now')
 
         finally:
             self.logout(browser)

@@ -13,7 +13,7 @@ from lib.gui import login_gui
 from lib.log import log_errors
 from lib.utils import decrypt_password
 
-logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 
 def resource_path(relative_path: str) -> str:
@@ -31,14 +31,14 @@ def resource_path(relative_path: str) -> str:
 
 @log_errors()
 def main(user_credentials: Dict[str, str]) -> None:
-    logger.info("Starting Six Percent Bot")
+    logging.info("Starting Six Percent Bot")
 
     bot = SixPercent(
         url=ASNB_LOGIN_URL,
         chrome_driver_path=resource_path(CHROME_DRIVER_PATH),
     )
 
-    logger.info(f"Logging in as {user_credentials['username']}")
+    logging.info(f"Logging in as {user_credentials['username']}")
     investment_amount = user_credentials["investment_amount"]
     asnb_username = user_credentials["username"]
     hashed_asnb_password = user_credentials["password"]
@@ -54,7 +54,7 @@ def main(user_credentials: Dict[str, str]) -> None:
         json.dump(user_credentials, u)
 
     bot.purchase(browser, investment_amount)
-    logger.info(f"Repeating job after {ASNB_COOLDOWN_PERIOD} minutes")
+    logging.info(f"Repeating job after {ASNB_COOLDOWN_PERIOD} minutes")
 
 
 if __name__ == "__main__":
@@ -67,7 +67,7 @@ if __name__ == "__main__":
                 user_credentials = json.load(u)
 
     except FileNotFoundError:
-        logger.error("No user found. Please login as new user")
+        logging.error("No user found. Please login as new user")
         sys.exit()
 
     # Run job once on start
