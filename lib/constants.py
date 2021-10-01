@@ -13,6 +13,13 @@ PAYMENT_TIMEOUT_LIMIT = 300  # seconds
 
 # XPATHs
 
+# https://www.myasnb.com.my/login
+USERNAME_XPATH = "//input[@name='username']"
+SECURITY_PHRASE_CONFIRMATION = "//a[@id='btnYes']"
+PASSWORD_XPATH = "//input[@name='password']"
+
+LOGOUT_CONFIRMATION_MESSAGE_XPATH = "//span[contains(text(), 'Logged out')]"
+
 # https://www.myasnb.com.my/portfolio
 ENGLISH_LANGUAGE_BUTTON_XPATH = "//a[@name='en']"
 FUNDS_XPATH = "//div[@class='justify-between hidden md:block text-xs lg:text-sm']"

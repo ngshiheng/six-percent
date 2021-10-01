@@ -14,12 +14,15 @@ from lib.constants import (BANK_DROPDOWN_SELECTION_XPATH,
                            ENGLISH_LANGUAGE_BUTTON_XPATH,
                            ERROR_PROMPT_OK_BUTTON_XPATH, FUNDS_XPATH,
                            INVESTMENT_AMOUNT_XPATH,
-                           MAX_PURCHASE_RETRY_ATTEMPTS, PAYMENT_TIMEOUT_LIMIT,
+                           LOGOUT_CONFIRMATION_MESSAGE_XPATH,
+                           MAX_PURCHASE_RETRY_ATTEMPTS, PASSWORD_XPATH,
+                           PAYMENT_TIMEOUT_LIMIT,
                            PEP_DECLARATION_PROMPT_NEXT_BUTTON_XPATH,
                            PEP_DECLARATION_PROMPT_XPATH, PORTFOLIO_URL_XPATH,
-                           PROMPT_OK_BUTTON_XPATH, SUBMIT_BUTTON_XPATH,
+                           PROMPT_OK_BUTTON_XPATH,
+                           SECURITY_PHRASE_CONFIRMATION, SUBMIT_BUTTON_XPATH,
                            TERMS_AND_CONDITIONS_CHECKBOX_XPATH, TIMEOUT_LIMIT,
-                           TOTAL_FUND_COUNT)
+                           TOTAL_FUND_COUNT, USERNAME_XPATH)
 
 logging.basicConfig(level=logging.INFO)
 
@@ -48,13 +51,13 @@ class SixPercent:
         """
         wait = WebDriverWait(browser, TIMEOUT_LIMIT)
 
-        username_field = wait.until(EC.element_to_be_clickable((By.XPATH, "//input[@name='username']")))
+        username_field = wait.until(EC.element_to_be_clickable((By.XPATH, USERNAME_XPATH)))
         username_field.send_keys(asnb_username)
         username_field.send_keys(Keys.ENTER)
 
-        wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@id='btnYes']"))).click()  # "Adakah ini frasa keselamatan anda?"
+        wait.until(EC.element_to_be_clickable((By.XPATH, SECURITY_PHRASE_CONFIRMATION))).click()  # "Adakah ini frasa keselamatan anda?"
 
-        password_field = wait.until(EC.element_to_be_clickable((By.XPATH, "//input[@name='password']")))
+        password_field = wait.until(EC.element_to_be_clickable((By.XPATH, PASSWORD_XPATH)))
         password_field.send_keys(asnb_password)
         password_field.send_keys(Keys.ENTER)
 
@@ -66,7 +69,7 @@ class SixPercent:
 
         try:
             wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "LOGOUT"))).click()
-            wait.until(EC.presence_of_element_located((By.XPATH, "//span[contains(text(), 'Logged out')]")))
+            wait.until(EC.presence_of_element_located((By.XPATH, LOGOUT_CONFIRMATION_MESSAGE_XPATH)))
             logging.info('Successfully logged out')
 
         except Exception as e:
@@ -92,8 +95,7 @@ class SixPercent:
 
                 # Handle cases where the funds are unavailable (i.e. due to distribution of dividends)
                 with suppress(NoSuchElementException):
-                    browser.find_element_by_xpath(ERROR_PROMPT_OK_BUTTON_XPATH).click()
-                    logging.info("Funds unavailable for purchase")
+                    browser.find_element_by_xpath(PROMPT_OK_BUTTON_XPATH).click()
 
                 # Enter investment amount
                 logging.info(f"Entering investment amount RM {investment_amount}")
@@ -130,7 +132,6 @@ class SixPercent:
 
                 # Return to main portfolio page
                 browser.find_elements_by_xpath(PORTFOLIO_URL_XPATH)[-1].click()
-                continue
 
         except (TimeoutException, NoSuchElementException):
             wait.until(EC.element_to_be_clickable((By.XPATH, ERROR_PROMPT_OK_BUTTON_XPATH))).click()
