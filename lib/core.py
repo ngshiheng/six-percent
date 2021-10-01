@@ -5,7 +5,7 @@ from contextlib import suppress
 
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
-from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
@@ -34,8 +34,11 @@ class SixPercent:
     """
 
     def __init__(self, chrome_driver_path: str, url: str) -> None:
+        options = Options()
+        options.add_experimental_option('excludeSwitches', ['enable-logging'])
+
         self.url = url
-        self.browser = webdriver.Chrome(chrome_driver_path)
+        self.browser = webdriver.Chrome(chrome_driver_path, options=options)
         self.wait = WebDriverWait(self.browser, TIMEOUT_LIMIT)
 
     def idle(self, seconds: float = 0.5) -> None:
