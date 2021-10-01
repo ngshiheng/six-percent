@@ -7,7 +7,8 @@ from typing import Dict
 
 import schedule  # type: ignore
 
-from lib.constants import ASNB_COOLDOWN_PERIOD, ASNB_LOGIN_URL, CHROME_DRIVER_PATH
+from lib.constants import (ASNB_COOLDOWN_PERIOD, ASNB_LOGIN_URL,
+                           CHROME_DRIVER_PATH)
 from lib.core import SixPercent
 from lib.gui import login_gui
 from lib.log import log_errors
@@ -47,13 +48,13 @@ def main(user_credentials: Dict[str, str]) -> None:
 
     # Login
     browser = bot.launch_browser()
-    bot.login(browser, asnb_username, asnb_password)
+    bot.login(asnb_username, asnb_password)
 
     # Updates user.json when login is successful
     with open("user.json", "w") as u:
         json.dump(user_credentials, u)
 
-    bot.purchase(browser, investment_amount)
+    bot.purchase(investment_amount)
     logging.info(f"Repeating job after {ASNB_COOLDOWN_PERIOD} minutes")
 
 

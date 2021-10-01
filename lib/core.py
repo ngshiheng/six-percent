@@ -33,9 +33,10 @@ class SixPercent:
     This is a bot which helps to automatically purchase ASNB Fixed Price UT units
     """
 
-    def __init__(self, chrome_driver_path: str, url: str):
+    def __init__(self, chrome_driver_path: str, url: str) -> None:
         self.url = url
-        self.chrome_driver_path = chrome_driver_path
+        self.browser = webdriver.Chrome(chrome_driver_path)
+        self.wait = WebDriverWait(self.browser, TIMEOUT_LIMIT)
 
     def idle(self, seconds: float = 0.5) -> None:
         """
@@ -43,40 +44,34 @@ class SixPercent:
         """
         time.sleep(random.uniform(seconds, seconds * 2))
 
-    def launch_browser(self) -> WebDriver:
+    def launch_browser(self) -> None:
         """
         Launches a chromedriver instance in fullscreen
         """
-        browser = webdriver.Chrome(self.chrome_driver_path)
-        browser.get(self.url)
-        browser.maximize_window()
-        return browser
+        self.browser.get(self.url)
+        self.browser.maximize_window()
 
-    def login(self, browser: WebDriver, asnb_username: str, asnb_password: str) -> None:
+    def login(self, asnb_username: str, asnb_password: str) -> None:
         """
         Logs user into the main ASNB portal with their username & password
         """
-        wait = WebDriverWait(browser, TIMEOUT_LIMIT)
-
-        username_field = wait.until(EC.element_to_be_clickable((By.XPATH, USERNAME_XPATH)))
+        username_field = self.wait.until(EC.element_to_be_clickable((By.XPATH, USERNAME_XPATH)))
         username_field.send_keys(asnb_username)
         username_field.send_keys(Keys.ENTER)
 
-        wait.until(EC.element_to_be_clickable((By.XPATH, SECURITY_PHRASE_CONFIRMATION))).click()  # "Adakah ini frasa keselamatan anda?"
+        self.wait.until(EC.element_to_be_clickable((By.XPATH, SECURITY_PHRASE_CONFIRMATION))).click()  # "Adakah ini frasa keselamatan anda?"
 
-        password_field = wait.until(EC.element_to_be_clickable((By.XPATH, PASSWORD_XPATH)))
+        password_field = self.wait.until(EC.element_to_be_clickable((By.XPATH, PASSWORD_XPATH)))
         password_field.send_keys(asnb_password)
         password_field.send_keys(Keys.ENTER)
 
-    def logout(self, browser: WebDriver) -> None:
+    def logout(self) -> None:
         """
         Logs user out of the main ASNB portal
         """
-        wait = WebDriverWait(browser, TIMEOUT_LIMIT)
-
         try:
-            wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "LOGOUT"))).click()
-            wait.until(EC.presence_of_element_located((By.XPATH, LOGOUT_CONFIRMATION_MESSAGE_XPATH)))
+            self.wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "LOGOUT"))).click()
+            self.wait.until(EC.presence_of_element_located((By.XPATH, LOGOUT_CONFIRMATION_MESSAGE_XPATH)))
             logging.info('Successfully logged out')
 
         except Exception as e:
@@ -84,39 +79,38 @@ class SixPercent:
             raise
 
         else:
-            browser.close()
+            self.browser.close()
 
-    def purchase(self, browser: WebDriver, investment_amount: str) -> None:
+    def purchase(self, investment_amount: str) -> None:
         """
         Purchase ASNB Fixed Price UT units
         """
-        wait = WebDriverWait(browser, TIMEOUT_LIMIT)
-        browser.find_element_by_xpath(ENGLISH_LANGUAGE_BUTTON_XPATH).click()  # Always set language to English
+        self.browser.find_element_by_xpath(ENGLISH_LANGUAGE_BUTTON_XPATH).click()  # Always set language to English
 
         try:
 
             for i in range(TOTAL_FUND_COUNT):
                 # Select fund to purchase
                 logging.info("Selecting fund to invest")
-                wait.until(EC.presence_of_all_elements_located((By.XPATH, FUNDS_XPATH)))[i].click()
+                self.wait.until(EC.presence_of_all_elements_located((By.XPATH, FUNDS_XPATH)))[i].click()
 
                 # Handle cases where the funds are unavailable (i.e. due to distribution of dividends)
                 with suppress(TimeoutException):
-                    WebDriverWait(browser, 3).until(EC.presence_of_element_located((By.XPATH, PROMPT_OK_BUTTON_XPATH))).click()
+                    WebDriverWait(self.browser, 3).until(EC.presence_of_element_located((By.XPATH, PROMPT_OK_BUTTON_XPATH))).click()
 
                 # Enter investment amount
                 logging.info(f"Entering investment amount RM {investment_amount}")
-                wait.until(EC.element_to_be_clickable((By.XPATH, INVESTMENT_AMOUNT_XPATH))).send_keys(investment_amount)
+                self.wait.until(EC.element_to_be_clickable((By.XPATH, INVESTMENT_AMOUNT_XPATH))).send_keys(investment_amount)
 
                 # Select bank of choice
                 logging.info("Selecting Maybank2U as payment bank of choice")
-                wait.until(EC.element_to_be_clickable((By.XPATH, BANK_DROPDOWN_SELECTION_XPATH))).click()  # TODO: Allow users to select bank of choice from UI
+                self.wait.until(EC.element_to_be_clickable((By.XPATH, BANK_DROPDOWN_SELECTION_XPATH))).click()  # TODO: Allow users to select bank of choice from UI
 
                 # Check the terms and condition checkbox
                 logging.info("Agreeing to terms and conditions")
-                browser.find_element_by_xpath(TERMS_AND_CONDITIONS_CHECKBOX_XPATH).click()
+                self.browser.find_element_by_xpath(TERMS_AND_CONDITIONS_CHECKBOX_XPATH).click()
 
-                submit_purchase_button = wait.until(EC.element_to_be_clickable((By.XPATH, SUBMIT_BUTTON_XPATH)))
+                submit_purchase_button = self.wait.until(EC.element_to_be_clickable((By.XPATH, SUBMIT_BUTTON_XPATH)))
 
                 for attempt in range(MAX_PURCHASE_RETRY_ATTEMPTS):
                     self.idle()
@@ -124,12 +118,12 @@ class SixPercent:
 
                     # PEP declaration
                     with suppress(NoSuchElementException):
-                        browser.find_element_by_xpath(PEP_DECLARATION_PROMPT_XPATH)
+                        self.browser.find_element_by_xpath(PEP_DECLARATION_PROMPT_XPATH)
                         logging.info('PEP declaration')
-                        browser.find_elements_by_xpath(PEP_DECLARATION_PROMPT_NEXT_BUTTON_XPATH)[1].click()
+                        self.browser.find_elements_by_xpath(PEP_DECLARATION_PROMPT_NEXT_BUTTON_XPATH)[1].click()
 
                     try:
-                        ok_button = wait.until(EC.element_to_be_clickable((By.XPATH, PROMPT_OK_BUTTON_XPATH)))
+                        ok_button = self.wait.until(EC.element_to_be_clickable((By.XPATH, PROMPT_OK_BUTTON_XPATH)))
                         logging.info(f"The transaction was declined due to insufficient units available - {attempt + 1}")
                         ok_button.click()
 
@@ -139,11 +133,11 @@ class SixPercent:
                         return None
 
                 # Return to main portfolio page
-                browser.find_elements_by_xpath(PORTFOLIO_URL_XPATH)[-1].click()
+                self.browser.find_elements_by_xpath(PORTFOLIO_URL_XPATH)[-1].click()
 
         except (TimeoutException, NoSuchElementException):
-            wait.until(EC.element_to_be_clickable((By.XPATH, ERROR_PROMPT_OK_BUTTON_XPATH))).click()
+            self.wait.until(EC.element_to_be_clickable((By.XPATH, ERROR_PROMPT_OK_BUTTON_XPATH))).click()
             logging.exception('Unable to purchase fund now')
 
         finally:
-            self.logout(browser)
+            self.logout()
