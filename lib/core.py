@@ -11,19 +11,21 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from lib.constants import (BANK_DROPDOWN_SELECTION_XPATH,
-                           ENGLISH_LANGUAGE_BUTTON_XPATH,
-                           ERROR_PROMPT_OK_BUTTON_XPATH, FUNDS_XPATH,
-                           INVESTMENT_AMOUNT_XPATH,
-                           LOGOUT_CONFIRMATION_MESSAGE_XPATH,
-                           MAX_PURCHASE_RETRY_ATTEMPTS, PASSWORD_XPATH,
-                           PAYMENT_TIMEOUT_LIMIT,
-                           PEP_DECLARATION_PROMPT_NEXT_BUTTON_XPATH,
-                           PEP_DECLARATION_PROMPT_XPATH, PORTFOLIO_URL_XPATH,
-                           PROMPT_OK_BUTTON_XPATH,
-                           SECURITY_PHRASE_CONFIRMATION, SUBMIT_BUTTON_XPATH,
-                           TERMS_AND_CONDITIONS_CHECKBOX_XPATH, TIMEOUT_LIMIT,
-                           TOTAL_FUND_COUNT, USERNAME_XPATH)
+from lib.constants import (
+    BANK_DROPDOWN_SELECTION_XPATH,
+    ENGLISH_LANGUAGE_BUTTON_XPATH,
+    ERROR_PROMPT_OK_BUTTON_XPATH, FUNDS_XPATH,
+    INVESTMENT_AMOUNT_XPATH,
+    LOGOUT_CONFIRMATION_MESSAGE_XPATH,
+    MAX_PURCHASE_RETRY_ATTEMPTS, PASSWORD_XPATH,
+    PAYMENT_TIMEOUT_LIMIT,
+    PEP_DECLARATION_PROMPT_NEXT_BUTTON_XPATH,
+    PEP_DECLARATION_PROMPT_XPATH, PORTFOLIO_URL_XPATH,
+    PROMPT_OK_BUTTON_XPATH,
+    SECURITY_PHRASE_CONFIRMATION, SUBMIT_BUTTON_XPATH,
+    TERMS_AND_CONDITIONS_CHECKBOX_XPATH, TIMEOUT_LIMIT,
+    TOTAL_FUND_COUNT, USERNAME_XPATH,
+)
 
 logging.basicConfig(level=logging.INFO)
 
@@ -88,7 +90,7 @@ class SixPercent:
         """
         Purchase ASNB Fixed Price UT units
         """
-        self.browser.find_element_by_xpath(ENGLISH_LANGUAGE_BUTTON_XPATH).click()  # Always set language to English
+        self.wait.until(EC.element_to_be_clickable((By.XPATH, ENGLISH_LANGUAGE_BUTTON_XPATH))).click()  # Always set language to English
 
         try:
 
