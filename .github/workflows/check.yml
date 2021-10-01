@@ -26,7 +26,7 @@ jobs:
                   poetry-version: ${{ matrix.poetry-version }}
             - name: Install dependencies
               run: |
-                  poetry install
+                  poetry install --no-root
             - name: Run checks
               run: |
                   poetry run flake8 --statistics --show-source
