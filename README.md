@@ -24,25 +24,25 @@ Currently, this bot supports up to 3 fixed price unit trust:
 -   Windows 10+
 -   [Python](https://www.python.org/) 3.8+
 -   [pip](https://pip.pypa.io/en/stable/) package installer
--   [pipenv](https://pypi.org/project/pipenv/)
+-   [poetry](https://python-poetry.org/docs/)
 -   [chromedriver](https://chromedriver.chromium.org/downloads) based on your OS & [Chrome version](chrome://settings/help)
 
 ### Installation (Windows 10/11)
 
-Run `pip install pipenv` See [this](https://stackoverflow.com/questions/46041719/windows-reports-error-when-trying-to-install-package-using-pipenv) post if you encounter any error with `pipenv`
+We use [poetry](https://python-poetry.org/docs/basic-usage/) to manage our dependencies.
 
 Start by installing all the dependencies
 
 ```bash
 # At project directory
-pipenv shell
-pipenv install --dev
+poetry install --no-root
+pre-commit install
 ```
 
 ### Run this project directly with python
 
 ```bash
-pipenv run python main.py
+poetry run python main.py
 ```
 
 ### Run this project with `exe` file
@@ -63,7 +63,7 @@ pyi-makespec main.py --name SixPercent --icon "bin\favicon.ico" --onefile --cons
 
 ### Run with Python installed
 
-1. Run `pipenv run python main.py`
+1. Run `poetry run python main.py`
 
 2. Proceed to make the payment if purchasing attempt is successful. Always remember to log out and restart the bot manually (exit and run again).
 
