@@ -1,4 +1,5 @@
 import logging
+import random
 import time
 from contextlib import suppress
 
@@ -35,6 +36,12 @@ class SixPercent:
     def __init__(self, chrome_driver_path: str, url: str):
         self.url = url
         self.chrome_driver_path = chrome_driver_path
+
+    def idle(self, seconds: float = 0.5) -> None:
+        """
+        Bot goes to sleep for X seconds
+        """
+        time.sleep(random.uniform(seconds, seconds * 2))
 
     def launch_browser(self) -> WebDriver:
         """
@@ -94,8 +101,8 @@ class SixPercent:
                 wait.until(EC.presence_of_all_elements_located((By.XPATH, FUNDS_XPATH)))[i].click()
 
                 # Handle cases where the funds are unavailable (i.e. due to distribution of dividends)
-                with suppress(NoSuchElementException):
-                    browser.find_element_by_xpath(PROMPT_OK_BUTTON_XPATH).click()
+                with suppress(TimeoutException):
+                    WebDriverWait(browser, 3).until(EC.presence_of_element_located((By.XPATH, PROMPT_OK_BUTTON_XPATH))).click()
 
                 # Enter investment amount
                 logging.info(f"Entering investment amount RM {investment_amount}")
@@ -112,6 +119,7 @@ class SixPercent:
                 submit_purchase_button = wait.until(EC.element_to_be_clickable((By.XPATH, SUBMIT_BUTTON_XPATH)))
 
                 for attempt in range(MAX_PURCHASE_RETRY_ATTEMPTS):
+                    self.idle()
                     submit_purchase_button.click()
 
                     # PEP declaration
@@ -127,7 +135,7 @@ class SixPercent:
 
                     except (TimeoutException, NoSuchElementException):
                         logging.info('Please proceed to make payment')
-                        time.sleep(PAYMENT_TIMEOUT_LIMIT)
+                        self.idle(PAYMENT_TIMEOUT_LIMIT)
                         return None
 
                 # Return to main portfolio page
