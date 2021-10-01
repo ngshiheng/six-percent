@@ -6,7 +6,7 @@ block_cipher = None
 
 a = Analysis(['main.py'],
              pathex=['C:\\Users\\ngshi\\Documents\\Personal\\six-percent'],
-             binaries=[('bin\\driver\\chromedriver.exe', 'bin\\driver\\\\')],
+             binaries=[('bin\\driver\\chromedriver.exe', 'bin\\driver\\')],
              datas=[],
              hiddenimports=[],
              hookspath=[],

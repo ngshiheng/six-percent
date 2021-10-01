@@ -47,7 +47,7 @@ def main(user_credentials: Dict[str, str]) -> None:
     asnb_password = decrypt_password(hashed_asnb_password)
 
     # Login
-    browser = bot.launch_browser()
+    bot.launch_browser()
     bot.login(asnb_username, asnb_password)
 
     # Updates user.json when login is successful

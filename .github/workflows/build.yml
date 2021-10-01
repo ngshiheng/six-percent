@@ -9,27 +9,27 @@ on:
 jobs:
     build-exe-job:
         runs-on: windows-latest
+        strategy:
+            matrix:
+                python-version: [3.8, 3.9]
+                poetry-version: [1.1.10]
 
         steps:
             - uses: actions/checkout@v2
-            - name: Set up Python 3.8
+            - name: Set up Python ${{ matrix.python-version }}
               uses: actions/setup-python@v2
               with:
-                  python-version: 3.8
+                  python-version: ${{ matrix.python-version }}
 
-            - uses: dschep/install-pipenv-action@v1
-            - name: Install pipenv
-              run: |
-                  pip install pipenv
-
+            - uses: abatilo/actions-poetry@v2.0.0
+              with:
+                  poetry-version: ${{ matrix.poetry-version }}
             - name: Install dependencies
               run: |
-                  pipenv install --dev
-
+                  poetry install
             - name: Build executables with pyinstaller
               run: |
-                  pipenv run pyinstaller SixPercent.spec
-
+                  poetry run pyinstaller SixPercent.spec
             - uses: actions/upload-artifact@v2
               with:
                   name: SixPercent
