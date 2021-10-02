@@ -133,6 +133,7 @@ class SixPercent:
                         ok_button.click()
 
                     except (TimeoutException, NoSuchElementException):
+                        self.browser.maximize_window()
                         logging.info('Please proceed to make payment')
                         self.idle(PAYMENT_TIMEOUT_LIMIT)
                         return None

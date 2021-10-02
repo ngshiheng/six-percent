@@ -1,5 +1,10 @@
 <h1 align="center">Six Percent</h1>
 
+<p align="center">
+  <img src="https://i.imgur.com/Z0cCIy9.png">
+</p>
+<br />
+
 ![Build executables](https://github.com/ngshiheng/six-percent/workflows/Build%20executables/badge.svg?branch=master)
 ![Lint check](https://github.com/ngshiheng/six-percent/workflows/Lint%20check/badge.svg?branch=master)
 
