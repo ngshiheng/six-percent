@@ -1,4 +1,4 @@
-name: Lint & mypy check
+name: Check flake8 and mypy
 
 on:
     push:
@@ -7,13 +7,14 @@ on:
         branches: [master]
 
 jobs:
-    lint-check-job:
-        runs-on: windows-latest
+    check-job:
         strategy:
+            fail-fast: false
             matrix:
                 python-version: [3.8, 3.9]
                 poetry-version: [1.1.10]
-
+                os: [windows-latest]
+        runs-on: ${{ matrix.os }}
         steps:
             - uses: actions/checkout@v2
             - name: Set up Python ${{ matrix.python-version }}
@@ -27,7 +28,7 @@ jobs:
             - name: Install dependencies
               run: |
                   poetry install --no-root
-            - name: Run checks
+            - name: Check flake8 and mypy
               run: |
                   poetry run flake8 --statistics --show-source
                   poetry run mypy .
