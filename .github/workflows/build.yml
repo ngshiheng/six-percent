@@ -1,4 +1,5 @@
-name: Build executables
+---
+name: Build and upload executables
 
 on:
     push:
@@ -7,13 +8,14 @@ on:
         branches: [master]
 
 jobs:
-    build-exe-job:
-        runs-on: windows-latest
+    build-job:
         strategy:
+            fail-fast: true
             matrix:
                 python-version: [3.8, 3.9]
                 poetry-version: [1.1.10]
-
+                os: [windows-latest]
+        runs-on: ${{ matrix.os }}
         steps:
             - uses: actions/checkout@v2
             - name: Set up Python ${{ matrix.python-version }}
@@ -24,12 +26,15 @@ jobs:
             - uses: abatilo/actions-poetry@v2.0.0
               with:
                   poetry-version: ${{ matrix.poetry-version }}
+
             - name: Install dependencies
               run: |
                   poetry install --no-root
+
             - name: Build executables with pyinstaller
               run: |
-                  poetry run pyinstaller SixPercent.spec
+                  poetry run pyinstaller SixPercent.spec --clean
+
             - uses: actions/upload-artifact@v2
               with:
                   name: SixPercent
