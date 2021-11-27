@@ -1,6 +1,7 @@
 # Description
 
-**_Note: Please delete placeholder texts that are not relevant. Including this_**
+_NOTE: Please delete placeholder texts that are not relevant. Including this._
+_NOTE: Make sure your commit messages are [semantic_](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716)_
 
 Tips:
 
