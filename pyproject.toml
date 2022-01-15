@@ -7,18 +7,18 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-selenium = "^3.141.0"
-schedule = "^1.1.0"
-PySimpleGUI = "^4.49.0"
-cryptography = "^35.0.0"
+selenium = "3.141.0"
+schedule = "1.1.0"
+PySimpleGUI = "4.56.0"
+cryptography = "35.0.0"
 
 [tool.poetry.dev-dependencies]
-autopep8 = "^1.5.7"
-flake8 = "^3.9.2"
-pyinstaller = "^4.5.1"
+autopep8 = "1.5.7"
+flake8 = "3.9.2"
+pyinstaller = "4.5.1"
 mypy = "^0.910"
-types-selenium = "^3.141.2"
-pre-commit = "^2.15.0"
+types-selenium = "3.141.4"
+pre-commit = "2.15.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
