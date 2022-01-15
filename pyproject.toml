@@ -16,7 +16,7 @@ cryptography = "^35.0.0"
 autopep8 = "^1.5.7"
 flake8 = "^3.9.2"
 pyinstaller = "^4.5.1"
-mypy = "^0.910"
+mypy = "^0.931"
 types-selenium = "^3.141.2"
 pre-commit = "^2.15.0"
 
