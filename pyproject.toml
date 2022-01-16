@@ -7,7 +7,7 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-selenium = "3.141.0"
+selenium = "==4.1.0"
 schedule = "1.1.0"
 PySimpleGUI = "4.56.0"
 cryptography = "35.0.0"
