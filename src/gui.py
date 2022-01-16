@@ -9,6 +9,8 @@ from PySimpleGUI.PySimpleGUI import Column  # type: ignore
 
 from .utils.encryption import encrypt_password, generate_key
 
+logger = logging.getLogger(__name__)
+
 
 def login_gui() -> Dict[str, Any]:
     sg.theme('DarkTeal12')
@@ -69,7 +71,7 @@ def login_gui() -> Dict[str, Any]:
             }
 
             if event in (sg.WIN_CLOSED, 'Quit'):
-                logging.info('Exiting program gracefully')
+                logger.info('Exiting program gracefully')
                 window.close()
                 sys.exit()
 
@@ -92,5 +94,4 @@ def login_gui() -> Dict[str, Any]:
 
 
 if __name__ == '__main__':
-    logging.getLogger().setLevel(logging.INFO)
-    logging.info(login_gui())
+    logger.info(login_gui())

@@ -13,7 +13,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from src.utils.constants import MAX_PURCHASE_RETRY_ATTEMPTS, PAYMENT_TIMEOUT_LIMIT, TIMEOUT_LIMIT, TOTAL_FUND_COUNT
 from src.utils.locators import LoginPageLocators, PortfolioPageLocators, TransactionPageLocators
 
-logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class SixPercent:
@@ -64,10 +64,10 @@ class SixPercent:
         try:
             self.wait.until(EC.element_to_be_clickable(PortfolioPageLocators.LOGOUT_BUTTON)).click()
             self.wait.until(EC.presence_of_element_located(PortfolioPageLocators.LOGOUT_CONFIRMATION_MESSAGE))
-            logging.info('Successfully logged out')
+            logger.info('Successfully logged out')
 
         except Exception as e:
-            logging.exception(e)
+            logger.exception(e)
             raise
 
         else:
@@ -80,7 +80,7 @@ class SixPercent:
         try:
             for i in range(TOTAL_FUND_COUNT):
                 # Select fund to purchase
-                logging.info("Selecting fund to invest")
+                logger.info("Selecting fund to invest")
                 self.wait.until(EC.presence_of_all_elements_located(PortfolioPageLocators.FUNDS))[i].click()
 
                 # Handle cases where the funds are unavailable (i.e. due to distribution of dividends)
@@ -88,15 +88,15 @@ class SixPercent:
                     WebDriverWait(self.browser, 3).until(EC.presence_of_element_located(TransactionPageLocators.PROMPT_OK_BUTTON)).click()
 
                 # Enter investment amount
-                logging.info(f"Entering investment amount RM {investment_amount}")
+                logger.info(f"Entering investment amount RM {investment_amount}")
                 self.wait.until(EC.element_to_be_clickable(TransactionPageLocators.INVESTMENT_AMOUNT)).send_keys(investment_amount)
 
                 # Select bank of choice
-                logging.info("Selecting Maybank2U as payment bank of choice")
+                logger.info("Selecting Maybank2U as payment bank of choice")
                 self.wait.until(EC.element_to_be_clickable(TransactionPageLocators.BANK_DROPDOWN_SELECTION)).click()  # TODO: Allow users to select bank of choice from UI
 
                 # Check the terms and condition checkbox
-                logging.info("Agreeing to terms and conditions")
+                logger.info("Agreeing to terms and conditions")
                 self.browser.find_element_by_xpath(TransactionPageLocators.TERMS_AND_CONDITIONS_CHECKBOX[1]).click()
 
                 submit_purchase_button = self.wait.until(EC.element_to_be_clickable(TransactionPageLocators.SUBMIT_BUTTON))
@@ -108,17 +108,17 @@ class SixPercent:
                     # PEP declaration
                     with suppress(NoSuchElementException):
                         self.browser.find_element_by_xpath(TransactionPageLocators.PEP_DECLARATION_PROMPT[1])
-                        logging.info('PEP declaration')
+                        logger.info('PEP declaration')
                         self.browser.find_elements_by_xpath(TransactionPageLocators.PEP_DECLARATION_PROMPT_NEXT_BUTTON[1])[1].click()
 
                     try:
                         ok_button = self.wait.until(EC.element_to_be_clickable(TransactionPageLocators.PROMPT_OK_BUTTON))
-                        logging.info(f"The transaction was declined due to insufficient units available - {attempt + 1}")
+                        logger.info(f"The transaction was declined due to insufficient units available - {attempt + 1}")
                         ok_button.click()
 
                     except (TimeoutException, NoSuchElementException):
                         self.browser.maximize_window()
-                        logging.info('Please proceed to make payment')
+                        logger.info('Please proceed to make payment')
                         self.idle(PAYMENT_TIMEOUT_LIMIT)
                         return None
 
@@ -127,7 +127,7 @@ class SixPercent:
 
         except (TimeoutException, NoSuchElementException):
             self.wait.until(EC.element_to_be_clickable(PortfolioPageLocators.ERROR_PROMPT_OK_BUTTON)).click()
-            logging.exception('Unable to purchase fund now')
+            logger.exception('Unable to purchase fund now')
 
         finally:
             self.logout()
