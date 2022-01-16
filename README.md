@@ -5,8 +5,8 @@
 </p>
 <br />
 
-![Build executables](https://github.com/ngshiheng/six-percent/workflows/Build%20executables/badge.svg?branch=master)
-![Lint check](https://github.com/ngshiheng/six-percent/workflows/Lint%20check/badge.svg?branch=master)
+![Build](https://github.com/ngshiheng/six-percent/workflows/Build%20executables/badge.svg?branch=master)
+![Lint](https://github.com/ngshiheng/six-percent/workflows/Lint%20check/badge.svg?branch=master)
 
 Please read the [disclaimer](#Disclaimer) section before using.
 
@@ -38,15 +38,14 @@ We use [poetry](https://python-poetry.org/docs/basic-usage/) to manage our depen
 
 Start by installing all the dependencies
 
-```bash
-# At project directory
+```sh
 poetry install --no-root
 pre-commit install
 ```
 
 ### Run this project directly with python
 
-```bash
+```sh
 poetry run python main.py
 ```
 
@@ -76,11 +75,11 @@ pyi-makespec main.py --name SixPercent --icon "bin\favicon.ico" --onefile --cons
 
 ### Run with executable (Windows only):
 
-Refer to Installation (Windows) option 2 if the `SixPercent.exe` is not generated yet
+Generate `SixPercent.exe` by following the steps [above](#Run-this-project-with-`exe`-file)
 
 1. Run `SixPercent.exe` directly -> click 'Login as new user' -> Fill in your credentials -> click 'Start'
 
-2. Proceed to make your own payment if purchasing attempt is successful. Always remember to logout and restart the bot manually (exit and run again).
+2. Proceed to make your own payment (currently only supports Maybank) if purchasing attempt is successful. Always remember to logout and restart the bot manually (exit and run again).
 
 3. Kill the program and re-run it after payment is made
 
@@ -94,8 +93,8 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 1. Fork this
 2. Create your feature branch (`git checkout -b feature/fooBar`)
-3. Please run `./scripts/lint.sh` before committing any code and make sure it passes all the lint and format check
-4. Commit your changes (`git commit -am 'Add some fooBar'`)
+3. Please make sure you have installed the `pre-commit` hook and make sure it passes all the checks
+4. Commit your changes (`git commit -am 'feat: Add some fooBar`', make sure that your [commits are semantic](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716))
 5. Push to the branch (`git push origin feature/fooBar`)
 6. Create a new Pull Request
 
@@ -114,12 +113,14 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## FAQ
 
+For more details, visit [myASNB Official Website](https://www.myasnb.com.my/)
+
 > What is myASNB Fixed Price Fund?
 
 -   ASNB is a subsidiary of “Permodalan Nasional Berhad” (PNB). It is a government-supported unit trust management company.
 -   Amanah Saham are funds that are managed by Amanah Saham National Berhad (ASNB).
 
-> How does the fund work? Why do I care?
+> How does the fund work? Why should I care?
 
 -   If there is no units available, you will never be able to purchase new units or opening up a new account.
 -   A fixed price (RM 1/unit) means there will be no price fluctuation. These funds can thus be regarded as saving accounts.
@@ -134,5 +135,3 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 -   You need an ASNB account in order to start investing.
 -   You can perform all the transactions (including opening an account) at any ASNB branches or agents.
-
-For more details, visit [myASNB Official Website](https://www.myasnb.com.my/)
