@@ -7,12 +7,11 @@ from typing import Dict
 
 import schedule  # type: ignore
 
-from lib.constants import (ASNB_COOLDOWN_PERIOD, ASNB_LOGIN_URL,
-                           CHROME_DRIVER_PATH)
-from lib.core import SixPercent
-from lib.gui import login_gui
-from lib.log import log_errors
-from lib.utils import decrypt_password
+from src.constants import ASNB_COOLDOWN_PERIOD, ASNB_LOGIN_URL, CHROME_DRIVER_PATH
+from src.core import SixPercent
+from src.gui import login_gui
+from src.log import log_errors
+from src.utils import decrypt_password
 
 logging.basicConfig(level=logging.INFO)
 

@@ -10,8 +10,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from lib.constants import MAX_PURCHASE_RETRY_ATTEMPTS, PAYMENT_TIMEOUT_LIMIT, TIMEOUT_LIMIT, TOTAL_FUND_COUNT
-from lib.locators import LoginPageLocators, PortfolioPageLocators, TransactionPageLocators
+from src.constants import MAX_PURCHASE_RETRY_ATTEMPTS, PAYMENT_TIMEOUT_LIMIT, TIMEOUT_LIMIT, TOTAL_FUND_COUNT
+from src.locators import LoginPageLocators, PortfolioPageLocators, TransactionPageLocators
 
 logging.basicConfig(level=logging.INFO)
 
