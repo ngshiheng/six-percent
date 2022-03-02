@@ -14,7 +14,7 @@ This bot helps users to buy [ASNB Fixed Price UT units](#FAQ).
 
 The user shall proceed to **make his/her own payment** ([M2U](https://www.maybank2u.com.my/) only) if there is a successful purchase attempt.
 
-Currently, this bot supports up to 3 fixed price unit trust:
+Currently, this bot supports up to 3 fixed price unit trusts:
 
 -   ASM (Malaysia)
 -   ASM2 (Wawasan)
@@ -49,7 +49,7 @@ pre-commit install
 poetry run python main.py
 ```
 
-### Run this project with `exe` file
+### Run this project with `exe`
 
 1. To generate a new `SixPercent.spec` file, run:
 
@@ -73,7 +73,7 @@ pyi-makespec main.py --name SixPercent --icon "bin\favicon.ico" --onefile --cons
 
 2. Proceed to make the payment if purchasing attempt is successful. Always remember to log out and restart the bot manually (exit and run again).
 
-3. If purchase attempt is unsuccessful this time, the bot will repeat the attempt every ~5 minutes.
+3. If the purchase attempt is unsuccessful this time, the bot will repeat the attempt every ~5 minutes.
 
 ### Run with executable (Windows only):
 
@@ -81,7 +81,7 @@ Generate `SixPercent.exe` by following the steps [above](#run-this-project-with-
 
 1. Run `SixPercent.exe` directly -> click 'Login as new user' -> Fill in your credentials -> click 'Start'
 
-2. Proceed to make your own payment (currently only supports Maybank) if purchasing attempt is successful. Always remember to logout and restart the bot manually (exit and run again).
+2. Proceed to make your own payment (currently only supports Maybank) if purchasing attempt is successful. Always remember to log out and restart the bot manually (exit and run again).
 
 3. Kill the program and re-run it after payment is made
 
@@ -108,7 +108,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 -   This software comes with no warranties of any kind whatsoever, and may not be useful for anything. Use it at your own risk!
 -   This software was designed to be used only for research purposes.
--   Uses are not recommended, and have never been evaluated.
+-   Uses are not recommended and have never been evaluated.
 -   If these terms are not acceptable, you aren't allowed to use the code.
 
 ---
@@ -124,7 +124,7 @@ For more details, visit [myASNB Official Website](https://www.myasnb.com.my/)
 
 > How does the fund work? Why should I care?
 
--   If there is no units available, you will never be able to purchase new units or opening up a new account.
+-   If there is no unit available, you will never be able to purchase new units or open up a new account.
 -   A fixed price (RM 1/unit) means there will be no price fluctuation. These funds can thus be regarded as saving accounts.
 -   The dividend earned is not taxable.
 
@@ -136,4 +136,4 @@ For more details, visit [myASNB Official Website](https://www.myasnb.com.my/)
 > How to start buying or investing?
 
 -   You need an ASNB account in order to start investing.
--   You can perform all the transactions (including opening an account) at any ASNB branches or agents.
+-   You can perform all the transactions (including opening an account) at any ASNB branch or agent.
