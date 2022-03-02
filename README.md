@@ -12,7 +12,7 @@ Please read the [disclaimer](#Disclaimer) section before using.
 
 This bot helps users to buy [ASNB Fixed Price UT units](#FAQ).
 
-The user shall proceed to **make his/her own payment** if there is a successful purchase attempt.
+The user shall proceed to **make his/her own payment** ([M2U](https://www.maybank2u.com.my/) only) if there is a successful purchase attempt.
 
 Currently, this bot supports up to 3 fixed price unit trust:
 
@@ -27,7 +27,7 @@ Currently, this bot supports up to 3 fixed price unit trust:
 ### Requirements
 
 -   Windows 10+
--   [Python](https://www.python.org/) 3.8+
+-   [python](https://www.python.org/) 3.8+
 -   [pip](https://pip.pypa.io/en/stable/) package installer
 -   [poetry](https://python-poetry.org/docs/)
 -   [chromedriver](https://chromedriver.chromium.org/downloads) based on your OS & [Chrome version](chrome://settings/help)
@@ -43,7 +43,7 @@ poetry install --no-root
 pre-commit install
 ```
 
-### Run this project directly with python
+### Run with Python
 
 ```sh
 poetry run python main.py
@@ -51,15 +51,17 @@ poetry run python main.py
 
 ### Run this project with `exe` file
 
-1. To generate a `exe` application, run
+1. To generate a new `SixPercent.spec` file, run:
 
 ```sh
 pyi-makespec main.py --name SixPercent --icon "bin\favicon.ico" --onefile --console --add-binary "bin\driver\chromedriver.exe;bin\driver\\"
 ```
 
-2. Finally, run `pyinstaller SixPercent.spec --clean`
+2. To generate the executable, run `pyinstaller SixPercent.spec --clean`
 
-3. Run the `SixPercent.exe` directly inside generated the `dist` folder
+3. A `SixPercent.exe` will be generated inside the `dist/` folder
+
+4. Run `SixPercent.exe` and use the bot
 
 ---
 
@@ -92,10 +94,10 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 ### Steps
 
 1. Fork this
-2. Create your feature branch (`git checkout -b feature/foo-bar`)
+2. Create your feature branch (`git checkout -b add-foo-bar`)
 3. Please make sure you have installed the `pre-commit` hook and make sure it passes all the checks
 4. Commit your changes (`git commit -am 'feat: add some fooBar`', make sure that your [commits are semantic](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716))
-5. Push to the branch (`git push origin feature/fooBar`)
+5. Push to the branch (`git push origin add-foo-bar`)
 6. Create a new Pull Request
 
 ---

@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 class SixPercent:
     """
-    This is a bot which helps to automatically purchase ASNB Fixed Price UT units
+    A bot that helps to automatically purchase ASNB Fixed Price UT units
     """
 
     def __init__(self, chrome_driver_path: str, url: str) -> None:
@@ -113,7 +113,7 @@ class SixPercent:
 
                     try:
                         ok_button = self.wait.until(EC.element_to_be_clickable(TransactionPageLocators.PROMPT_OK_BUTTON))
-                        logger.info(f"The transaction was declined due to insufficient units available - {attempt + 1}")
+                        logger.info(f"The transaction was declined due to insufficient units available (attempt: {attempt + 1})")
                         ok_button.click()
 
                     except (TimeoutException, NoSuchElementException):
@@ -128,6 +128,10 @@ class SixPercent:
         except (TimeoutException, NoSuchElementException):
             self.wait.until(EC.element_to_be_clickable(PortfolioPageLocators.ERROR_PROMPT_OK_BUTTON)).click()
             logger.exception('Unable to purchase fund now')
+
+        except Exception as e:
+            logger.exception('Unable to purchase fund due to unexpected error')
+            logger.error(e)
 
         finally:
             self.logout()
