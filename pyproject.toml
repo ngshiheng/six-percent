@@ -10,7 +10,7 @@ python = "^3.8"
 selenium = "==4.1.2"
 schedule = "1.1.0"
 PySimpleGUI = "==4.57.0"
-cryptography = "35.0.0"
+cryptography = "==36.0.1"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "==1.6.0"
