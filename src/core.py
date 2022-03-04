@@ -31,7 +31,7 @@ class SixPercent:
 
     def idle(self, seconds: float = 0.5) -> None:
         """
-        Bot goes to sleep for X seconds
+        Bot idles for a random time (measured in seconds) between, and included, N and 2*N seconds
         """
         time.sleep(random.uniform(seconds, seconds * 2))
 
@@ -44,9 +44,8 @@ class SixPercent:
 
     def login(self, asnb_username: str, asnb_password: str) -> None:
         """
-        Logs user into the main ASNB portal with their username & password
+        Logs user into the main ASNB portal with their username and password
         """
-
         username_field = self.wait.until(EC.element_to_be_clickable(LoginPageLocators.USERNAME))
         username_field.send_keys(asnb_username)
         username_field.send_keys(Keys.ENTER)
@@ -85,7 +84,7 @@ class SixPercent:
 
                 # Handle cases where the funds are unavailable (i.e. due to distribution of dividends)
                 with suppress(TimeoutException):
-                    WebDriverWait(self.browser, 3).until(EC.presence_of_element_located(TransactionPageLocators.PROMPT_OK_BUTTON)).click()
+                    self.wait.until(EC.presence_of_element_located(TransactionPageLocators.PROMPT_OK_BUTTON)).click()
 
                 # Enter investment amount
                 logger.info(f"Entering investment amount RM {investment_amount}")
@@ -118,7 +117,7 @@ class SixPercent:
 
                     except (TimeoutException, NoSuchElementException):
                         self.browser.maximize_window()
-                        logger.info('Please proceed to make payment')
+                        logger.info("Please proceed to make payment")
                         self.idle(PAYMENT_TIMEOUT_LIMIT)
                         return None
 
@@ -126,12 +125,13 @@ class SixPercent:
                 self.browser.find_elements_by_xpath(TransactionPageLocators.PORTFOLIO_URL[1])[-1].click()
 
         except (TimeoutException, NoSuchElementException):
-            self.wait.until(EC.element_to_be_clickable(PortfolioPageLocators.ERROR_PROMPT_OK_BUTTON)).click()
-            logger.exception('Unable to purchase fund now')
+            with suppress(Exception):
+                self.wait.until(EC.element_to_be_clickable(PortfolioPageLocators.ERROR_PROMPT_OK_BUTTON)).click()
+            logger.exception("Unable to purchase fund now")
 
         except Exception as e:
-            logger.exception('Unable to purchase fund due to unexpected error')
-            logger.error(e)
+            logger.exception(e)
+            raise
 
         finally:
             self.logout()
