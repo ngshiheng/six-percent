@@ -12,8 +12,6 @@ class LoginPageLocators:
 class PortfolioPageLocators:
     """www.myasnb.com.my/portfolio"""
 
-    ENGLISH_LANGUAGE_BUTTON = (By.XPATH, "//a[@name='en']")
-
     FUNDS = (By.XPATH, "//div[@class='justify-between hidden md:block text-xs lg:text-sm']")
     ERROR_PROMPT_OK_BUTTON = (By.XPATH, "//button[contains(@class, 'text-white') and @type='submit']")
 
