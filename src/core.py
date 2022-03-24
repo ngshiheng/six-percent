@@ -85,6 +85,8 @@ class SixPercent:
                 # Handle cases where the funds are unavailable (i.e. due to distribution of dividends)
                 with suppress(TimeoutException):
                     WebDriverWait(self.browser, 3).until(EC.presence_of_element_located(TransactionPageLocators.PROMPT_OK_BUTTON)).click()
+                    logger.warn("Skipping fund because fund is unavailable.")
+                    continue
 
                 # Enter investment amount
                 logger.info(f"Entering investment amount RM {investment_amount}")
