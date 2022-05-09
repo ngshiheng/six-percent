@@ -337,7 +337,7 @@ test = ["flaky", "pretend", "pytest (>=3.0.1)"]
 
 [[package]]
 name = "pysimplegui"
-version = "4.59.0"
+version = "4.60.0"
 description = "Python GUIs for Humans. Launched in 2018. It's 2022 & PySimpleGUI is an ACTIVE & supported project. Super-simple to create custom GUI's. 325+ Demo programs & Cookbook for rapid start. Extensive documentation. Main docs at www.PySimpleGUI.org. Fun & your success are the focus. Examples using Machine Learning (GUI, OpenCV Integration), Rainmeter Style Desktop Widgets, Matplotlib + Pyplot, PIL support, add GUI to command line scripts, PDF & Image Viewers. Great for beginners & advanced GUI programmers."
 category = "main"
 optional = false
@@ -519,7 +519,7 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "c919c20af8e71ff9d77794d747956857fd95d6d78ef2ec84d16cdc6b4e7747b2"
+content-hash = "b0e908b1e291a14858e8cb0155f3fa6ab75f3857f9412f09dc22187087ca22b9"
 
 [metadata.files]
 altgraph = [
@@ -737,8 +737,8 @@ pyopenssl = [
     {file = "pyOpenSSL-21.0.0.tar.gz", hash = "sha256:5e2d8c5e46d0d865ae933bef5230090bdaf5506281e9eec60fa250ee80600cb3"},
 ]
 pysimplegui = [
-    {file = "PySimpleGUI-4.59.0-py3-none-any.whl", hash = "sha256:1642db0b2cbe59c50da40b86af51cda3abbda6ddcad40bd04c0a0550112b3d46"},
-    {file = "PySimpleGUI-4.59.0.tar.gz", hash = "sha256:196e81c0a437eac4893595f2ee69515b9841e608d351bd3c577dd7a913454f51"},
+    {file = "PySimpleGUI-4.60.0-py3-none-any.whl", hash = "sha256:586d40fa2769a5075bc109f8ccd5af735ce3914edde1d721ee8ea855d76fc089"},
+    {file = "PySimpleGUI-4.60.0.tar.gz", hash = "sha256:72a9c7617317dca1aacb7e7af2a678eb70113842fe9cd03d5ec6ff9f530c7fcf"},
 ]
 pysocks = [
     {file = "PySocks-1.7.1-py27-none-any.whl", hash = "sha256:08e69f092cc6dbe92a0fdd16eeb9b9ffbc13cadfe5ca4c7bd92ffb078b293299"},
