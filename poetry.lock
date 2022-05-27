@@ -364,7 +364,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "selenium"
-version = "4.1.5"
+version = "4.2.0"
 description = ""
 category = "main"
 optional = false
@@ -505,7 +505,7 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "a4659cb9a693fd4469334d5ead4ab5895dc6ee8a82074f51d1da26a9d8c7b664"
+content-hash = "bf0f93a19e0946d7185d7af21559cb124242f2461a5489b7320130cf04124dbe"
 
 [metadata.files]
 altgraph = [
@@ -773,7 +773,7 @@ schedule = [
     {file = "schedule-1.1.0.tar.gz", hash = "sha256:e6ca13585e62c810e13a08682e0a6a8ad245372e376ba2b8679294f377dfc8e4"},
 ]
 selenium = [
-    {file = "selenium-4.1.5-py3-none-any.whl", hash = "sha256:866b6dd6c459210662bff922ee7c33162d21920fbf6811e8e5a52be3866a687f"},
+    {file = "selenium-4.2.0-py3-none-any.whl", hash = "sha256:ba5b2633f43cf6fe9d308fa4a6996e00a101ab9cb1aad6fd91ae1f3dbe57f56f"},
 ]
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
