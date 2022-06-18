@@ -15,7 +15,7 @@ cryptography = "==37.0.2"
 [tool.poetry.dev-dependencies]
 autopep8 = "==1.6.0"
 flake8 = "==4.0.1"
-pyinstaller = "4.5.1"
+pyinstaller = "==4.10"
 mypy = "^0.910"
 types-selenium = "==3.141.9"
 pre-commit = "==2.19.0"
