@@ -4,16 +4,21 @@ name: Build and upload executables
 on:
     push:
         branches: [master]
+        paths:
+            - "**.py"
+            - "poetry.lock"
     pull_request:
         branches: [master]
-
+        paths:
+            - "**.py"
+            - "poetry.lock"
 jobs:
     build-job:
         strategy:
             fail-fast: true
             matrix:
                 python-version: [3.8, 3.9]
-                poetry-version: [1.1.10]
+                poetry-version: [1.1.13]
                 os: [windows-latest]
         runs-on: ${{ matrix.os }}
         steps:
