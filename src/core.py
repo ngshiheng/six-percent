@@ -124,6 +124,7 @@ class SixPercent:
                         return None
 
                 # Return to main portfolio page
+                logger.info("Returning to main portfolio page")
                 self.browser.find_elements_by_xpath(TransactionPageLocators.PORTFOLIO_URL[1])[-1].click()
 
         except (TimeoutException, NoSuchElementException):

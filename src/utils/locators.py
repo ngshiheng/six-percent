@@ -12,7 +12,7 @@ class LoginPageLocators:
 class PortfolioPageLocators:
     """www.myasnb.com.my/portfolio"""
 
-    FUNDS = (By.XPATH, "//div[@class='justify-between hidden md:block text-xs lg:text-sm']")
+    FUNDS = (By.XPATH, "//a[@class='hidden xl:block']//*[name()='svg' and @class='h-8 w-8 text-brand hidden xl:block cursor-pointer']")
     ERROR_PROMPT_OK_BUTTON = (By.XPATH, "//button[contains(@class, 'text-white') and @type='submit']")
 
     LOGOUT_BUTTON = (By.LINK_TEXT, "LOG KELUAR")
