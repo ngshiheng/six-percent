@@ -27,7 +27,7 @@ jobs:
               with:
                   python-version: ${{ matrix.python-version }}
 
-            - uses: abatilo/actions-poetry@v2.1.4
+            - uses: abatilo/actions-poetry@v2.1.5
               with:
                   poetry-version: ${{ matrix.poetry-version }}
 
