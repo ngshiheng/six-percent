@@ -5,7 +5,7 @@ class LoginPageLocators:
     """www.myasnb.com.my/login"""
 
     USERNAME = (By.XPATH, "//input[@name='username']")
-    SECURITY_PHRASE_CONFIRMATION = (By.XPATH, "//button[@id='btnYes']")
+    SECURITY_PHRASE_CONFIRMATION = (By.XPATH, "//button[@id='btnYes']")  # "Adakah ini frasa keselamatan anda?"
     PASSWORD = (By.XPATH, "//input[@name='password']")
 
 
@@ -31,4 +31,4 @@ class TransactionPageLocators:
     SUBMIT_BUTTON = (By.XPATH, "//button[@type='submit']")
 
     PROMPT_OK_BUTTON = (By.XPATH, "//button[contains(@class, 'text-white') and @type='button']")
-    PORTFOLIO_URL = (By.XPATH, "//a[@href='/portfolio']")
+    MY_ACCOUNT = (By.XPATH, "//span[contains(text(), 'Akaun Saya')]")
