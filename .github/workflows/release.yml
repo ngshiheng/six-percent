@@ -1,5 +1,4 @@
----
-name: Tagged release
+name: release
 
 on:
     push:

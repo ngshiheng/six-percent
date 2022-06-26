@@ -1,5 +1,4 @@
----
-name: Check flake8 and mypy
+name: lint
 
 on:
     push:
@@ -14,7 +13,7 @@ on:
             - "poetry.lock"
 
 jobs:
-    check-job:
+    lint:
         strategy:
             fail-fast: false
             matrix:

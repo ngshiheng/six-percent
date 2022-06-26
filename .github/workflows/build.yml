@@ -1,5 +1,4 @@
----
-name: Build and upload executables
+name: build
 
 on:
     push:
@@ -13,7 +12,7 @@ on:
             - "**.py"
             - "poetry.lock"
 jobs:
-    build-job:
+    build:
         strategy:
             fail-fast: true
             matrix:
