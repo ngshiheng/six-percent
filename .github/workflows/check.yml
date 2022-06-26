@@ -2,16 +2,13 @@ name: lint
 
 on:
     push:
-        branches: [master]
+        branches:
+            - "**"
+            - "!master"
         paths:
             - "**.py"
             - "poetry.lock"
-    pull_request:
-        branches: [master]
-        paths:
-            - "**.py"
-            - "poetry.lock"
-
+    workflow_call: null
 jobs:
     lint:
         strategy:

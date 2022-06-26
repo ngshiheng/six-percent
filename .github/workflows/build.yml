@@ -2,17 +2,17 @@ name: build
 
 on:
     push:
-        branches: [master]
-        paths:
-            - "**.py"
-            - "poetry.lock"
-    pull_request:
-        branches: [master]
+        branches:
+            - master
         paths:
             - "**.py"
             - "poetry.lock"
 jobs:
+    lint:
+        uses: ./.github/workflows/check.yml
     build:
+        needs:
+            - lint
         strategy:
             fail-fast: true
             matrix:
