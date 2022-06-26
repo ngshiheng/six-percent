@@ -36,9 +36,8 @@ class SixPercent:
         time.sleep(random.uniform(seconds, seconds * 2))
 
     def launch_browser(self) -> None:
-        """Launch a chromedriver instance in fullscreen"""
+        """Launch a chromedriver instance and visit main ASNB portal"""
         self.browser.get(self.url)
-        self.browser.maximize_window()
 
     def login(self, asnb_username: str, asnb_password: str) -> None:
         """Log user into the main ASNB portal with their username and password"""

@@ -5,8 +5,9 @@
 </p>
 <br />
 
-![Build](https://github.com/ngshiheng/six-percent/workflows/Build%20executables/badge.svg?branch=master)
-![Lint](https://github.com/ngshiheng/six-percent/workflows/Lint%20check/badge.svg?branch=master)
+[![build](https://github.com/ngshiheng/six-percent/actions/workflows/build.yml/badge.svg)](https://github.com/ngshiheng/six-percent/actions/workflows/build.yml)
+[![lint](https://github.com/ngshiheng/six-percent/actions/workflows/check.yml/badge.svg)](https://github.com/ngshiheng/six-percent/actions/workflows/check.yml)
+[![release](https://github.com/ngshiheng/six-percent/actions/workflows/release.yml/badge.svg)](https://github.com/ngshiheng/six-percent/actions/workflows/release.yml)
 
 Please read the [disclaimer](#Disclaimer) section before using.
 
@@ -51,17 +52,17 @@ poetry run python main.py
 
 ### Run this project with `exe`
 
-1. To generate a new `SixPercent.spec` file, run:
+Optional: to generate a new `SixPercent.spec` file, run the following:
 
 ```sh
 pyi-makespec main.py --name SixPercent --icon "bin\favicon.ico" --onefile --console --add-binary "bin\driver\chromedriver.exe;bin\driver\\"
 ```
 
-2. To generate the executable, run `pyinstaller SixPercent.spec --clean`
+1. To (re)generate the executable, run `pyinstaller SixPercent.spec --clean`
 
-3. A `SixPercent.exe` will be generated inside the `dist/` folder
+2. A `SixPercent.exe` will be generated inside the `dist/` folder
 
-4. Run `SixPercent.exe` and use the bot
+3. Run `SixPercent.exe` and use the bot
 
 ---
 
