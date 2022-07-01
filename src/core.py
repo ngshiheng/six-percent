@@ -41,6 +41,7 @@ class SixPercent:
 
     def login(self, asnb_username: str, asnb_password: str) -> None:
         """Log user into the main ASNB portal with their username and password"""
+        logger.info(f"Logging in as {asnb_username}")
         username_field = self.wait.until(EC.element_to_be_clickable(LoginPageLocators.USERNAME))
         username_field.send_keys(asnb_username)
         username_field.send_keys(Keys.ENTER)
@@ -59,7 +60,7 @@ class SixPercent:
             logger.info('Successfully logged out')
 
         except Exception as e:
-            logger.exception(e)
+            logger.error(e)
             raise
 
         else:
@@ -75,7 +76,7 @@ class SixPercent:
                 # Handle cases where the funds are unavailable (e.g. due to distribution of dividends)
                 with suppress(TimeoutException):
                     WebDriverWait(self.browser, 3).until(EC.presence_of_element_located(TransactionPageLocators.PROMPT_OK_BUTTON)).click()
-                    logger.warn("Skipping fund because fund is unavailable.")
+                    logger.warning("Skipping fund because fund is unavailable.")
                     continue
 
                 logger.info(f"Entering investment amount RM {investment_amount}")
@@ -115,10 +116,10 @@ class SixPercent:
         except (TimeoutException, NoSuchElementException):
             with suppress(Exception):
                 self.wait.until(EC.element_to_be_clickable(PortfolioPageLocators.ERROR_PROMPT_OK_BUTTON)).click()
-            logger.exception("Unable to purchase fund now")
+            logger.error("Unable to purchase fund now")
 
         except Exception as e:
-            logger.exception(e)
+            logger.error(e)
             raise
 
         finally:

@@ -4,14 +4,10 @@ from logging import Logger
 
 
 def _generate_log(path: str) -> Logger:
-    """
-    Creates a logger object
-    """
-    # Creates a logger and set the level.
+    """Create a logger object"""
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.ERROR)
 
-    # Creates file handler, logs format and adds the format to file handler
     file_handler = logging.FileHandler(path)
 
     log_format = '%(levelname)s %(asctime)s %(message)s'
@@ -23,9 +19,7 @@ def _generate_log(path: str) -> Logger:
 
 
 def log_errors(path: str = 'errors.log'):
-    """
-    Creates a parent function to take arguments
-    """
+    """Create a parent function to take arguments"""
     def error_log(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
@@ -37,7 +31,7 @@ def log_errors(path: str = 'errors.log'):
 
             except Exception as e:
                 logger = _generate_log(path)
-                logger.exception(f"An error has occurred at /{func.__name__}\n")
+                logger.error(f"An error has occurred at /{func.__name__}\n")
                 return e
 
         return wrapper
