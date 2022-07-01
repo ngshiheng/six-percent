@@ -1,25 +1,24 @@
 [tool.poetry]
+authors = ["Jerry Ng"]
+description = "A bot that helps to automatically purchase ASNB Fixed Price UT units"
+license = "MIT"
 name = "six-percent"
 version = "4.1"
-description = "A bot that helps to automatically purchase ASNB Fixed Price UT units"
-authors = ["Jerry Ng"]
-license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.8"
-selenium = "==4.3.0"
-schedule = "1.1.0"
 PySimpleGUI = "==4.60.1"
 cryptography = "==37.0.2"
+python = "^3.8"
+selenium = "==4.3.0"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "==1.6.0"
 flake8 = "==4.0.1"
-pyinstaller = "4.5.1"
 mypy = "^0.910"
-types-selenium = "==3.141.9"
 pre-commit = "==2.19.0"
+pyinstaller = "4.5.1"
+types-selenium = "==3.141.9"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0"]

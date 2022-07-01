@@ -5,11 +5,9 @@ import sys
 import time
 from typing import Dict
 
-import schedule  # type: ignore
-
 from src.core import SixPercent
 from src.gui import login_gui
-from src.utils.constants import ASNB_COOLDOWN_PERIOD, ASNB_LOGIN_URL, CHROME_DRIVER_PATH
+from src.utils.constants import ASNB_COOLDOWN_SECONDS, ASNB_LOGIN_URL, CHROME_DRIVER_PATH, CONFIG_FILENAME
 from src.utils.encryption import decrypt_password
 from src.utils.log import log_errors
 
@@ -19,9 +17,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 def resource_path(relative_path: str) -> str:
-    """
-    Get absolute path to resource, works for dev and for PyInstaller
-    """
+    """Get absolute path to resource, works for dev and for PyInstaller"""
     try:
         base_path = sys._MEIPASS  # type: ignore
 
@@ -33,51 +29,47 @@ def resource_path(relative_path: str) -> str:
 
 @log_errors()
 def main(user_credentials: Dict[str, str]) -> None:
-    logger.info("Starting Six Percent Bot")
-
     bot = SixPercent(
         url=ASNB_LOGIN_URL,
         chrome_driver_path=resource_path(CHROME_DRIVER_PATH),
     )
 
-    logger.info(f"Logging in as {user_credentials['username']}")
     investment_amount = user_credentials["investment_amount"]
     asnb_username = user_credentials["username"]
-    hashed_asnb_password = user_credentials["password"]
+    encrpyted_asnb_password = user_credentials["password"]
+    asnb_password = decrypt_password(encrpyted_asnb_password)
 
-    asnb_password = decrypt_password(hashed_asnb_password)
-
-    # Login
     bot.launch_browser()
     bot.login(asnb_username, asnb_password)
 
-    # Updates user.json when login is successful
-    with open("user.json", "w") as u:
+    with open(CONFIG_FILENAME, "w") as u:  # NOTE: Always updates `user.json` upon successful login
         json.dump(user_credentials, u)
 
     bot.purchase(investment_amount)
-    logger.info(f"Repeating job after {ASNB_COOLDOWN_PERIOD} minutes")
 
 
 if __name__ == "__main__":
-    user_credentials = login_gui()
-
-    # Loads user configuration from user.json
+    """Entry point of Six Percent Bot"""
     try:
+        user_credentials = login_gui()
         if bool(user_credentials) is False:
-            with open("user.json", "r") as u:
+            with open(CONFIG_FILENAME, "r") as u:
                 user_credentials = json.load(u)
+
+        while True:
+            logger.info("Starting Six Percent Bot")
+            main(user_credentials)
+            logger.info("Repeating job after 5 minutes")
+            time.sleep(ASNB_COOLDOWN_SECONDS)
 
     except FileNotFoundError:
         logger.error("No user found. Please login as new user")
         sys.exit()
 
-    # Run job once on start
-    main(user_credentials)
+    except KeyboardInterrupt:
+        logger.info("Program interrupted manually. Goodbye")
+        sys.exit()
 
-    # Schedule job every ASNB_COOLDOWN_PERIOD minutes
-    schedule.every(ASNB_COOLDOWN_PERIOD).minutes.do(main, user_credentials)
-
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+    except Exception as e:
+        logger.error(e)
+        raise
