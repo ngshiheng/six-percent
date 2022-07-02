@@ -6,7 +6,7 @@ import sys
 import time
 from typing import Dict
 
-from src.core import SixPercent
+from src.bot import SixPercent
 from src.encryption import decrypt_password
 from src.gui import login_gui
 from src.settings import ASNB_LOGIN_URL, BOT_COOLDOWN_INTERVAL, CHROME_DRIVER_PATH, LOGGING_CONFIG, USER_CONFIG_PATH
