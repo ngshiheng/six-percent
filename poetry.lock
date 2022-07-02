@@ -519,7 +519,7 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "9dfe6d2b89317e3a1ee993da377f38a18b735bd5be9b4a100436fd253ea306cd"
+content-hash = "baf7574afd826a4eae8ff397a793869d38b966aa7d7ec372da519ad740313b2e"
 
 [metadata.files]
 altgraph = [
