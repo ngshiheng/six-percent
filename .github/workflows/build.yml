@@ -9,7 +9,7 @@ on:
             - "poetry.lock"
 jobs:
     lint:
-        uses: ./.github/workflows/check.yml
+        uses: ./.github/workflows/lint.yml
     build:
         needs:
             - lint
