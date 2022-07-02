@@ -9,23 +9,18 @@ from PySimpleGUI.PySimpleGUI import Column  # type: ignore
 
 from .utils.encryption import encrypt_password, generate_key
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("sixpercent")
 
 
 def login_gui() -> Dict[str, Any]:
     sg.theme('DarkTeal12')
 
     def collapse(layout: list, key: str, visible: bool) -> Column:
-        """
-        Helper function to hide and un-hide layouts
-        """
+        """Helper function to hide and un-hide layouts"""
 
         return sg.pin(sg.Column(layout, key=key, visible=visible))
 
     def main() -> Dict[str, Any]:
-        """
-        Main GUI function
-        """
         new_user_section = [
             [sg.Text('Username'), sg.Input(key='_USERNAME_', tooltip='What is your myASNB account username?')],
             [sg.Text('Password'), sg.Input(key='_PASSWORD_', password_char="*", tooltip='What is your myASNB account password?')],

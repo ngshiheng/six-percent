@@ -10,6 +10,7 @@ PySimpleGUI = "==4.60.1"
 cryptography = "==37.0.2"
 python = "^3.8"
 selenium = "==4.3.0"
+colorlog = "^6.6.0"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "==1.6.0"

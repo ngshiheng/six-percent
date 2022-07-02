@@ -13,7 +13,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from src.utils.constants import MAX_PURCHASE_RETRY_ATTEMPTS, PAYMENT_TIMEOUT_LIMIT, TIMEOUT_LIMIT, TOTAL_FUND_COUNT
 from src.utils.locators import LoginPageLocators, PortfolioPageLocators, TransactionPageLocators
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("sixpercent")
 
 
 class SixPercent:
