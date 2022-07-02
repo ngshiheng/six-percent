@@ -1,7 +1,7 @@
 <h1 align="center">Six Percent</h1>
 
 <p align="center">
-  <img src="https://i.imgur.com/Z0cCIy9.png">
+  <img src="https://imgur.com/IYGMoUo.png">
 </p>
 <br />
 
