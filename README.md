@@ -9,7 +9,7 @@
 [![lint](https://github.com/ngshiheng/six-percent/actions/workflows/lint.yml/badge.svg)](https://github.com/ngshiheng/six-percent/actions/workflows/lint.yml)
 [![release](https://github.com/ngshiheng/six-percent/actions/workflows/release.yml/badge.svg)](https://github.com/ngshiheng/six-percent/actions/workflows/release.yml)
 
-Please read the [disclaimer](#Disclaimer) section before using.
+Please read the [disclaimer](./docs/DISCLAIMER.md) before using.
 
 This bot helps users to buy [ASNB Fixed Price UT units](#FAQ).
 
@@ -21,7 +21,18 @@ Currently, this bot supports up to 3 fixed price unit trusts:
 -   ASM2 (Wawasan)
 -   ASM3 (1Malaysia)
 
----
+## Table of Contents
+
+- [Table of Contents](#table-of-contents)
+- [Development](#development)
+  - [Requirements](#requirements)
+  - [Installation (Windows 10/11)](#installation-windows-1011)
+  - [Run with Python](#run-with-python)
+  - [Compiling to `exe`](#compiling-to-exe)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [Disclaimer](#disclaimer)
+- [FAQ](#faq)
 
 ## Development
 
@@ -64,55 +75,17 @@ pyi-makespec main.py --name SixPercent --icon "img\favicon.ico" --onefile --cons
 
 3. Run `SixPercent.exe` and use the bot
 
----
-
 ## Usage
 
-### Run with Python installed
-
-1. Run `poetry run python main.py`
-
-2. Proceed to make the payment if purchasing attempt is successful. Always remember to log out and restart the bot manually (exit and run again).
-
-3. If the purchase attempt is unsuccessful this time, the bot will repeat the attempt every ~5 minutes.
-
-### Run with executable (Windows only):
-
-Generate `SixPercent.exe` by following the steps [above](#run-this-project-with-exe-file)
-
-1. Run `SixPercent.exe` directly -> click 'Login as new user' -> Fill in your credentials -> click 'Start'
-
-2. Proceed to make your own payment (currently only supports Maybank) if purchasing attempt is successful. Always remember to log out and restart the bot manually (exit and run again).
-
-3. Kill the program and re-run it after payment is made
-
----
+Read [USAGE.md](./docs/USAGE.md).
 
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-### Steps
-
-1. Fork this
-2. Create your feature branch (`git checkout -b add-foo-bar`)
-3. Please make sure you have installed the `pre-commit` hook and make sure it passes all the checks
-4. Commit your changes (`git commit -am 'feat: add some fooBar`', make sure that your [commits are semantic](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716))
-5. Push to the branch (`git push origin add-foo-bar`)
-6. Create a new Pull Request
-
----
+Read [CONTRIBUTING.md](./docs/CONTRIBUTING.md).
 
 ## Disclaimer
 
-> THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
--   This software comes with no warranties of any kind whatsoever, and may not be useful for anything. Use it at your own risk!
--   This software was designed to be used only for research purposes.
--   Uses are not recommended and have never been evaluated.
--   If these terms are not acceptable, you aren't allowed to use the code.
-
----
+Read [DISCLAIMER.md](./docs/DISCLAIMER.md).
 
 ## FAQ
 
