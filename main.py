@@ -8,8 +8,7 @@ from typing import Dict
 
 from src.core import SixPercent
 from src.gui import login_gui
-from src.settings import LOGGING_CONFIG
-from src.utils.constants import ASNB_COOLDOWN_SECONDS, ASNB_LOGIN_URL, CHROME_DRIVER_PATH, CONFIG_FILENAME
+from src.settings import ASNB_LOGIN_URL, BOT_COOLDOWN_INTERNAL, CHROME_DRIVER_PATH, CONFIG_FILENAME, LOGGING_CONFIG
 from src.utils.encryption import decrypt_password
 
 logger = logging.getLogger("sixpercent")
@@ -36,7 +35,7 @@ def display_gui() -> Dict[str, str]:
         return user_credentials
 
     except FileNotFoundError:
-        logger.warning("No user found. Please login as new user")
+        logger.warning("No existing user found. Please login as new user")
         sys.exit()
 
 
@@ -68,7 +67,7 @@ def entrypoint() -> None:
         while True:
             run_six_percent_bot(user_credentials)
             logger.info("Re-running Six Percent Bot after 5 minutes")
-            time.sleep(ASNB_COOLDOWN_SECONDS)
+            time.sleep(BOT_COOLDOWN_INTERNAL)
 
     except KeyboardInterrupt:
         logger.info("Program interrupted manually. Goodbye")
