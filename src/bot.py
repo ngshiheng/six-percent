@@ -85,7 +85,7 @@ class SixPercent:
                 logger.info("Selecting Maybank2U as payment bank of choice")
                 self.wait.until(EC.element_to_be_clickable(TransactionPageLocators.BANK_DROPDOWN_SELECTION)).click()  # TODO: Allow users to select bank of choice from UI
 
-                logger.info("Agreeing to terms and conditions")
+                logger.debug("Agreeing to terms and conditions")
                 self.wait.until(EC.element_to_be_clickable(TransactionPageLocators.TERMS_AND_CONDITIONS_CHECKBOX)).click()
 
                 submit_purchase_button = self.wait.until(EC.element_to_be_clickable(TransactionPageLocators.SUBMIT_BUTTON))

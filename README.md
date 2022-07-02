@@ -6,7 +6,7 @@
 <br />
 
 [![build](https://github.com/ngshiheng/six-percent/actions/workflows/build.yml/badge.svg)](https://github.com/ngshiheng/six-percent/actions/workflows/build.yml)
-[![lint](https://github.com/ngshiheng/six-percent/actions/workflows/check.yml/badge.svg)](https://github.com/ngshiheng/six-percent/actions/workflows/check.yml)
+[![lint](https://github.com/ngshiheng/six-percent/actions/workflows/lint.yml/badge.svg)](https://github.com/ngshiheng/six-percent/actions/workflows/lint.yml)
 [![release](https://github.com/ngshiheng/six-percent/actions/workflows/release.yml/badge.svg)](https://github.com/ngshiheng/six-percent/actions/workflows/release.yml)
 
 Please read the [disclaimer](#Disclaimer) section before using.
@@ -50,7 +50,7 @@ pre-commit install
 poetry run python main.py
 ```
 
-### Run this project with `exe`
+### Compiling to `exe`
 
 Optional: to generate a new `SixPercent.spec` file, run the following:
 
