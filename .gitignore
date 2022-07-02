@@ -6,12 +6,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 
-# User credentials
-user.json
-
-# Secrets
-*.key
-
 # Logs
 *.log
 
@@ -21,3 +15,10 @@ user.json
 # Distribution / packaging
 build/
 dist/
+
+# mypy
+.mypy_cache/
+
+# User credentials
+user.json
+secret.key
