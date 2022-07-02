@@ -8,6 +8,7 @@ import PySimpleGUI as sg  # type: ignore
 from PySimpleGUI.PySimpleGUI import Column  # type: ignore
 
 from src.encryption import encrypt_password, generate_key
+from src.settings import PAYMENT_METHODS
 
 logger = logging.getLogger("sixpercent")
 
@@ -24,6 +25,7 @@ def login_gui() -> Dict[str, Any]:
             [sg.Text('Username'), sg.Input(key='_USERNAME_', tooltip='What is your myASNB account username?')],
             [sg.Text('Password'), sg.Input(key='_PASSWORD_', password_char="*", tooltip='What is your myASNB account password?')],
             [sg.Text('Investment Amount (RM)'), sg.Input(key='_INVESTMENT_AMOUNT_', tooltip='How much do you want to invest?', change_submits=True, do_not_clear=True)],
+            [sg.Text('Payment Method'), sg.Combo(PAYMENT_METHODS, enable_events=True, key='_PAYMENT_METHOD_')]
         ]
 
         layout = [
@@ -43,7 +45,7 @@ def login_gui() -> Dict[str, Any]:
             grab_anywhere=False,
         )
 
-        user_credentials_template = dict(username='', password='', investment_amount='')
+        user_credentials_template = dict(username='', password='', investment_amount='', payment_method='')  # NOTE: always keep value as ''
         user_credentials = user_credentials_template.copy()
         section_toggle = False
 
@@ -55,13 +57,14 @@ def login_gui() -> Dict[str, Any]:
                 window['_SECTION_KEY_'].update(visible=section_toggle)
 
             elif event == '_INVESTMENT_AMOUNT_':
-                window.FindElement(event).Update(re.sub("[^0-9]", "", values[event]))
+                window.find_element(event).Update(re.sub("[^0-9]", "", values[event]))
 
             user_credentials = {
                 **user_credentials,
                 'username': values['_USERNAME_'],
                 'password': values['_PASSWORD_'],
                 'investment_amount': values['_INVESTMENT_AMOUNT_'],
+                'payment_method': values['_PAYMENT_METHOD_'],
             }
 
             if event in (sg.WIN_CLOSED, 'Quit'):

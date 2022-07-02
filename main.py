@@ -48,10 +48,12 @@ def run_six_percent_bot(user_credentials: Dict[str, str]) -> None:
         chrome_driver_path=resource_path(CHROME_DRIVER_PATH),
     )
 
-    investment_amount = user_credentials["investment_amount"]
     asnb_username = user_credentials["username"]
     encrpyted_asnb_password = user_credentials["password"]
     asnb_password = decrypt_password(encrpyted_asnb_password)
+
+    payment_method = user_credentials["payment_method"]
+    investment_amount = user_credentials["investment_amount"]
 
     bot.launch_browser()
     bot.login(asnb_username, asnb_password)
@@ -59,7 +61,7 @@ def run_six_percent_bot(user_credentials: Dict[str, str]) -> None:
     with open(USER_CONFIG_PATH, "w") as u:  # NOTE: Always updates `user.json` upon successful login
         json.dump(user_credentials, u)
 
-    bot.purchase(investment_amount)
+    bot.purchase(investment_amount, payment_method)
     logger.info("Completed job")
 
 

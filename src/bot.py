@@ -6,6 +6,7 @@ from contextlib import suppress
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -66,7 +67,7 @@ class SixPercent:
         else:
             self.browser.close()
 
-    def purchase(self, investment_amount: str) -> None:
+    def purchase(self, investment_amount: str, payment_method: str = 'Maybank2U') -> None:
         """Purchase ASNB Fixed Price UT units"""
         try:
             for i in range(TOTAL_FUND_COUNT):
@@ -82,8 +83,8 @@ class SixPercent:
                 logger.info(f"Entering investment amount RM {investment_amount}")
                 self.wait.until(EC.element_to_be_clickable(TransactionPageLocators.INVESTMENT_AMOUNT)).send_keys(investment_amount)
 
-                logger.info("Selecting Maybank2U as payment bank of choice")
-                self.wait.until(EC.element_to_be_clickable(TransactionPageLocators.BANK_DROPDOWN_SELECTION)).click()  # TODO: Allow users to select bank of choice from UI
+                logger.info(f"Selecting {payment_method} as payment method")
+                self.wait.until(EC.element_to_be_clickable((By.XPATH, f"//select[@name='banks']/option[@value='{payment_method}']"))).click()
 
                 logger.debug("Agreeing to terms and conditions")
                 self.wait.until(EC.element_to_be_clickable(TransactionPageLocators.TERMS_AND_CONDITIONS_CHECKBOX)).click()

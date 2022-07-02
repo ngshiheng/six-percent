@@ -23,7 +23,6 @@ class TransactionPageLocators:
     """www.myasnb.com.my/transactions"""
 
     INVESTMENT_AMOUNT = (By.XPATH, "//input[@name='amount']")
-    BANK_DROPDOWN_SELECTION = (By.XPATH, "//select[@name='banks']/option[@value='Maybank2U']")
     TERMS_AND_CONDITIONS_CHECKBOX = (By.XPATH, "//input[@type='checkbox']")
 
     PEP_DECLARATION_PROMPT = (By.XPATH, "//h3[contains(text(), 'Pengisytiharan PEP')]")
