@@ -7,15 +7,17 @@ import time
 from typing import Dict
 
 from src.core import SixPercent
+from src.encryption import decrypt_password
 from src.gui import login_gui
-from src.settings import ASNB_LOGIN_URL, BOT_COOLDOWN_INTERNAL, CHROME_DRIVER_PATH, CONFIG_FILENAME, LOGGING_CONFIG
-from src.utils.encryption import decrypt_password
+from src.settings import ASNB_LOGIN_URL, BOT_COOLDOWN_INTERVAL, CHROME_DRIVER_PATH, LOGGING_CONFIG, USER_CONFIG_PATH
 
 logger = logging.getLogger("sixpercent")
 
 
 def resource_path(relative_path: str) -> str:
-    """Get absolute path to resource, works for dev and for PyInstaller"""
+    """Get absolute path to resource
+
+    works for PyInstaller and local development"""
     try:
         base_path = sys._MEIPASS  # type: ignore
 
@@ -29,7 +31,7 @@ def display_gui() -> Dict[str, str]:
     try:
         user_credentials = login_gui()
         if bool(user_credentials) is False:
-            with open(CONFIG_FILENAME, "r") as u:
+            with open(USER_CONFIG_PATH, "r") as u:
                 user_credentials = json.load(u)
 
         return user_credentials
@@ -54,7 +56,7 @@ def run_six_percent_bot(user_credentials: Dict[str, str]) -> None:
     bot.launch_browser()
     bot.login(asnb_username, asnb_password)
 
-    with open(CONFIG_FILENAME, "w") as u:  # NOTE: Always updates `user.json` upon successful login
+    with open(USER_CONFIG_PATH, "w") as u:  # NOTE: Always updates `user.json` upon successful login
         json.dump(user_credentials, u)
 
     bot.purchase(investment_amount)
@@ -66,11 +68,11 @@ def entrypoint() -> None:
         user_credentials = display_gui()
         while True:
             run_six_percent_bot(user_credentials)
-            logger.info("Re-running Six Percent Bot after 5 minutes")
-            time.sleep(BOT_COOLDOWN_INTERNAL)
+            logger.info("Rerunning Six Percent Bot after 5 minutes")
+            time.sleep(BOT_COOLDOWN_INTERVAL)
 
     except KeyboardInterrupt:
-        logger.info("Program interrupted manually. Goodbye")
+        logger.warning("Exiting. Program interrupted manually")
         sys.exit()
 
     except Exception as e:

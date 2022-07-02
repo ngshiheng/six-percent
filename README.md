@@ -55,7 +55,7 @@ poetry run python main.py
 Optional: to generate a new `SixPercent.spec` file, run the following:
 
 ```sh
-pyi-makespec main.py --name SixPercent --icon "bin\favicon.ico" --onefile --console --add-binary "bin\driver\chromedriver.exe;bin\driver\\"
+pyi-makespec main.py --name SixPercent --icon "img\favicon.ico" --onefile --console --add-binary "bin\driver\chromedriver.exe;bin\driver\"
 ```
 
 1. To (re)generate the executable, run `pyinstaller SixPercent.spec --clean`

@@ -1,17 +1,20 @@
+import os
+
 # General
 # -------
-ASNB_LOGIN_URL = "https://www.myasnb.com.my/login"
-CHROME_DRIVER_PATH = "./bin/driver/chromedriver.exe"
+USER_CONFIG_PATH = os.path.join('user.json')
+CHROME_DRIVER_PATH = os.path.join('bin', 'driver', 'chromedriver.exe')
 
+
+ASNB_LOGIN_URL = "https://www.myasnb.com.my/login"
 TOTAL_FUND_COUNT = 3
 MAX_PURCHASE_RETRY_ATTEMPTS = 10
 
-CONFIG_FILENAME = 'user.json'
 
 # Time
 # ----
 TIMEOUT_LIMIT = 25  # seconds
-BOT_COOLDOWN_INTERNAL = 300  # seconds
+BOT_COOLDOWN_INTERVAL = 300  # seconds
 PAYMENT_TIMEOUT_LIMIT = 300  # seconds
 
 

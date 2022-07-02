@@ -7,7 +7,7 @@ from typing import Any, Dict
 import PySimpleGUI as sg  # type: ignore
 from PySimpleGUI.PySimpleGUI import Column  # type: ignore
 
-from .utils.encryption import encrypt_password, generate_key
+from src.encryption import encrypt_password, generate_key
 
 logger = logging.getLogger("sixpercent")
 
@@ -16,8 +16,7 @@ def login_gui() -> Dict[str, Any]:
     sg.theme('DarkTeal12')
 
     def collapse(layout: list, key: str, visible: bool) -> Column:
-        """Helper function to hide and un-hide layouts"""
-
+        """Hide and un-hide layouts"""
         return sg.pin(sg.Column(layout, key=key, visible=visible))
 
     def main() -> Dict[str, Any]:
@@ -78,7 +77,7 @@ def login_gui() -> Dict[str, Any]:
         if not os.path.isfile('secret.key'):
             generate_key()
 
-        # Encrypts user password before storing it
+        # Encrypt user password before storing it
         if user_credentials['password']:
             user_credentials['password'] = encrypt_password(user_credentials['password'])
 
@@ -86,7 +85,3 @@ def login_gui() -> Dict[str, Any]:
 
     user_info = main()
     return user_info
-
-
-if __name__ == '__main__':
-    logger.info(login_gui())

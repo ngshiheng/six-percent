@@ -10,8 +10,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+from src.locators import LoginPageLocators, PortfolioPageLocators, TransactionPageLocators
 from src.settings import MAX_PURCHASE_RETRY_ATTEMPTS, PAYMENT_TIMEOUT_LIMIT, TIMEOUT_LIMIT, TOTAL_FUND_COUNT
-from src.utils.locators import LoginPageLocators, PortfolioPageLocators, TransactionPageLocators
 
 logger = logging.getLogger("sixpercent")
 

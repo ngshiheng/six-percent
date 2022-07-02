@@ -3,14 +3,15 @@ authors = ["Jerry Ng"]
 description = "A bot that helps to automatically purchase ASNB Fixed Price UT units"
 license = "MIT"
 name = "six-percent"
-version = "4.1"
+repository = "https://github.com/ngshiheng/six-percent"
+version = "5.0.0"
 
 [tool.poetry.dependencies]
 PySimpleGUI = "==4.60.1"
+colorlog = "^6.6.0"
 cryptography = "==37.0.2"
 python = "^3.8"
 selenium = "==4.3.0"
-colorlog = "^6.6.0"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "==1.6.0"
