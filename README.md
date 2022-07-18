@@ -24,6 +24,7 @@ Currently, this bot supports up to 3 fixed price unit trusts:
 ## Table of Contents
 
 - [Table of Contents](#table-of-contents)
+- [How It Works](#how-it-works)
 - [Development](#development)
   - [Requirements](#requirements)
   - [Installation (Windows 10/11)](#installation-windows-1011)
@@ -33,6 +34,37 @@ Currently, this bot supports up to 3 fixed price unit trusts:
 - [Contributing](#contributing)
 - [Disclaimer](#disclaimer)
 - [FAQ](#faq)
+
+## How It Works
+
+```mermaid
+sequenceDiagram
+    participant Bot
+    participant Login
+    participant Portfolio
+    participant Transactions
+    participant Payment
+    participant Logout
+    link Bot: SixPercent @ https://github.com/ngshiheng/six-percent
+    link Login: https://www.myasnb.com.my/login
+    link Portfolio: https://www.myasnb.com.my/portfoio
+    link Transactions: https://www.myasnb.com.my/transactions
+    link Logout: https://www.myasnb.com.my/logout
+
+    Bot->>Login: launch browser
+    Login->>Portfolio: success
+    Portfolio->>Transactions: select ASM
+    loop 10 attempts
+        Transactions->>Transactions: purchase
+    end
+    Transactions->>Payment: success
+    Payment->>Logout: success
+    Transactions-->>Portfolio: failed
+    loop ASM, ASM2, ASM3
+        Portfolio->>Portfolio: select fund
+    end
+    Portfolio->>Logout: no successful purchase attempt
+```
 
 ## Development
 
