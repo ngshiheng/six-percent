@@ -13,7 +13,7 @@ Please read the [disclaimer](./docs/DISCLAIMER.md) before using.
 
 This bot helps users to buy [ASNB Fixed Price UT units](#FAQ).
 
-The user shall proceed to **make his/her own payment** ([M2U](https://www.maybank2u.com.my/) only) if there is a successful purchase attempt.
+The user shall proceed to **make his/her own payment** only if there is a successful purchase attempt.
 
 Currently, this bot supports up to 3 fixed price unit trusts:
 
