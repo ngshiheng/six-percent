@@ -7,7 +7,7 @@ repository = "https://github.com/ngshiheng/six-percent"
 version = "5.0.0"
 
 [tool.poetry.dependencies]
-PySimpleGUI = "==4.60.1"
+PySimpleGUI = "==4.60.3"
 colorlog = "6.6.0"
 cryptography = "==37.0.4"
 python = "^3.8"
