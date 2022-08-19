@@ -11,7 +11,7 @@ PySimpleGUI = "==4.60.3"
 colorlog = "6.6.0"
 cryptography = "==37.0.4"
 python = "^3.8"
-selenium = "==4.4.2"
+selenium = "==4.4.3"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "==1.7.0"
