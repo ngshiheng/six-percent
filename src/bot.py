@@ -12,7 +12,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from src.locators import LoginPageLocators, PortfolioPageLocators, TransactionPageLocators
-from src.settings import MAX_PURCHASE_RETRY_ATTEMPTS, PAYMENT_TIMEOUT_LIMIT, TIMEOUT_LIMIT, TOTAL_FUND_COUNT
+from src.settings import MAX_PURCHASE_RETRY_ATTEMPTS, PAYMENT_TIMEOUT_LIMIT, TIMEOUT_LIMIT
 
 logger = logging.getLogger("sixpercent")
 
@@ -70,7 +70,8 @@ class SixPercent:
     def purchase(self, investment_amount: str, payment_method: str = 'Maybank2U') -> None:
         """Purchase ASNB Fixed Price UT units"""
         try:
-            for i in range(TOTAL_FUND_COUNT):
+            TOTAL_FUNDS = len(self.wait.until(EC.presence_of_all_elements_located(PortfolioPageLocators.FUNDS)))
+            for i in range(TOTAL_FUNDS):
                 logger.info("Selecting fund to invest")
                 self.wait.until(EC.presence_of_all_elements_located(PortfolioPageLocators.FUNDS))[i].click()
 
