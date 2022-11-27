@@ -9,7 +9,7 @@ version = "5.0.0"
 [tool.poetry.dependencies]
 PySimpleGUI = "==4.60.4"
 colorlog = "==6.7.0"
-cryptography = "==37.0.4"
+cryptography = "==38.0.4"
 python = "^3.8"
 selenium = "==4.6.1"
 
