@@ -378,7 +378,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "selenium"
-version = "4.7.0"
+version = "4.7.2"
 description = ""
 category = "main"
 optional = false
@@ -529,7 +529,7 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "01b4c212d3c22865fde9a01ae21dee8ee63c92c4d4b03bab7563869c883a4a19"
+content-hash = "e6a91402551f4d396c9b4a439570b921cae572b5db26f6c6d536c37096ba9122"
 
 [metadata.files]
 altgraph = [
@@ -822,7 +822,7 @@ pyyaml = [
     {file = "PyYAML-6.0.tar.gz", hash = "sha256:68fb519c14306fec9720a2a5b45bc9f0c8d1b9c72adf45c37baedfcd949c35a2"},
 ]
 selenium = [
-    {file = "selenium-4.7.0-py3-none-any.whl", hash = "sha256:771cb63b821a2aea01b0cdb623caa5b5c35b9a19f44d0d4f32a44b037a324b10"},
+    {file = "selenium-4.7.2-py3-none-any.whl", hash = "sha256:06a1c7d9f313130b21c3218ddd8852070d0e7419afdd31f96160cd576555a5ce"},
 ]
 setuptools = [
     {file = "setuptools-65.6.3-py3-none-any.whl", hash = "sha256:57f6f22bde4e042978bcd50176fdb381d7c21a9efa4041202288d3737a0c6a54"},
