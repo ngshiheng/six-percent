@@ -677,14 +677,14 @@ files = [
 
 [[package]]
 name = "selenium"
-version = "4.8.3"
+version = "4.9.0"
 description = ""
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "selenium-4.8.3-py3-none-any.whl", hash = "sha256:28430ac54a54fa59ad1f5392a1b89b169fe3ab2c2ccd1a9a10b6fe74f36cd6da"},
-    {file = "selenium-4.8.3.tar.gz", hash = "sha256:61cda3a304f82637162bc155cae7bf88fdb04c115fa2cb1c1c2e1358fcd19a9f"},
+    {file = "selenium-4.9.0-py3-none-any.whl", hash = "sha256:4c19e6aac202719373108d53a5a8e9336ba8d2b25822ca32ae6ff37acbabbdbe"},
+    {file = "selenium-4.9.0.tar.gz", hash = "sha256:478fae77cdfaec32adb1e68d59632c8c191f920535282abcaa2d1a3d98655624"},
 ]
 
 [package.dependencies]
@@ -868,4 +868,4 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "f1467460b17f06b9eebbbb0cfd6225000780a312e08adcff419bb41269a2bff4"
+content-hash = "24676ca6ada375290ab869ba37511ed135090eb8d365325e24ea7ca2814dbb2e"
