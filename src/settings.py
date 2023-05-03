@@ -11,7 +11,7 @@ CHROME_DRIVER_PATH = os.path.join('bin', 'driver', 'chromedriver.exe')
 ASNB_LOGIN_URL = "https://www.myasnb.com.my/login"
 MAX_PURCHASE_RETRY_ATTEMPTS = 10
 PAYMENT_METHODS = [
-    "Affin Bank"
+    "Affin Bank",
     "Alliance Bank",
     "AmBank",
     "Bank Islam",
