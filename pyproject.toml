@@ -18,7 +18,7 @@ autopep8 = "==1.7.1"
 flake8 = "==5.0.4"
 mypy = "0.991"
 pre-commit = "==3.4.0"
-pyinstaller = "4.5.1"
+pyinstaller = "5.13.2"
 types-selenium = "==3.141.9"
 
 [build-system]
