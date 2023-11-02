@@ -14,7 +14,7 @@ python = "^3.8"
 selenium = "==4.15.0"
 
 [tool.poetry.dev-dependencies]
-autopep8 = "==1.7.1"
+autopep8 = "==2.0.4"
 flake8 = "==5.0.4"
 mypy = "0.991"
 pre-commit = "==3.5.0"
