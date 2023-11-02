@@ -16,7 +16,7 @@ selenium = "==4.15.0"
 [tool.poetry.dev-dependencies]
 autopep8 = "==1.7.1"
 flake8 = "==5.0.4"
-mypy = "0.991"
+mypy = "1.6.1"
 pre-commit = "==3.5.0"
 pyinstaller = "4.5.1"
 types-selenium = "==3.141.9"
